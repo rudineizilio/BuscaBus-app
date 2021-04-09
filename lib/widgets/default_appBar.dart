@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
+class DefaultAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool centerTitle;
   final PreferredSizeWidget bottom;
 
-  DefaultAppBar({ 
+  DefaultAppBarWidget({ 
     @required this.title,
     this.centerTitle,
     this.bottom,
   });
 
   @override
-  _DefaultAppBarState createState() => _DefaultAppBarState();
+  _DefaultAppBarWidgetState createState() => _DefaultAppBarWidgetState();
 
   @override
   Size get preferredSize =>
       Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));  
 }
 
-class _DefaultAppBarState extends State<DefaultAppBar> {
+class _DefaultAppBarWidgetState extends State<DefaultAppBarWidget> {
   @override
   AppBar build(BuildContext context) {
     return AppBar(

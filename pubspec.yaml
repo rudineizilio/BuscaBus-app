@@ -26,9 +26,12 @@ dependencies:
 
   cupertino_icons: ^1.0.0
   dio: ^3.0.9
-  flushbar: ^1.10.4  
-  flutter_mobx: 1.1.0+2  
+  flushbar: ^1.10.4
+  flutter_mobx: 1.1.0+2
+  flutter_polyline_points: ^0.1.0
   font_awesome_flutter: ^8.8.1
+  google_maps_flutter: ^1.2.0
+  location: ^3.2.4
   mobx: ^1.2.1+4
   retrofit: any
   shared_preferences: any
