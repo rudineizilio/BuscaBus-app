@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "495418118312",
+    "project_id": "buscabus-310123",
+    "storage_bucket": "buscabus-310123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495418118312:android:2749adb717974d7e58329d",
+        "android_client_info": {
+          "package_name": "company.buscabus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495418118312-dj4o4j7ilid67evlo38i6s3vea5rig7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOPG7Iczru-y0MVb65ILtg7SUr0ovxrEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495418118312-dj4o4j7ilid67evlo38i6s3vea5rig7a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "495418118312-jelb4j2m1b7npk4dbjqrnvsjq7158o9q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "company.buscabus"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
