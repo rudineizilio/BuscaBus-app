@@ -70,17 +70,17 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void setSourceAndDestinationIcons() async {
-    // BitmapDescriptor.fromAssetImage(
-    //         ImageConfiguration(devicePixelRatio: 2.0), 'assets/images/driving_pin.png')
-    //     .then((onValue) {
-    //   sourceIcon = onValue;
-    // });
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.0), 'assets/driving_pin.png')
+        .then((onValue) {
+      sourceIcon = onValue;
+    });
 
-    // BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.0),
-    //         'assets/images/destination_map_marker.png')
-    //     .then((onValue) {
-    //   destinationIcon = onValue;
-    // });
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.0),
+            'assets/destination_map_marker.png')
+        .then((onValue) {
+      destinationIcon = onValue;
+    });
   }
 
   void setInitialLocation() async {
@@ -109,32 +109,30 @@ class _MapWidgetState extends State<MapWidget> {
           tilt: CAMERA_TILT,
           bearing: CAMERA_BEARING);
     }    
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-              myLocationEnabled: true,
-              compassEnabled: true,
-              tiltGesturesEnabled: false,
-              markers: _markers,
-              polylines: _polylines,
-              mapType: MapType.normal,
-              initialCameraPosition: initialCameraPosition,
-              onTap: (LatLng loc) {
-                pinPillPosition = -100;
-              },
-              onMapCreated: (GoogleMapController controller) {
-                controller.setMapStyle(Utils.mapStyles);
-                _controller.complete(controller);
-                // my map has completed being created;
-                // i'm ready to show the pins on the map
-                showPinsOnMap();
-              }),
-          MapPinPillWidget(
-              pinPillPosition: pinPillPosition,
-              currentlySelectedPin: currentlySelectedPin)
-        ],
-      ),
+    return Stack(
+      children: <Widget>[
+        GoogleMap(
+            myLocationEnabled: true,
+            compassEnabled: true,
+            tiltGesturesEnabled: false,
+            markers: _markers,
+            polylines: _polylines,
+            mapType: MapType.normal,
+            initialCameraPosition: initialCameraPosition,
+            onTap: (LatLng loc) {
+              pinPillPosition = -100;
+            },
+            onMapCreated: (GoogleMapController controller) {
+              controller.setMapStyle(Utils.mapStyles);
+              _controller.complete(controller);
+              // my map has completed being created;
+              // i'm ready to show the pins on the map
+              showPinsOnMap();
+            }),
+        MapPinPillWidget(
+            pinPillPosition: pinPillPosition,
+            currentlySelectedPin: currentlySelectedPin)
+      ],
     );
   }
 
