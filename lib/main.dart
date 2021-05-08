@@ -5,16 +5,14 @@ import 'package:provider/provider.dart';
 import 'controllers/map/map_controller.dart';
 
 void main() {
-  MultiProvider(
-    providers: [
-      Provider<MapController>(
-        create: (_) => MapController(),
-      ),
-    ],
-    child: MaterialApp(
-      title: 'BuscaBus',
-      home: HomeScreen(),
-      debugShowCheckedModeBanner: false,
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<MapController>(
+          create: (_) => MapController(),
+        ),
+      ],
+      child: MyApp(),
     ),
   );
 }
@@ -26,9 +24,11 @@ class MyApp extends StatelessWidget {
       title: 'BuscaBus',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        accentColor: Colors.indigo[50],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
