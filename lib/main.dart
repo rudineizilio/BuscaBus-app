@@ -23,9 +23,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BuscaBus',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        accentColor: Colors.indigo[50],
+        primaryColor: Color.fromRGBO(20, 20, 20, 1),
+        backgroundColor: Color.fromRGBO(40, 40, 40, 1),
+        accentColor: Color.fromRGBO(108, 99, 255, 1),
+        scaffoldBackgroundColor: Color.fromRGBO(81, 81, 81, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          color: Color.fromRGBO(20, 20, 20, 1),
+          elevation: 3,
+          iconTheme: IconThemeData(
+            color: Colors.grey[300]
+          ),
+          textTheme: TextTheme(
+            title: TextStyle(
+              color: Colors.grey[300],
+              fontSize: 20
+            ),
+          ),
+        ),
       ),
       home: HomeScreen(),
       debugShowCheckedModeBanner: false,

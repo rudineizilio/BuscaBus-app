@@ -28,19 +28,11 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
         padding: const EdgeInsets.only(left: 10),
         child: Text(
           widget.title,
-          style: TextStyle(
-            color: Colors.grey[900]
-          ),
         ),
       ),
-      backgroundColor: Colors.white,
       centerTitle: widget.centerTitle,
       titleSpacing: 0,
       elevation: 3,
-      iconTheme: IconThemeData(
-        color: Colors.grey[900],
-        size: 16
-      ),
     );
   }
 }

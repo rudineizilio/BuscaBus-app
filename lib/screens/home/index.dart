@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,12 +12,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _mapStyle;
   MapController _mapController;
+  GoogleMapController _googleMapController;
 
   @override
   void didChangeDependencies() {
     _mapController = Provider.of<MapController>(context);
     _mapController.getPosition();
+
+    rootBundle.loadString('lib/assets/txt/map_style.txt').then((string) {
+      _mapStyle = string;
+    });    
 
     super.didChangeDependencies();
   }
@@ -33,48 +40,52 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             DrawerHeader(
               child: Center(
-                child: Text('Imagem aqui'),
-                // child: Image.asset(
-
+                child: Image.asset(
+                  'lib/assets/images/people_location.png'
+                ),
+                // child: SvgPicture.asset(
+                //   'lib/assets/images/people_location.svg'
                 // ),
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+                color: Theme.of(context).backgroundColor,
+              ),              
             ),
             Expanded(
               child: Container(
-                color: Theme.of(context).accentColor,
+                color: Colors.black87,
                 child: Column(
                   children: [
-                    ListTile(                      
-                      dense: true,
+                    ListTile(
                       leading: FaIcon(
                         FontAwesomeIcons.userAlt,
-                        color: Colors.grey[800],
+                        color: Colors.grey[300],
                         size: 18,
                       ),
                       title: Text(
                         'Motorista',
                         style: TextStyle(
-                          color: Colors.grey[800]
+                          color: Colors.grey[300]
                         ),
                       ),
                       onTap: () {
                         print('Tap motorista');
                       },
-                    ),                  
+                    ),
+                    Divider(
+                      color: Theme.of(context).accentColor,
+                      height: 0,
+                    ),
                     ListTile(
-                      dense: true,
                       leading: FaIcon(
                         FontAwesomeIcons.solidBuilding,
-                        color: Colors.grey[800],
+                        color: Colors.grey[300],
                         size: 18,
                       ),
                       title: Text(
                         'Empresa',
                         style: TextStyle(
-                          color: Colors.grey[800]
+                          color: Colors.grey[300]
                         ),                        
                       ),
                       onTap: () {
@@ -96,7 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Flexible(
                 child: Container(
                   child: GoogleMap(
-                    zoomControlsEnabled: false,                
+                    zoomControlsEnabled: false,
+                    onMapCreated: (GoogleMapController controller) {
+                      _googleMapController = controller;
+                      _googleMapController.setMapStyle(_mapStyle);
+                    },
                     // onMapCreated: _onMapCreated,
                     initialCameraPosition: const CameraPosition(
                       target: LatLng(-26.2049706, -52.6990064),
@@ -114,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 0,
             child: Center(
               child: RaisedButton(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).accentColor,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
