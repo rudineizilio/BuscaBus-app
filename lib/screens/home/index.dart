@@ -1,6 +1,7 @@
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -33,23 +34,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: DefaultAppBar(
         title: 'BuscaBus',
+        automaticallyImplyLeading: false,
       ),
       endDrawer: Drawer(
-        elevation: 3,        
+        elevation: 3,
         child: Column(
           children: [
             DrawerHeader(
               child: Center(
-                child: Image.asset(
-                  'lib/assets/images/people_location.png'
+                child: SvgPicture.asset(
+                  'lib/assets/images/people_location.svg'
                 ),
-                // child: SvgPicture.asset(
-                //   'lib/assets/images/people_location.svg'
-                // ),
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
-              ),              
+              ),
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
             ),
             Expanded(
               child: Container(
@@ -73,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     Divider(
-                      color: Theme.of(context).accentColor,
                       height: 0,
                     ),
                     ListTile(
@@ -152,10 +152,78 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 elevation: 0,
                 onPressed: () {
-                  print('tap');
+                  showFilterDialog(context);
                 }
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: Theme.of(context).backgroundColor,
+        contentPadding: const EdgeInsets.all(0),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Selecione uma linha:',
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+                fontSize: 15
+              ),
+            ),
+            Divider(),
+          ],
+        ),
+        content: ListView.builder(
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return RadioListTile(              
+              activeColor: Theme.of(context).accentColor,
+              title: Text(
+                'Item $index',
+                style: TextStyle(
+                  fontSize: 15
+                ),
+              ),
+              groupValue: 1,
+              value: 1,
+              onChanged: (value) {
+                print(value);
+              },
+            );
+          },
+        ),
+        actions: [
+          FlatButton(
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.check,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),            
+            onPressed: () {
+              print('save filter');
+              Navigator.pop(context);
+            },
           ),
         ],
       ),

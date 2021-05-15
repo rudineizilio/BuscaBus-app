@@ -38,6 +38,7 @@ dependencies:
   google_maps_flutter: ^1.2.0
   geoflutterfire: ^2.2.2
   geolocator: ^6.2.1
+  flutter_svg: ^0.18.0
 
 dev_dependencies:
   flutter_test:

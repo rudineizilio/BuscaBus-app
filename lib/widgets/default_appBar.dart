@@ -5,11 +5,13 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool centerTitle;
   final PreferredSizeWidget bottom;
+  final bool automaticallyImplyLeading;
 
   DefaultAppBar({ 
     @required this.title,
     this.centerTitle,
     this.bottom,
+    this.automaticallyImplyLeading = true,
   });
 
   @override
@@ -24,6 +26,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
   @override
   AppBar build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: widget.automaticallyImplyLeading,
       title: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: Text(
