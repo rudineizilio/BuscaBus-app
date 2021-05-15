@@ -1,4 +1,6 @@
+import 'package:buscabus/controllers/map/login_controller.dart';
 import 'package:buscabus/screens/home/index.dart';
+import 'package:buscabus/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,9 @@ void main() {
       providers: [
         Provider<MapController>(
           create: (_) => MapController(),
+        ),
+        Provider<LoginController>(
+          create: (_) => LoginController(),
         ),
       ],
       child: MyApp(),
@@ -45,6 +50,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: HomeScreen(),
+      // home: FutureBuilder(
+      //   future: Provider.of<LoginController>(context).init(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       return HomeScreen();
+      //     }
+      //     return Loading();
+      //   },        
+      // ),
       debugShowCheckedModeBanner: false,
     );
   }
