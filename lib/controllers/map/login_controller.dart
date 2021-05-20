@@ -9,10 +9,10 @@ abstract class _LoginController with Store {
   SharedPreferences prefs;  
   
   @observable
-  String identification = '';
+  String identification;
 
   @observable
-  String password = '';
+  String password;
 
   @observable
   bool passwordVisible = false;
@@ -27,13 +27,13 @@ abstract class _LoginController with Store {
   bool memorizeLoginData = false;
 
   @observable
-  String loginType = '';
+  String loginType;
 
   @observable
-  String prefsIdentification = '';    
+  String prefsIdentification;
 
   @observable
-  String prefsPassword = '';
+  String prefsPassword;
 
   @action
   Future<void> getPrefs() async {
@@ -89,6 +89,8 @@ abstract class _LoginController with Store {
     loginType = '';
     identification = '';
     password = '';
+
+    print('Saiuuuuuuuuuuuuuu');
   }
 
   @action
@@ -102,15 +104,19 @@ abstract class _LoginController with Store {
   }
 
   @computed
-  bool get isIdentificationIsValid => identification.length > 1;
+  bool get isIdentificationIsValid => identification != null && identification.length > 1;
 
   @computed
-  bool get isPasswordIsValid => password.length > 1;
+  bool get isPasswordIsValid => password != null && password.length > 1;
 
   @computed
   bool get isFormValid => isIdentificationIsValid && isPasswordIsValid;
 
   @computed
   Function get loginPressed =>
-    (isIdentificationIsValid   && isPasswordIsValid && !loading) ? login : null;
+    (isIdentificationIsValid && isPasswordIsValid && !loading) ? login : (null);
+
+  @computed
+  Function get logoutPressed =>
+    !loggedIn ? logout : (null);
 }

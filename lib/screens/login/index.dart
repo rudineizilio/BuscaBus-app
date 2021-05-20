@@ -1,10 +1,13 @@
 import 'package:buscabus/controllers/map/login_controller.dart';
+import 'package:buscabus/screens/company/index.dart';
+import 'package:buscabus/screens/driver/index.dart';
 import 'package:buscabus/widgets/custom_textField.dart';
 import 'package:buscabus/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginController _loginController;
   TextEditingController _identificationController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
@@ -25,7 +29,26 @@ class _LoginScreenState extends State<LoginScreen> {
     _identificationController.text = _loginController.prefsIdentification;
     _passwordController.text = _loginController.prefsPassword;
 
+    autorun((_) {
+      if (_loginController.loggedIn) {
+        _loginController.loginType == 'company'
+          ? Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => CompanyScreen())
+            )
+          : Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => DriverScreen())
+            );
+      }
+    });
+
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    disposer();
+
+    super.dispose();
   }
 
   @override
@@ -147,14 +170,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           borderRadius:
                                               BorderRadius.circular(32),
                                         ),
-                                        child: Text('Login'),
+                                        child: Text('Acessar'),
                                         color: Theme.of(context).accentColor,
                                         disabledColor: Theme.of(context)
                                             .accentColor
                                             .withAlpha(100),
                                         textColor: Colors.white,
-                                        onPressed:
-                                            _loginController.loginPressed);
+                                        onPressed: _loginController.loginPressed
+                                      );
                                     }),
                                   )
                                 ],

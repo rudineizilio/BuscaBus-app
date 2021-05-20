@@ -6,12 +6,14 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool centerTitle;
   final PreferredSizeWidget bottom;
   final bool automaticallyImplyLeading;
+  final List<Widget> actions;
 
   DefaultAppBar({ 
     @required this.title,
     this.centerTitle,
     this.bottom,
     this.automaticallyImplyLeading = true,
+    this.actions,
   });
 
   @override
@@ -36,6 +38,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       centerTitle: widget.centerTitle,
       titleSpacing: 0,
       elevation: 3,
+      actions: widget.actions,
     );
   }
 }

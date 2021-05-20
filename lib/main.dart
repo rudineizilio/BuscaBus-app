@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           color: Color.fromRGBO(20, 20, 20, 1),
           elevation: 3,
           iconTheme: IconThemeData(
-            color: Colors.grey[300]
+            color: Color.fromRGBO(108, 99, 255, 1),
           ),
           textTheme: TextTheme(
             title: TextStyle(
