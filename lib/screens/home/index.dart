@@ -1,4 +1,4 @@
-import 'package:buscabus/controllers/map/login_controller.dart';
+import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:buscabus/screens/login/index.dart';
 import 'package:buscabus/widgets/default_appBar.dart';

@@ -89,8 +89,6 @@ abstract class _LoginController with Store {
     loginType = '';
     identification = '';
     password = '';
-
-    print('Saiuuuuuuuuuuuuuu');
   }
 
   @action
@@ -115,8 +113,4 @@ abstract class _LoginController with Store {
   @computed
   Function get loginPressed =>
     (isIdentificationIsValid && isPasswordIsValid && !loading) ? login : (null);
-
-  @computed
-  Function get logoutPressed =>
-    !loggedIn ? logout : (null);
 }

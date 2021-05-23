@@ -1,9 +1,7 @@
-import 'package:buscabus/controllers/map/login_controller.dart';
-import 'package:buscabus/screens/login/index.dart';
+import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class CompanyScreen extends StatefulWidget {
@@ -13,28 +11,12 @@ class CompanyScreen extends StatefulWidget {
 
 class _CompanyScreenState extends State<CompanyScreen> {
   LoginController _loginController;
-  ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
-    _loginController = Provider.of<LoginController>(context);
-
-    autorun((_) {
-      if (!_loginController.loggedIn) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => LoginScreen())
-        );                      
-      }
-    });    
+    _loginController = Provider.of<LoginController>(context);  
 
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    disposer();
-
-    super.dispose();
   }
 
   @override
@@ -51,7 +33,11 @@ class _CompanyScreenState extends State<CompanyScreen> {
               color: Theme.of(context).accentColor,
               size: 20,
             ),
-            onPressed: () => _loginController.logout(),
+            onPressed: () {
+              _loginController.logout();
+
+              Navigator.pop(context); 
+            }
           ),
         ],
       ),

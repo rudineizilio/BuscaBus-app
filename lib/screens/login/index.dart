@@ -1,4 +1,4 @@
-import 'package:buscabus/controllers/map/login_controller.dart';
+import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/company/index.dart';
 import 'package:buscabus/screens/driver/index.dart';
 import 'package:buscabus/widgets/custom_textField.dart';
@@ -29,27 +29,27 @@ class _LoginScreenState extends State<LoginScreen> {
     _identificationController.text = _loginController.prefsIdentification;
     _passwordController.text = _loginController.prefsPassword;
 
-    autorun((_) {
-      if (_loginController.loggedIn) {
-        _loginController.loginType == 'company'
-          ? Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => CompanyScreen())
-            )
-          : Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => DriverScreen())
-            );
-      }
-    });
+    // autorun((_) {
+    //   if (_loginController.loggedIn) {
+    //     _loginController.loginType == 'company'
+    //       ? Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (_) => CompanyScreen())
+    //         )
+    //       : Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (_) => DriverScreen())
+    //         );
+    //   }
+    // });
 
     super.didChangeDependencies();
   }
 
-  @override
-  void dispose() {
-    disposer();
+  // @override
+  // void dispose() {
+  //   disposer();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,13 +170,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                           borderRadius:
                                               BorderRadius.circular(32),
                                         ),
-                                        child: Text('Acessar'),
+                                        child: Text('ACESSAR'),
                                         color: Theme.of(context).accentColor,
                                         disabledColor: Theme.of(context)
                                             .accentColor
                                             .withAlpha(100),
                                         textColor: Colors.white,
-                                        onPressed: _loginController.loginPressed
+                                        onPressed: () async {
+                                          await _loginController.login();
+
+                                          _loginController.loginType == 'company'
+                                            ? Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => CompanyScreen()),
+                                              )
+                                            : Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => DriverScreen()),
+                                              );
+                                        }
                                       );
                                     }),
                                   )

@@ -1,6 +1,6 @@
-import 'package:buscabus/controllers/map/login_controller.dart';
+import 'package:buscabus/controllers/driver/driver_controller.dart';
+import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/home/index.dart';
-import 'package:buscabus/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +16,9 @@ void main() {
         Provider<LoginController>(
           create: (_) => LoginController(),
         ),
+        Provider<DriverController>(
+          create: (_) => DriverController(),
+        ),        
       ],
       child: MyApp(),
     ),
