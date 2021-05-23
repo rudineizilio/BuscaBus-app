@@ -1,6 +1,7 @@
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/home/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,15 +54,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: HomeScreen(),
-      // home: FutureBuilder(
-      //   future: Provider.of<LoginController>(context).init(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       return HomeScreen();
-      //     }
-      //     return Loading();
-      //   },        
-      // ),
       debugShowCheckedModeBanner: false,
     );
   }

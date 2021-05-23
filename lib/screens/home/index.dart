@@ -2,6 +2,8 @@ import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:buscabus/screens/login/index.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _mapController = Provider.of<MapController>(context);
     _mapController.getPosition();
     _loginController = Provider.of<LoginController>(context);
+    getData();
 
     rootBundle.loadString('lib/assets/txt/map_style.txt').then((string) {
       _mapStyle = string;
@@ -242,4 +245,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Future<DocumentSnapshot> getData() async {
+    await Firebase.initializeApp();
+    return await FirebaseFirestore.instance
+        .collection("driver").get().then((value) {
+          value.docChanges.forEach((element) {print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${element.doc.data()}');});
+        });
+        // get().then((value) {
+        //   value.docs.forEach((element) { print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${element.data}'); });
+        // });
+  }  
 }
