@@ -1,4 +1,7 @@
 import 'package:buscabus/controllers/login/login_controller.dart';
+import 'package:buscabus/screens/company/view/bus.dart';
+import 'package:buscabus/screens/company/view/driver.dart';
+import 'package:buscabus/screens/company/view/line.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -48,24 +51,54 @@ class _CompanyScreenState extends State<CompanyScreen> {
         children: [
           Flexible(
             flex: 1,
-            child: buttonCategory(
-              icon: FontAwesomeIcons.solidUser,
-              label: 'Motorista'
+            child: GestureDetector(
+              child: buttonCategory(
+                icon: FontAwesomeIcons.solidUser,
+                label: 'Motorista'
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ViewDriverScreen()),
+                );
+              },
             ),
           ),
           Flexible(
             flex: 1,
-            child: buttonCategory(
-              icon: FontAwesomeIcons.bus,
-              label: 'Ônibus',
+            child: GestureDetector(
+              child: buttonCategory(
+                icon: FontAwesomeIcons.bus,
+                label: 'Ônibus',
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ViewBusScreen()),
+                );
+              },
             ),
           ),
           Flexible(
             flex: 1,
-            child: buttonCategory(
-              icon: FontAwesomeIcons.projectDiagram,
-              label: 'Linha'
+            child: GestureDetector(
+              child: buttonCategory(
+                icon: FontAwesomeIcons.projectDiagram,
+                label: 'Linha'
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ViewLineScreen()),
+                );                
+              },
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
         ],
       ),
@@ -73,38 +106,35 @@ class _CompanyScreenState extends State<CompanyScreen> {
   }
 
   Widget buttonCategory({@required IconData icon, @required String label}) {
-    return InkWell(
-      child: Container(
-        margin: const EdgeInsets.only(top: 10, right: 10, bottom: 0, left: 10),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FaIcon(
-                icon,
-                size: 20,
+    return Container(
+      margin: const EdgeInsets.only(top: 10, right: 10, bottom: 0, left: 10),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).accentColor,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FaIcon(
+              icon,
+              size: 20,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Text(
+              label,
+              style: TextStyle(
                 color: Colors.white,
+                fontSize: 16
               ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                label,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
-      onTap: () => print(label),
-    );    
+    );
   }
 }

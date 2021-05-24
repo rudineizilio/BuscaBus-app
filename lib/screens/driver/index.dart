@@ -133,10 +133,47 @@ class _DriverScreenState extends State<DriverScreen> {
                 );
               }),
               SizedBox(
-                height: 10,
-              ),
+                height: 20,
+              ),              
             ],
           ),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              child: SingleChildScrollView(
+                child: DataTable(
+                  columnSpacing: 20,
+                  horizontalMargin: 10,
+                  headingRowHeight: 30,
+                  dividerThickness: 0.001,
+                  headingTextStyle: const TextStyle(
+                    fontSize: 13,
+                  ),
+                  headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Theme.of(context).accentColor,
+                  ),
+                  columns: [
+                    DataColumn(label: Text('Descrição')),
+                    DataColumn(label: Text('Início')),
+                    DataColumn(label: Text('Fim')),
+                  ],
+                  rows: [
+                    DataRow(
+                      cells: [
+                        DataCell(Text('Exemplo')),
+                        DataCell(Text('23/05/2021 - 10:00')),
+                        DataCell(Text('23/05/2021 - 14:20')),
+                      ],
+                    ),
+                  ],
+                  dataRowHeight: 30,
+                  dataTextStyle: const TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          ),          
         ],
       ),
     );
