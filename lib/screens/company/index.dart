@@ -22,6 +22,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
         title: 'Empresa',
         automaticallyImplyLeading: false,
@@ -48,38 +49,22 @@ class _CompanyScreenState extends State<CompanyScreen> {
           Flexible(
             flex: 1,
             child: buttonCategory(
-              icon: FontAwesomeIcons.building,
-              label: 'Cadastrar Empresa',
-            ),
-          ),
-          Divider(
-            height: 0,
-          ),
-          Flexible(
-            flex: 1,
-            child: buttonCategory(
               icon: FontAwesomeIcons.solidUser,
-              label: 'Cadastrar Motorista'
+              label: 'Motorista'
             ),
-          ),
-          Divider(
-            height: 0,
           ),
           Flexible(
             flex: 1,
             child: buttonCategory(
               icon: FontAwesomeIcons.bus,
-              label: 'Cadastrar Ônibus',
+              label: 'Ônibus',
             ),
-          ),
-          Divider(
-            height: 0,
           ),
           Flexible(
             flex: 1,
             child: buttonCategory(
               icon: FontAwesomeIcons.projectDiagram,
-              label: 'Cadastrar Linha'
+              label: 'Linha'
             ),
           ),
         ],
@@ -90,10 +75,10 @@ class _CompanyScreenState extends State<CompanyScreen> {
   Widget buttonCategory({@required IconData icon, @required String label}) {
     return InkWell(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: const EdgeInsets.only(top: 10, right: 10, bottom: 0, left: 10),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(
@@ -103,7 +88,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
               FaIcon(
                 icon,
                 size: 20,
-                color: Theme.of(context).accentColor,
+                color: Colors.white,
               ),
               SizedBox(
                 width: 15,
@@ -111,7 +96,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
               Text(
                 label,
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.white,
                   fontSize: 16
                 ),
               )

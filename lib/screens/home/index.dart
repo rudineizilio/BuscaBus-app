@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
         title: 'BuscaBus',
         automaticallyImplyLeading: false,
@@ -61,19 +62,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: Container(
-                color: Colors.black87,
+                color: Theme.of(context).backgroundColor,
                 child: Column(
                   children: [
                     Observer(builder: (_) {
                       return ListTile(
                         leading: FaIcon(
                           FontAwesomeIcons.userAlt,
-                          color: Colors.grey[300],
+                          color: Colors.white,
                           size: 18,
                         ),
                         title: Text(
                           'Motorista',
-                          style: TextStyle(color: Colors.grey[300]),
+                          style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
                           _loginController.setLoginType('driver');
@@ -87,19 +88,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     }),
-                    Divider(
-                      height: 0,
-                    ),
                     Observer(builder: (_) {
                       return ListTile(
                         leading: FaIcon(
                           FontAwesomeIcons.solidBuilding,
-                          color: Colors.grey[300],
+                          color: Colors.white,
                           size: 18,
                         ),
                         title: Text(
                           'Empresa',
-                          style: TextStyle(color: Colors.grey[300]),
+                          style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
                           _loginController.setLoginType('company');

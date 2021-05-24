@@ -35,15 +35,15 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Color.fromRGBO(20, 20, 20, 1),
         backgroundColor: Color.fromRGBO(40, 40, 40, 1),
-        accentColor: Color.fromRGBO(108, 99, 255, 1),
-        scaffoldBackgroundColor: Color.fromRGBO(81, 81, 81, 1),
+        accentColor: Color.fromRGBO(179, 29, 49, 1),
+        scaffoldBackgroundColor: Color.fromRGBO(20, 20, 20, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         dividerColor: Color.fromRGBO(108, 99, 255, 1),
         appBarTheme: AppBarTheme(
           color: Color.fromRGBO(20, 20, 20, 1),
           elevation: 3,
           iconTheme: IconThemeData(
-            color: Color.fromRGBO(108, 99, 255, 1),
+            color: Color.fromRGBO(179, 29, 49, 1),
           ),
           textTheme: TextTheme(
             title: TextStyle(
