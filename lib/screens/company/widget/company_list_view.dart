@@ -32,55 +32,46 @@ class _CompanyListViewState extends State<CompanyListView> {
 
         return Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: Theme.of(context).accentColor,
-                child: Center(
-                  child: FaIcon(
-                    widget.icon,
-                    color: Colors.white,
-                    size: 18,
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 25,
+              backgroundColor: Theme.of(context).accentColor,
+              child: Center(
+                child: FaIcon(
+                  widget.icon,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+            ),
+            title: Text(item),
+            trailing: Visibility(
+              visible: widget.visibleButtons,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  button(
+                    icon: Icons.edit,
+                    color: Theme.of(context).accentColor,
+                    tooltip: 'Editar',
+                    function: () {
+                      print('Tela de edição');
+                    }
                   ),
-                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  button(
+                    icon: Icons.delete,
+                    color: Colors.red,
+                    tooltip: 'Excluir',
+                    function: () {
+                      print('Excluir registro');
+                    }
+                  ),                  
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(item),
-              SizedBox(
-                height: 10,
-              ),
-              Visibility(
-                visible: widget.visibleButtons,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    button(
-                      icon: Icons.edit,
-                      color: Theme.of(context).accentColor,
-                      tooltip: 'Editar',
-                      function: () {
-                        print('Tela de edição');
-                      }
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    button(
-                      icon: Icons.delete,
-                      color: Colors.red,
-                      tooltip: 'Excluir',
-                      function: () {
-                        print('Excluir registro');
-                      }
-                    ),                  
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },
@@ -92,8 +83,8 @@ class _CompanyListViewState extends State<CompanyListView> {
       message: tooltip,
       child: GestureDetector(
         child: Container(
-          width: 20,
-          height: 20,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(5)
@@ -101,7 +92,7 @@ class _CompanyListViewState extends State<CompanyListView> {
           child: Center(
             child: Icon(
               icon,
-              size: 12,
+              size: 15,
               color: Colors.white,
             ),
           ),

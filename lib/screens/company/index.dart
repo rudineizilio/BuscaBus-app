@@ -2,6 +2,7 @@ import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/company/view/bus.dart';
 import 'package:buscabus/screens/company/view/driver.dart';
 import 'package:buscabus/screens/company/view/line.dart';
+import 'package:buscabus/screens/company/view/stop.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -97,6 +98,22 @@ class _CompanyScreenState extends State<CompanyScreen> {
               },
             ),
           ),
+          Flexible(
+            flex: 1,
+            child: GestureDetector(
+              child: buttonCategory(
+                icon: FontAwesomeIcons.store,
+                label: 'Ponto'
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ViewStopScreen()),
+                );                
+              },
+            ),
+          ),          
           SizedBox(
             height: 10,
           ),

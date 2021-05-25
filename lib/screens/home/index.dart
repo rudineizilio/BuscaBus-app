@@ -246,10 +246,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<DocumentSnapshot> getData() async {
     await Firebase.initializeApp();
-    return await FirebaseFirestore.instance
-        .collection("driver").get().then((value) {
-          value.docChanges.forEach((element) {print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${element.doc.data()}');});
-        });
+    final teste = FirebaseFirestore.instance.collection('line').doc().get().then((value) {
+      print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${value.get('id')}');
+    }); 
+    // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $teste');
+    return null;
+        // .collection("line").get().then((value) {
+        //   value.docChanges.forEach((element) {
+        //     final teste = element.doc.data();
+        //     teste.s
+        //   });
+        // });
         // get().then((value) {
         //   value.docs.forEach((element) { print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${element.data}'); });
         // });
