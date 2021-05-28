@@ -116,7 +116,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Observer(builder: (_) {
                                     return CustomTextField(
-                                      key: Key(_loginController.identification.toString()),
                                       hint: _loginController.loginType ==
                                               'company'
                                           ? 'CNPJ'
@@ -137,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   Observer(builder: (_) {
                                     return CustomTextField(
-                                      // key: Key(_loginController.password.toString()),
                                       hint: 'Senha',
                                       prefix: Icon(
                                         Icons.lock,
