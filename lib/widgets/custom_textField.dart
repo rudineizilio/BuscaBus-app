@@ -10,7 +10,9 @@ class CustomTextField extends StatelessWidget {
     this.textInputType,
     this.onChanged, 
     this.enabled, 
-    this.controller
+    this.controller,
+    this.initialValue,
+    this.key,
   });
 
   final TextEditingController controller;
@@ -21,6 +23,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType textInputType;
   final Function(String) onChanged;
   final bool enabled;
+  final String initialValue;
+  final Key key;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +35,13 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       padding: prefix != null ? null : const EdgeInsets.only(left: 16),
-      child: TextField(
+      child: TextFormField(
+        key: key,
         style: TextStyle(
           color: Theme.of(context).accentColor,
           fontWeight: FontWeight.bold,
         ),
+        initialValue: initialValue,
         controller: controller,
         obscureText: obscure,
         keyboardType: textInputType,

@@ -159,37 +159,6 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
-  final _$prefsIdentificationAtom =
-      Atom(name: '_LoginController.prefsIdentification');
-
-  @override
-  String get prefsIdentification {
-    _$prefsIdentificationAtom.reportRead();
-    return super.prefsIdentification;
-  }
-
-  @override
-  set prefsIdentification(String value) {
-    _$prefsIdentificationAtom.reportWrite(value, super.prefsIdentification, () {
-      super.prefsIdentification = value;
-    });
-  }
-
-  final _$prefsPasswordAtom = Atom(name: '_LoginController.prefsPassword');
-
-  @override
-  String get prefsPassword {
-    _$prefsPasswordAtom.reportRead();
-    return super.prefsPassword;
-  }
-
-  @override
-  set prefsPassword(String value) {
-    _$prefsPasswordAtom.reportWrite(value, super.prefsPassword, () {
-      super.prefsPassword = value;
-    });
-  }
-
   final _$getPrefsAsyncAction = AsyncAction('_LoginController.getPrefs');
 
   @override
@@ -284,8 +253,6 @@ loading: ${loading},
 loggedIn: ${loggedIn},
 memorizeLoginData: ${memorizeLoginData},
 loginType: ${loginType},
-prefsIdentification: ${prefsIdentification},
-prefsPassword: ${prefsPassword},
 isIdentificationIsValid: ${isIdentificationIsValid},
 isPasswordIsValid: ${isPasswordIsValid},
 isFormValid: ${isFormValid},

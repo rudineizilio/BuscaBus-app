@@ -39,7 +39,8 @@ class _CompanyScreenState extends State<CompanyScreen> {
               size: 20,
             ),
             onPressed: () {
-              _loginController.logout();
+              _loginController.setLoginType('company');
+              _loginController.logout();              
 
               Navigator.pop(context); 
             }

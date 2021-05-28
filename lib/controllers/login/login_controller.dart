@@ -29,26 +29,23 @@ abstract class _LoginController with Store {
   @observable
   String loginType;
 
-  @observable
-  String prefsIdentification;
-
-  @observable
-  String prefsPassword;
-
   @action
   Future<void> getPrefs() async {
     prefs = await SharedPreferences.getInstance();
 
     if (loginType == 'company') {
-      prefsIdentification = prefs.getString('companyIdentification');
-      prefsPassword = prefs.getString('companyPassword');
-    } else {
-      prefsIdentification = prefs.getString('driverIdentification');
-      prefsPassword = prefs.getString('driverPassword');      
+      identification = prefs.getString('companyIdentification');
+      password = prefs.getString('companyPassword');
+    } 
+    
+    if (loginType == 'driver') {
+      identification = prefs.getString('driverIdentification');
+      password = prefs.getString('driverPassword');
     }
 
-    identification = prefsIdentification;
-    password = prefsPassword;
+    print('LOGIN TYPE: $loginType');
+    print('IDENTIFICATION: $identification');
+    print('PASSWORD: $password');
     
     return;
   }
@@ -70,7 +67,9 @@ abstract class _LoginController with Store {
       if (loginType == 'company') {
         prefs.setString('companyIdentification', identification);
         prefs.setString('companyPassword', password);
-      } else {
+      } 
+      
+      if (loginType == 'driver') {
         prefs.setString('driverIdentification', identification);
         prefs.setString('driverPassword', password);        
       }

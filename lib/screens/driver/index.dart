@@ -41,7 +41,8 @@ class _DriverScreenState extends State<DriverScreen> {
                 size: 20,
               ),
               onPressed: () {
-                _loginController.logout();
+                _loginController.setLoginType('driver');
+                _loginController.logout();              
 
                 Navigator.pop(context);
               }),

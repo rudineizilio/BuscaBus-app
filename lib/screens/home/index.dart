@@ -78,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onTap: () {
                           _loginController.setLoginType('driver');
-                          _loginController.getPrefs();
 
                           Navigator.push(
                             context,
@@ -101,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onTap: () {
                           _loginController.setLoginType('company');
-                          _loginController.getPrefs();
 
                           Navigator.push(
                             context,
@@ -235,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(100),
             ),
             onPressed: () {
-              print('save filter');
+              print('Salva filtro');
               Navigator.pop(context);
             },
           ),

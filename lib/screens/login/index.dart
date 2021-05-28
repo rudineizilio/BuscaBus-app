@@ -17,17 +17,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginController _loginController;
-  TextEditingController _identificationController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  ReactionDisposer disposer;
+  // ReactionDisposer disposer;
+
+ TextEditingController _textEditingController;  
 
   @override
   void didChangeDependencies() {
     _loginController = Provider.of<LoginController>(context);    
+    _loginController.getPrefs();
     _loginController.setMemorizeLoginData(false);
 
-    _identificationController.text = _loginController.prefsIdentification;
-    _passwordController.text = _loginController.prefsPassword;
+    // void _textEditingControllerListener() {
+    //     _textEditingController.text = newValue;
+    // }    
 
     // autorun((_) {
     //   if (_loginController.loggedIn) {
@@ -40,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
     //         );
     //   }
     // });
-
     super.didChangeDependencies();
   }
 
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Observer(builder: (_) {
                                     return CustomTextField(
-                                      controller: _identificationController,
+                                      key: Key(_loginController.identification.toString()),
                                       hint: _loginController.loginType ==
                                               'company'
                                           ? 'CNPJ'
@@ -124,10 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Icons.account_circle,
                                         color: Theme.of(context).accentColor,
                                       ),
-                                      textInputType: TextInputType.emailAddress,
+                                      textInputType: TextInputType.number,
                                       onChanged:
                                           _loginController.setIdentification,
                                       enabled: !_loginController.loading,
+                                      initialValue: _loginController.identification ?? '',
                                     );
                                   }),
                                   const SizedBox(
@@ -135,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   Observer(builder: (_) {
                                     return CustomTextField(
-                                      controller: _passwordController,
+                                      // key: Key(_loginController.password.toString()),
                                       hint: 'Senha',
                                       prefix: Icon(
                                         Icons.lock,
@@ -157,6 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               .togglePasswordVisibility();
                                         },
                                       ),
+                                      // initialValue: _loginController.password ?? '',
                                     );
                                   }),
                                   const SizedBox(
