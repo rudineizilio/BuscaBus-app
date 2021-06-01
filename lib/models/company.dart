@@ -1,6 +1,7 @@
 import 'package:buscabus/models/bus.dart';
 import 'package:buscabus/models/driver.dart';
 import 'package:buscabus/models/line.dart';
+import 'package:buscabus/models/stop.dart';
 
 class Company {
   int password;
@@ -9,6 +10,7 @@ class Company {
   List<Bus> bus;
   List<Driver> driver;
   List<Line> lines;
+  List<Stop> stops;
 
   Company({
     this.password,
@@ -17,6 +19,7 @@ class Company {
     this.bus,
     this.driver,
     this.lines,
+    this.stops,
   });
 
   Company.fromJson(Map<String, dynamic> json) {
@@ -43,7 +46,14 @@ class Company {
       json['lines'].forEach((v) {
         lines.add(new Line.fromJson(v));
       });
-    }    
+    }
+
+    if (json['stops'] != null) {
+      stops = new List<Stop>();
+      json['stops'].forEach((v) {
+        stops.add(new Stop.fromJson(v));
+      });
+    } 
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +73,10 @@ class Company {
     if (this.lines != null) {
       data['lines'] = this.lines.map((v) => v.toJson()).toList();
     }
+
+    if (this.stops != null) {
+      data['stops'] = this.stops.map((v) => v.toJson()).toList();
+    }    
     
     return data;
   }
