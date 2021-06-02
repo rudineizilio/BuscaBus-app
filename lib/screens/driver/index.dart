@@ -42,7 +42,7 @@ class _DriverScreenState extends State<DriverScreen> {
               ),
               onPressed: () {
                 _loginController.setLoginType('driver');
-                _loginController.logout();              
+                _loginController.logout();
 
                 Navigator.pop(context);
               }),
@@ -53,6 +53,25 @@ class _DriverScreenState extends State<DriverScreen> {
         children: [
           Column(
             children: [
+              Observer(builder: (_) {
+                return Container(
+                  margin: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(70),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        !_driverController.sharedLocation
+                          ? 'lib/assets/images/static_bus.jpg'
+                          : 'lib/assets/images/bus.gif',
+                      ),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                );
+              }),
               Observer(builder: (_) {
                 return Padding(
                   padding:
@@ -107,35 +126,30 @@ class _DriverScreenState extends State<DriverScreen> {
               Observer(builder: (_) {
                 return RaisedButton(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     width: 200,
                     child: Center(
-                      child: Text(
-                        !_driverController.sharedLocation
+                      child: Text(!_driverController.sharedLocation
                           ? 'INICIAR COMPARTILHAMENTO'
-                          : 'PARAR COMPARTILHAMENTO'
-                      ),
+                          : 'PARAR COMPARTILHAMENTO'),
                     ),
                   ),
                   color: Theme.of(context).accentColor,
-                  disabledColor: Theme.of(context)
-                      .accentColor
-                      .withAlpha(100),
+                  disabledColor: Theme.of(context).accentColor.withAlpha(100),
                   textColor: Colors.white,
                   onPressed: _driverController.sharedButtonEnabled
-                    ? () {
-                        _driverController.setCharedLocation();
-                      }
-                    : null,
+                      ? () {
+                          _driverController.setCharedLocation();
+                        }
+                      : null,
                 );
               }),
               SizedBox(
                 height: 20,
-              ),              
+              ),
             ],
           ),
           Expanded(
@@ -174,7 +188,7 @@ class _DriverScreenState extends State<DriverScreen> {
                 ),
               ),
             ),
-          ),          
+          ),
         ],
       ),
     );
