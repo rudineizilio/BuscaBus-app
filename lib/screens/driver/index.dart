@@ -4,6 +4,7 @@ import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class DriverScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _DriverScreenState extends State<DriverScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
@@ -132,7 +133,7 @@ class _DriverScreenState extends State<DriverScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     width: 200,
                     child: Center(
-                      child: Text(!_driverController.sharedLocation
+                      child: Text(!_driverController.sharedLocation /*&& _driverController.serviceEnabled*/
                           ? 'INICIAR COMPARTILHAMENTO'
                           : 'PARAR COMPARTILHAMENTO'),
                     ),
@@ -140,9 +141,10 @@ class _DriverScreenState extends State<DriverScreen> {
                   color: Theme.of(context).accentColor,
                   disabledColor: Theme.of(context).accentColor.withAlpha(100),
                   textColor: Colors.white,
-                  onPressed: _driverController.sharedButtonEnabled
+                  onPressed: (_driverController.sharedButtonEnabled /*&& _driverController.serviceEnabled)*/)
                       ? () {
                           _driverController.setCharedLocation();
+                          _driverController.getPosition();
                         }
                       : null,
                 );
@@ -192,5 +194,5 @@ class _DriverScreenState extends State<DriverScreen> {
         ],
       ),
     );
-  }
+  }  
 }

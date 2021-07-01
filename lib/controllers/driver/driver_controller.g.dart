@@ -62,6 +62,61 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$driverPositionAtom = Atom(name: '_DriverController.driverPosition');
+
+  @override
+  Position get driverPosition {
+    _$driverPositionAtom.reportRead();
+    return super.driverPosition;
+  }
+
+  @override
+  set driverPosition(Position value) {
+    _$driverPositionAtom.reportWrite(value, super.driverPosition, () {
+      super.driverPosition = value;
+    });
+  }
+
+  final _$serviceEnabledAtom = Atom(name: '_DriverController.serviceEnabled');
+
+  @override
+  bool get serviceEnabled {
+    _$serviceEnabledAtom.reportRead();
+    return super.serviceEnabled;
+  }
+
+  @override
+  set serviceEnabled(bool value) {
+    _$serviceEnabledAtom.reportWrite(value, super.serviceEnabled, () {
+      super.serviceEnabled = value;
+    });
+  }
+
+  final _$locationPermissionAtom =
+      Atom(name: '_DriverController.locationPermission');
+
+  @override
+  LocationPermission get locationPermission {
+    _$locationPermissionAtom.reportRead();
+    return super.locationPermission;
+  }
+
+  @override
+  set locationPermission(LocationPermission value) {
+    _$locationPermissionAtom.reportWrite(value, super.locationPermission, () {
+      super.locationPermission = value;
+    });
+  }
+
+  final _$getLocationEnabledAsyncAction =
+      AsyncAction('_DriverController.getLocationEnabled');
+
+  @override
+  Future<void> getLocationEnabled() {
+    return _$getLocationEnabledAsyncAction
+        .run(() => super.getLocationEnabled());
+  }
+
   final _$_DriverControllerActionController =
       ActionController(name: '_DriverController');
 
@@ -99,11 +154,25 @@ mixin _$DriverController on _DriverController, Store {
   }
 
   @override
+  void getPosition() {
+    final _$actionInfo = _$_DriverControllerActionController.startAction(
+        name: '_DriverController.getPosition');
+    try {
+      return super.getPosition();
+    } finally {
+      _$_DriverControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 busSelected: ${busSelected},
 lineSelected: ${lineSelected},
 sharedLocation: ${sharedLocation},
+driverPosition: ${driverPosition},
+serviceEnabled: ${serviceEnabled},
+locationPermission: ${locationPermission},
 sharedButtonEnabled: ${sharedButtonEnabled}
     ''';
   }
