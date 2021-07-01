@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,9 +26,8 @@ abstract class _DriverController with Store {
   @observable
   LocationPermission locationPermission;
 
-  // @observable
-  // ObservableStream<DateTime> currentDate = Stream.periodic(Duration(seconds: 1))
-  //   .map((_) => DateTime.now()).asObservable();  
+  @observable
+  Timer timer;
 
   @action
   void setBus(String value) {
@@ -73,13 +74,10 @@ abstract class _DriverController with Store {
   }
 
   @computed
-  bool get sharedButtonEnabled => (busSelected != null && lineSelected != null) ? true : false;  
+  bool get sharedButtonEnabled => (busSelected != null && lineSelected != null) ? true : false;
 
-  // @computed
-  // DateTime get now => currentDate.value ?? DateTime.now();
-
-  // @computed
-  // bool get dateInterval {
-  //   return (now.difference(DateTime.parse(loginDate)).inMinutes >= 5) && (appReview == null || appReview == 'pending');
-  // }
+  @computed 
+  void get locationInTime {
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => getPosition());
+  }
 }

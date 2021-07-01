@@ -144,7 +144,8 @@ class _DriverScreenState extends State<DriverScreen> {
                   onPressed: (_driverController.sharedButtonEnabled /*&& _driverController.serviceEnabled)*/)
                       ? () {
                           _driverController.setCharedLocation();
-                          _driverController.getPosition();
+                          // _driverController.getPosition();
+                          _driverController.locationInTime;
                         }
                       : null,
                 );
