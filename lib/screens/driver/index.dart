@@ -4,7 +4,6 @@ import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class DriverScreen extends StatefulWidget {
@@ -22,6 +21,7 @@ class _DriverScreenState extends State<DriverScreen> {
     _driverController = Provider.of<DriverController>(context);
     _driverController.setBus(null);
     _driverController.setLine(null);
+
 
     super.didChangeDependencies();
   }
@@ -144,7 +144,6 @@ class _DriverScreenState extends State<DriverScreen> {
                   onPressed: (_driverController.sharedButtonEnabled /*&& _driverController.serviceEnabled)*/)
                       ? () {
                           _driverController.setCharedLocation();
-                          // _driverController.getPosition();
                           _driverController.locationInTime;
                         }
                       : null,

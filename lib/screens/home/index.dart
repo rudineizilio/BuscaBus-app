@@ -51,8 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             DrawerHeader(
               child: Center(
-                child:
-                    SvgPicture.asset('lib/assets/images/people_location.svg'),
+                child: SvgPicture.asset('lib/assets/images/people_location.svg'),
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,

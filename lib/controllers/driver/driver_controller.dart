@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:buscabus/models/location_open.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 
 part 'driver_controller.g.dart';
@@ -28,6 +31,9 @@ abstract class _DriverController with Store {
 
   @observable
   Timer timer;
+
+  @observable
+  CollectionReference driverLocation = FirebaseFirestore.instance.collection('location');
 
   @action
   void setBus(String value) {
@@ -62,22 +68,53 @@ abstract class _DriverController with Store {
   }
 
   @action
-  void getPosition() {
-    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
+  Future<void> updateDriverLocation() {    
+    // LocationOpen location = LocationOpen(
+    //   bus: "AXD-0000",
+    //   driver: "Rudão Motora",
+    //   start: DateTime.now(),
+    //   end: DateTime.now(),
+    //   lastUpdate: driverPosition.timestamp,
+    //   line: "Linha-TESTE",
+    //   location: LatLng(driverPosition.latitude, driverPosition.longitude),
+    // );
+
+    // Map<String, LocationOpen> data = {
+    //   'location': location
+    // };
+
+    return driverLocation
+      .doc('KArObpNBylILV0xc6N9u')
+      .update({
+          "bus": "AXD-0000",
+          "driver": "Rudão Motora",
+          "start": DateTime.now(),
+          "end": DateTime.now(),
+          "lastUpdate": driverPosition.timestamp,
+          "line": "Linha-TESTE",
+          "location": GeoPoint(driverPosition.latitude, driverPosition.longitude),
+      })
+      .then((value) => print("Location atualizada"))
+      .catchError((error) => print("Falha na atualização da Location: $error"));
+  }  
+
+  @action
+  Future<void> getPosition() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
       .then((Position position) {
         driverPosition = position;        
       }).catchError((e) {
         print(e);
       });
 
-      print('${driverPosition.latitude} | ${driverPosition.longitude} | ${driverPosition.timestamp}');
+      updateDriverLocation();
   }
 
   @computed
   bool get sharedButtonEnabled => (busSelected != null && lineSelected != null) ? true : false;
 
   @computed 
-  void get locationInTime {
-    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => getPosition());
+  get locationInTime async {
+    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
   }
 }

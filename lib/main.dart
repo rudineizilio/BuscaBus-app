@@ -1,12 +1,15 @@
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/home/index.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'controllers/map/map_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
@@ -18,7 +21,7 @@ void main() {
         ),
         Provider<DriverController>(
           create: (_) => DriverController(),
-        ),        
+        ),
       ],
       child: MyApp(),
     ),
