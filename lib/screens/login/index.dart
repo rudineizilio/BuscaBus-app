@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(
                         top: 50, right: 50, bottom: 0, left: 50),
                     height: 200,
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Center(
                       child: SvgPicture.asset('lib/assets/images/login.svg'),
                     ),
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: const EdgeInsets.all(32),
                     child: !_loginController.loading
                         ? Card(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).backgroundColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),

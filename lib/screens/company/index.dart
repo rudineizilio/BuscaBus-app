@@ -26,7 +26,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
         title: 'Empresa',
         automaticallyImplyLeading: false,
@@ -35,7 +35,6 @@ class _CompanyScreenState extends State<CompanyScreen> {
             tooltip: 'Sair',
             icon: FaIcon(
               FontAwesomeIcons.signOutAlt,
-              color: Theme.of(context).accentColor,
               size: 20,
             ),
             onPressed: () {

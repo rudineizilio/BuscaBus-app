@@ -1,6 +1,5 @@
 import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/controllers/map/map_controller.dart';
-import 'package:buscabus/controllers/theme/custom_theme_controller.dart';
 import 'package:buscabus/screens/login/index.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,8 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -26,18 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
   GoogleMapController _googleMapController;
   LoginController _loginController;
   BorderRadiusGeometry _radius;
-  CustomThemeController _customThemeController;
 
   @override
   void didChangeDependencies() {
     _mapController = Provider.of<MapController>(context);
     _mapController.getPosition();
     _loginController = Provider.of<LoginController>(context);
-    _customThemeController = Provider.of<CustomThemeController>(context);
-
-    rootBundle.loadString('lib/assets/txt/map_style.txt').then((string) {
-      _mapStyle = string;
-    });
 
     super.didChangeDependencies();
   }
@@ -45,12 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     _radius = BorderRadius.only(
-      topLeft: Radius.circular(24.0),
-      topRight: Radius.circular(24.0),
+      topLeft: Radius.circular(10),
+      topRight: Radius.circular(10),
     );
         
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
         title: 'BuscaBus',
         automaticallyImplyLeading: false,
@@ -64,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: SvgPicture.asset('lib/assets/images/people_location.svg'),
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
               margin: const EdgeInsets.all(0),
               padding: const EdgeInsets.all(20),
@@ -78,12 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListTile(
                         leading: FaIcon(
                           FontAwesomeIcons.userAlt,
-                          color: Colors.white,
+                          color: Theme.of(context).accentColor,
                           size: 18,
                         ),
                         title: Text(
                           'Motorista',
-                          style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
                           _loginController.setLoginType('driver');
@@ -100,12 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListTile(
                         leading: FaIcon(
                           FontAwesomeIcons.solidBuilding,
-                          color: Colors.white,
+                          color: Theme.of(context).accentColor,
                           size: 18,
                         ),
                         title: Text(
                           'Empresa',
-                          style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
                           _loginController.setLoginType('company');
@@ -118,14 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     }),
-                    // Observer(builder: (_) {
-                    //   return ListTile(
-                    //     leading: DayNightSwitcher(
-                    //       isDarkModeEnabled: _customThemeController.darkMode,
-                    //       onStateChanged: (value) => _customThemeController.setDarkMode(value),
-                    //     ),
-                    //   );
-                    // }),
                   ],
                 ),
               ),
@@ -133,92 +114,153 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: SlidingUpPanel(         
-        minHeight: 50,
-        maxHeight: 450,
-        parallaxEnabled: true,           
-        borderRadius: _radius,
-        collapsed: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).accentColor,
-            borderRadius: _radius,
-          ),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FaIcon(
-                  FontAwesomeIcons.arrowCircleUp,
-                  size: 18,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'Filtrar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          Flex(
+            direction: Axis.vertical,
+            children: [
+              Flexible(
+                child: Container(
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    onMapCreated: (GoogleMapController controller) {
+                      _googleMapController = controller;
+                      _googleMapController.setMapStyle(_mapStyle);
+                    },
+                    // onMapCreated: _onMapCreated,
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(-26.2049706, -52.6990064),
+                      zoom: 15.0,
+                    ),
+                    // markers: Set<Marker>.of(markers.values),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        panelBuilder: (ScrollController sc) => lineList(sc),
-        body: Flex(
-          direction: Axis.vertical,
-          children: [
-            Flexible(
-              child: Container(
-                child: GoogleMap(
-                  zoomControlsEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                    _googleMapController = controller;
-                    _googleMapController.setMapStyle(_mapStyle);
-                  },
-                  // onMapCreated: _onMapCreated,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(-26.2049706, -52.6990064),
-                    zoom: 15.0,
-                  ),
-                  // markers: Set<Marker>.of(markers.values),
                 ),
               ),
+            ],
+          ),
+          Positioned(
+            bottom: 10,
+            right: 0,
+            left: 0,
+            child: Center(
+              child: RaisedButton(
+                  color: Theme.of(context).accentColor,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Filtrar linha',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 0,
+                  onPressed: () {
+                    showFilterDialog(context);
+                  }),
             ),
-          ],
-        ),
+          ),          
+        ],
       ),
     );
   }
 
-  Widget lineList(ScrollController sc) {
+  Widget lineList() {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
         borderRadius: _radius,        
       ),
-      child: Column(
-        children: [
-          Container(
-            color: Colors.red,
-            child: Text('AAAAAa'),
-          ),
-          Expanded(
-            child: ListView.builder(
-              controller: sc,
-              itemCount: 50,
-              itemBuilder: (context, index){
-                return Container(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text("$index", style: TextStyle(color: Colors.red)),
-                );
-              },
-            ),
-          ),
-        ],
+      child: Expanded(
+        child: ListView.separated(
+          separatorBuilder: (BuildContext context, int index) => Divider(color: Theme.of(context).accentColor),
+          itemCount: 50,
+          itemBuilder: (context, index){
+            return ListTile(
+              leading: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.mapSigns,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                ),
+              ),
+              title: Text(
+                'Linha Teste $index'
+              ),
+              onTap: () => print('Pressionou o item $index'),
+            );
+          },
+        ),
       ),
     );
   } 
+
+  void showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: Theme.of(context).backgroundColor,
+        contentPadding: const EdgeInsets.all(0),
+        title: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: TextField(              
+            decoration: InputDecoration(
+              hintText: 'Buscar por',
+              suffixIcon: Icon(
+                Icons.search,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+            onChanged: (value) => print(value),
+          ),
+        ),
+        content: lineList(),
+        actions: [
+          FlatButton(
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.check,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            onPressed: () {
+              print('Aplica filtro selecionado');
+              Navigator.pop(context);
+            },
+          ),
+        ],        
+      ),
+    );
+  }  
 }

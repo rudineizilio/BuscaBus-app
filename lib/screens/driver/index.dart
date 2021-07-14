@@ -29,7 +29,7 @@ class _DriverScreenState extends State<DriverScreen> {
   @override
   Widget build(BuildContext context) {    
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
         title: 'Motorista',
         automaticallyImplyLeading: false,
@@ -38,7 +38,6 @@ class _DriverScreenState extends State<DriverScreen> {
               tooltip: 'Sair',
               icon: FaIcon(
                 FontAwesomeIcons.signOutAlt,
-                color: Theme.of(context).accentColor,
                 size: 20,
               ),
               onPressed: () {
@@ -56,12 +55,10 @@ class _DriverScreenState extends State<DriverScreen> {
             children: [
               Observer(builder: (_) {
                 return Container(
-                  margin: const EdgeInsets.all(10),
                   width: double.infinity,
                   height: 150,
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(70),
                     image: DecorationImage(
                       image: AssetImage(
                         !_driverController.sharedLocation
@@ -92,7 +89,7 @@ class _DriverScreenState extends State<DriverScreen> {
                     onChanged: (value) {
                       _driverController.setBus(value);
                     },
-                    dropdownColor: Theme.of(context).accentColor,
+                    dropdownColor: Theme.of(context).backgroundColor,
                   ),
                 );
               }),
@@ -117,7 +114,7 @@ class _DriverScreenState extends State<DriverScreen> {
                             _driverController.setLine(value);
                           }
                         : null,
-                    dropdownColor: Theme.of(context).accentColor,
+                    dropdownColor: Theme.of(context).backgroundColor,
                   ),
                 );
               }),
@@ -186,6 +183,7 @@ class _DriverScreenState extends State<DriverScreen> {
                   dataRowHeight: 30,
                   dataTextStyle: const TextStyle(
                     fontSize: 13,
+                    color: Colors.grey,
                   ),
                 ),
               ),
