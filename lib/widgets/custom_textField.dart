@@ -38,8 +38,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         key: key,
         style: TextStyle(
-          color: Theme.of(context).accentColor,
-          fontWeight: FontWeight.bold,
+          color: Colors.grey[700],
         ),
         initialValue: initialValue,
         controller: controller,
@@ -50,7 +49,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Colors.grey[700],
           ),
           border: InputBorder.none,
           prefixIcon: prefix,

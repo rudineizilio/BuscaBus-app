@@ -14,7 +14,7 @@ class _ViewBusScreenState extends State<ViewBusScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: 'Ônibus',
+        title: Text('Ônibus'),
       ),
       body: CompanyListView(
         icon: FontAwesomeIcons.bus,

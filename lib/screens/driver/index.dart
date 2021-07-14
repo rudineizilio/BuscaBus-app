@@ -31,7 +31,7 @@ class _DriverScreenState extends State<DriverScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
-        title: 'Motorista',
+        title: Text('Motorista'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -73,7 +73,7 @@ class _DriverScreenState extends State<DriverScreen> {
               Observer(builder: (_) {
                 return Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: DropdownButton(
                     hint: Text(_driverController.busSelected == null
                         ? 'Selecione um ônibus'
@@ -96,7 +96,7 @@ class _DriverScreenState extends State<DriverScreen> {
               Observer(builder: (_) {
                 return Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: DropdownButton(
                     hint: Text(_driverController.lineSelected == null
                         ? 'Selecione uma linha'
@@ -119,20 +119,20 @@ class _DriverScreenState extends State<DriverScreen> {
                 );
               }),
               SizedBox(
-                height: 10,
+                height: 30,
               ),
               Observer(builder: (_) {
                 return RaisedButton(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    width: 200,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    width: 150,
                     child: Center(
                       child: Text(!_driverController.sharedLocation /*&& _driverController.serviceEnabled*/
-                          ? 'INICIAR COMPARTILHAMENTO'
-                          : 'PARAR COMPARTILHAMENTO'),
+                          ? 'Iniciar'
+                          : 'Parar'),
                     ),
                   ),
                   color: Theme.of(context).accentColor,
@@ -183,7 +183,7 @@ class _DriverScreenState extends State<DriverScreen> {
                   dataRowHeight: 30,
                   dataTextStyle: const TextStyle(
                     fontSize: 13,
-                    color: Colors.grey,
+                    color: Colors.black54,
                   ),
                 ),
               ),

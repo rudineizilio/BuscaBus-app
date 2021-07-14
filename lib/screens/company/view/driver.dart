@@ -14,7 +14,7 @@ class _ViewDriverScreenState extends State<ViewDriverScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: 'Motoristas',
+        title: Text('Motoristas'),
       ),
       body: CompanyListView(
         icon: FontAwesomeIcons.userAlt,

@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 16,
                                   ),
                                   SizedBox(
-                                    height: 44,
+                                    height: 35,
                                     child: Observer(builder: (_) {
                                       return RaisedButton(
                                         shape: RoundedRectangleBorder(

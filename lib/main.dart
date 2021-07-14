@@ -47,8 +47,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        primaryColor: Color.fromRGBO(55, 117, 178, 1),
-        accentColor: Color.fromRGBO(55, 117, 178, 1),
+        primaryColor: Color.fromRGBO(27, 137, 250, 1),
+        accentColor: Color.fromRGBO(27, 137, 250, 1),
         scaffoldBackgroundColor: Colors.grey[200],
         visualDensity: VisualDensity.adaptivePlatformDensity,
         dividerColor: Colors.grey[800],
@@ -56,12 +56,13 @@ class _MyAppState extends State<MyApp> {
           color: Colors.white,
           elevation: 2,
           iconTheme: IconThemeData(
-            color: Colors.grey[800],
+            color: Colors.grey[700],
           ),
           textTheme: TextTheme(
             title: TextStyle(
               color: Colors.grey[800],
-              fontSize: 20,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

@@ -14,7 +14,7 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: 'Pontos',
+        title: Text('Pontos'),
       ),
       body: CompanyListView(
         icon: FontAwesomeIcons.store,

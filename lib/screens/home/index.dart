@@ -1,16 +1,9 @@
-import 'package:buscabus/controllers/login/login_controller.dart';
-import 'package:buscabus/controllers/map/map_controller.dart';
-import 'package:buscabus/screens/login/index.dart';
-import 'package:buscabus/widgets/default_appBar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:day_night_switcher/day_night_switcher.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:buscabus/screens/home/widgets/map.dart';
+import 'package:buscabus/screens/home/widgets/menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
+
+import '../../widgets/default_appBar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,199 +11,66 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _mapStyle;
-  MapController _mapController;
-  GoogleMapController _googleMapController;
-  LoginController _loginController;
-  BorderRadiusGeometry _radius;
-
-  @override
-  void didChangeDependencies() {
-    _mapController = Provider.of<MapController>(context);
-    _mapController.getPosition();
-    _loginController = Provider.of<LoginController>(context);
-
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
-    _radius = BorderRadius.only(
-      topLeft: Radius.circular(10),
-      topRight: Radius.circular(10),
-    );
-        
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
-        title: 'BuscaBus',
+        title: Container(
+          width: 90,
+          child: Image.asset('lib/assets/images/logo.png')
+        ),
         automaticallyImplyLeading: false,
       ),
+      body: MapScreen(),
       endDrawer: Drawer(
-        elevation: 3,
-        child: Column(
-          children: [
-            DrawerHeader(
-              child: Center(
-                child: SvgPicture.asset('lib/assets/images/people_location.svg'),
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-              margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.all(20),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).backgroundColor,
-                child: Column(
-                  children: [
-                    Observer(builder: (_) {
-                      return ListTile(
-                        leading: FaIcon(
-                          FontAwesomeIcons.userAlt,
-                          color: Theme.of(context).accentColor,
-                          size: 18,
-                        ),
-                        title: Text(
-                          'Motorista',
-                        ),
-                        onTap: () {
-                          _loginController.setLoginType('driver');
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
-                        },
-                      );
-                    }),
-                    Observer(builder: (_) {
-                      return ListTile(
-                        leading: FaIcon(
-                          FontAwesomeIcons.solidBuilding,
-                          color: Theme.of(context).accentColor,
-                          size: 18,
-                        ),
-                        title: Text(
-                          'Empresa',
-                        ),
-                        onTap: () {
-                          _loginController.setLoginType('company');
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
-                        },
-                      );
-                    }),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        child: MenuScreen()
       ),
-      body: Stack(
-        children: [
-          Flex(
-            direction: Axis.vertical,
-            children: [
-              Flexible(
-                child: Container(
-                  child: GoogleMap(
-                    zoomControlsEnabled: false,
-                    onMapCreated: (GoogleMapController controller) {
-                      _googleMapController = controller;
-                      _googleMapController.setMapStyle(_mapStyle);
-                    },
-                    // onMapCreated: _onMapCreated,
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(-26.2049706, -52.6990064),
-                      zoom: 15.0,
-                    ),
-                    // markers: Set<Marker>.of(markers.values),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            bottom: 10,
-            right: 0,
-            left: 0,
-            child: Center(
-              child: RaisedButton(
-                  color: Theme.of(context).accentColor,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Filtrar linha',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.filter_list,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  elevation: 0,
-                  onPressed: () {
-                    showFilterDialog(context);
-                  }),
-            ),
-          ),          
-        ],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
+        elevation: 3,
+        tooltip: 'Filtrar linha',
+        child: Icon(
+          Icons.filter_list,
+          color: Colors.white,
+        ),
+        onPressed: () => showFilterDialog(context),
       ),
     );
   }
 
   Widget lineList() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-        borderRadius: _radius,        
-      ),
-      child: Expanded(
-        child: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) => Divider(color: Theme.of(context).accentColor),
-          itemCount: 50,
-          itemBuilder: (context, index){
-            return ListTile(
-              leading: Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.mapSigns,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
+    return ListView.separated(
+      separatorBuilder: (context, index) {
+        return Divider(
+          height: 5,
+          color: Theme.of(context).accentColor,
+          indent: 70,
+        );
+      },
+      itemCount: 50,
+      itemBuilder: (context, index){
+        return ListTile(
+          leading: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Center(
+              child: FaIcon(
+                FontAwesomeIcons.mapSigns,
+                color: Colors.white,
+                size: 18,
               ),
-              title: Text(
-                'Linha Teste $index'
-              ),
-              onTap: () => print('Pressionou o item $index'),
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+          title: Text(
+            'Linha Teste $index'
+          ),
+          onTap: () => print('Pressionou o item $index'),
+        );
+      },
     );
   } 
 
@@ -235,32 +95,34 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         content: lineList(),
         actions: [
-          FlatButton(
+          InkWell(
             child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: FaIcon(
-                  FontAwesomeIcons.check,
-                  color: Colors.white,
-                  size: 15,
-                ),
+              margin: const EdgeInsets.all(10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Salvar',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Icon(
+                    Icons.check,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ],
               ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            onPressed: () {
+            onTap: () {
               print('Aplica filtro selecionado');
-              Navigator.pop(context);
-            },
+              Navigator.pop(context);              
+            },            
           ),
         ],        
       ),
     );
-  }  
+  }    
 }

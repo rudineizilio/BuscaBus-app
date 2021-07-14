@@ -14,7 +14,7 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: 'Linhas',
+        title: Text('Linhas'),
       ),
       body: CompanyListView(
         icon: FontAwesomeIcons.projectDiagram,

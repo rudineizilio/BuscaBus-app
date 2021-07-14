@@ -28,7 +28,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: DefaultAppBar(
-        title: 'Empresa',
+        title: Text('Empresa'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

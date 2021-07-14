@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final String title;
+  final Widget title;
   final bool centerTitle;
   final PreferredSizeWidget bottom;
   final bool automaticallyImplyLeading;
@@ -31,9 +31,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       automaticallyImplyLeading: widget.automaticallyImplyLeading,
       title: Padding(
         padding: const EdgeInsets.only(left: 10),
-        child: Text(
-          widget.title,
-        ),
+        child: widget.title,
       ),
       centerTitle: widget.centerTitle,
       titleSpacing: 0,

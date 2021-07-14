@@ -24,6 +24,7 @@ class _CompanyListViewState extends State<CompanyListView> {
         return Divider(
           height: 5,
           color: Theme.of(context).accentColor,
+          indent: 70,
         );
       },
       itemCount: widget.itens.length,
@@ -59,7 +60,7 @@ class _CompanyListViewState extends State<CompanyListView> {
                     }
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
                   button(
                     icon: Icons.delete,
@@ -87,7 +88,7 @@ class _CompanyListViewState extends State<CompanyListView> {
           height: 30,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(5)
+            borderRadius: BorderRadius.circular(100)
           ),
           child: Center(
             child: Icon(
