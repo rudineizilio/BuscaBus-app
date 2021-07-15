@@ -35,8 +35,8 @@ class _MapScreenState extends State<MapScreen> {
               // },
               // onMapCreated: _onMapCreated,
               initialCameraPosition: const CameraPosition(
-                target: LatLng(-26.2049706, -52.6990064),
-                zoom: 15.0,
+                target: LatLng(-26.22815111640855, -52.671710505622876),
+                zoom: 13,
               ),
               // markers: Set<Marker>.of(markers.values),
             ),
