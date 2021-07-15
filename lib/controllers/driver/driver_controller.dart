@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:buscabus/models/location_open.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 
 part 'driver_controller.g.dart';
@@ -115,6 +112,10 @@ abstract class _DriverController with Store {
 
   @computed 
   get locationInTime async {
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
+    if (sharedLocation) {
+      timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
+    } else {
+      timer.cancel();
+    }
   }
 }

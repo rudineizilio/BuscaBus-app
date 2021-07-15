@@ -41,6 +41,8 @@ class _DriverScreenState extends State<DriverScreen> {
                 size: 20,
               ),
               onPressed: () {
+                _driverController.setBus(null);
+                _driverController.setLine(null);
                 _loginController.setLoginType('driver');
                 _loginController.logout();
 
@@ -53,68 +55,106 @@ class _DriverScreenState extends State<DriverScreen> {
         children: [
           Column(
             children: [
+              // Observer(builder: (_) {
+              //   return Container(
+              //     width: double.infinity,
+              //     height: 150,
+              //     decoration: BoxDecoration(
+              //       color: Colors.red,
+              //       image: DecorationImage(
+              //         image: AssetImage(
+              //           !_driverController.sharedLocation
+              //             ? 'lib/assets/images/static_bus.jpg'
+              //             : 'lib/assets/images/bus.gif',
+              //         ),
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //   );
+              // }),
+              SizedBox(
+                height: 30,
+              ),
               Observer(builder: (_) {
-                return Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        !_driverController.sharedLocation
-                          ? 'lib/assets/images/static_bus.jpg'
-                          : 'lib/assets/images/bus.gif',
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.grey,
                       ),
-                      fit: BoxFit.fill,
+                      borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: DropdownButton(
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[700],
+                      ),
+                      underline: SizedBox(),
+                      hint: Text(_driverController.busSelected == null
+                          ? 'Selecione um ônibus'
+                          : _driverController.busSelected
+                      ),
+                      items: ['Ônibus 1', 'Ônibus 2', 'Ônibus 3'].map((item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                      isExpanded: true,
+                      iconSize: 30,
+                      onChanged: (value) {
+                        _driverController.setBus(value);
+                      },
+                      dropdownColor: Colors.white,
                     ),
                   ),
                 );
               }),
               Observer(builder: (_) {
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  child: DropdownButton(
-                    hint: Text(_driverController.busSelected == null
-                        ? 'Selecione um ônibus'
-                        : _driverController.busSelected),
-                    items: ['Ônibus 1', 'Ônibus 2', 'Ônibus 3'].map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    isExpanded: true,
-                    iconSize: 30,
-                    onChanged: (value) {
-                      _driverController.setBus(value);
-                    },
-                    dropdownColor: Theme.of(context).backgroundColor,
-                  ),
-                );
-              }),
-              Observer(builder: (_) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  child: DropdownButton(
-                    hint: Text(_driverController.lineSelected == null
-                        ? 'Selecione uma linha'
-                        : _driverController.lineSelected),
-                    items: ['Linha 1', 'Linha 2', 'Linha 3'].map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    isExpanded: true,
-                    iconSize: 30,
-                    onChanged: _driverController.busSelected != null
-                        ? (value) {
-                            _driverController.setLine(value);
-                          }
-                        : null,
-                    dropdownColor: Theme.of(context).backgroundColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(  
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.circular(5)
+                    ),                    
+                    child: DropdownButton(
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[700],
+                      ),
+                      underline: SizedBox(),
+                      hint: Text(_driverController.lineSelected == null
+                          ? 'Selecione uma linha'
+                          : _driverController.lineSelected,
+                        style: TextStyle(
+                          color: _driverController.busSelected != null
+                            ? Colors.grey[700]
+                            : Colors.grey,
+                        ),
+                      ),
+                      items: ['Linha 1', 'Linha 2', 'Linha 3'].map((item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                      isExpanded: true,
+                      iconSize: 30,
+                      onChanged: _driverController.busSelected != null
+                          ? (value) {
+                              _driverController.setLine(value);
+                            }
+                          : null,
+                      dropdownColor: Colors.white,
+                    ),
                   ),
                 );
               }),
