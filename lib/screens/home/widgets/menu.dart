@@ -27,14 +27,12 @@ class _MenuScreenState extends State<MenuScreen> {
     return Flex(        
         direction: Axis.vertical,
         children: [
-          DrawerHeader(
-            padding: const EdgeInsets.all(0),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: SvgPicture.asset('lib/assets/images/people_location.svg'),
-              decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-              ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            height: 200,
+            child: SvgPicture.asset('lib/assets/images/people_location.svg'),
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
             ),
           ),
           Expanded(
@@ -47,6 +45,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     height: 20,
                   ),
                   Material(
+                    color: Theme.of(context).backgroundColor,
                     child: InkWell(
                       child: Container(
                         margin: const EdgeInsets.only(top: 10, right: 30),

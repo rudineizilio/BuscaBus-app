@@ -201,31 +201,31 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Loading(),
                           ));
               }),
-              Observer(builder: (_) {
-                return Visibility(
-                  visible: !_loginController.loading,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Memorizar meus dados',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                      Observer(builder: (_) {
-                        return Switch(
-                            value: _loginController.memorizeLoginData,
-                            activeColor: Theme.of(context).accentColor,
-                            inactiveThumbColor: Colors.white,
-                            onChanged: _loginController.setMemorizeLoginData);
-                      }),
-                    ],
-                  ),
-                );
-              })
+              // Observer(builder: (_) {
+              //   return Visibility(
+              //     visible: !_loginController.loading,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: <Widget>[
+              //         Text(
+              //           'Memorizar meus dados',
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.grey[500],
+              //           ),
+              //         ),
+              //         Observer(builder: (_) {
+              //           return Switch(
+              //               value: _loginController.memorizeLoginData,
+              //               activeColor: Theme.of(context).accentColor,
+              //               inactiveThumbColor: Colors.white,
+              //               onChanged: _loginController.setMemorizeLoginData);
+              //         }),
+              //       ],
+              //     ),
+              //   );
+              // })
             ],
           ),
         ),
