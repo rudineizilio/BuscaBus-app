@@ -23,7 +23,6 @@ class _DriverScreenState extends State<DriverScreen> {
     _driverController.setBus(null);
     _driverController.setLine(null);
 
-
     super.didChangeDependencies();
   }
 
