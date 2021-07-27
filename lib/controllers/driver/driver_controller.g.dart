@@ -145,13 +145,58 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
-  final _$getLocationEnabledAsyncAction =
-      AsyncAction('_DriverController.getLocationEnabled');
+  final _$positionStreamAtom = Atom(name: '_DriverController.positionStream');
 
   @override
-  Future<void> getLocationEnabled() {
-    return _$getLocationEnabledAsyncAction
-        .run(() => super.getLocationEnabled());
+  StreamSubscription<Position> get positionStream {
+    _$positionStreamAtom.reportRead();
+    return super.positionStream;
+  }
+
+  @override
+  set positionStream(StreamSubscription<Position> value) {
+    _$positionStreamAtom.reportWrite(value, super.positionStream, () {
+      super.positionStream = value;
+    });
+  }
+
+  final _$statusAtom = Atom(name: '_DriverController.status');
+
+  @override
+  String get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(String value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
+  final _$positionLocationAtom =
+      Atom(name: '_DriverController.positionLocation');
+
+  @override
+  Position get positionLocation {
+    _$positionLocationAtom.reportRead();
+    return super.positionLocation;
+  }
+
+  @override
+  set positionLocation(Position value) {
+    _$positionLocationAtom.reportWrite(value, super.positionLocation, () {
+      super.positionLocation = value;
+    });
+  }
+
+  final _$listenPositionAsyncAction =
+      AsyncAction('_DriverController.listenPosition');
+
+  @override
+  Future<void> listenPosition() {
+    return _$listenPositionAsyncAction.run(() => super.listenPosition());
   }
 
   final _$getPositionAsyncAction = AsyncAction('_DriverController.getPosition');
@@ -163,6 +208,17 @@ mixin _$DriverController on _DriverController, Store {
 
   final _$_DriverControllerActionController =
       ActionController(name: '_DriverController');
+
+  @override
+  void setStatus(String value) {
+    final _$actionInfo = _$_DriverControllerActionController.startAction(
+        name: '_DriverController.setStatus');
+    try {
+      return super.setStatus(value);
+    } finally {
+      _$_DriverControllerActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setBus(String value) {
@@ -219,6 +275,9 @@ serviceEnabled: ${serviceEnabled},
 locationPermission: ${locationPermission},
 timer: ${timer},
 driverLocation: ${driverLocation},
+positionStream: ${positionStream},
+status: ${status},
+positionLocation: ${positionLocation},
 sharedButtonEnabled: ${sharedButtonEnabled},
 locationInTime: ${locationInTime}
     ''';

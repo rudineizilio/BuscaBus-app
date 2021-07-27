@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:buscabus/widgets/default_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 
 part 'driver_controller.g.dart';
 
@@ -32,6 +34,48 @@ abstract class _DriverController with Store {
   @observable
   CollectionReference driverLocation = FirebaseFirestore.instance.collection('location');
 
+  @observable
+  StreamSubscription<Position> positionStream;
+
+  @observable
+  String status = 'Aguardando GPS';
+
+  @observable
+  Position positionLocation;
+
+  @action
+  Future<void> listenPosition() async {
+    ph.PermissionStatus permission = await ph.Permission.location.request();
+
+    if (permission.isDenied) {
+      DefaultToast(
+        message: 'Parece que você não permitiu o uso do GPS, abra as configurações do aplicativo e libere a permissão',
+        toastType: DefaultToastType.warning,
+      );
+    } else {
+      bool gpsIsEnabled = await Geolocator.isLocationServiceEnabled();
+
+      if (!gpsIsEnabled)
+        DefaultToast(
+          message: 'Obtendo a localização',
+          toastType: DefaultToastType.info,
+        );        
+        setStatus('Obtendo a localização');
+
+      positionStream = Geolocator.getPositionStream().listen((Position position) async {
+        if (positionLocation == null) {
+          positionLocation = position;
+          setStatus('Localização obtida');
+        }
+      });
+    }
+  }
+
+  @action
+  void setStatus(String value) {
+    status = value;
+  }
+
   @action
   void setBus(String value) {
     busSelected = value;
@@ -45,23 +89,6 @@ abstract class _DriverController with Store {
   @action
   void setCharedLocation() {
     sharedLocation = !sharedLocation;
-  }
-
-  @action
-  Future<void> getLocationEnabled() async {
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      print('Solicitar ao usuário para ativar o serviço de localização');
-    }
-
-    locationPermission = await Geolocator.checkPermission();
-    if (locationPermission == LocationPermission.denied) {
-      locationPermission = await Geolocator.requestPermission();
-    }
-
-    if (locationPermission == LocationPermission.deniedForever) {
-      locationPermission = await Geolocator.requestPermission();
-    }
   }
 
   @action
@@ -83,13 +110,13 @@ abstract class _DriverController with Store {
     return driverLocation
       .doc('KArObpNBylILV0xc6N9u')
       .update({
-          "bus": "AXD-0000",
-          "driver": "Rudão Motora",
-          "start": DateTime.now(),
-          "end": DateTime.now(),
-          "lastUpdate": driverPosition.timestamp,
-          "line": "Linha-TESTE",
-          "location": GeoPoint(driverPosition.latitude, driverPosition.longitude),
+        "bus": "AXD-0000",
+        "driver": "Rudão Motora",
+        "start": DateTime.now(),
+        "end": DateTime.now(),
+        "lastUpdate": driverPosition.timestamp,
+        "line": "Linha-TESTE",
+        "location": GeoPoint(driverPosition.latitude, driverPosition.longitude),
       })
       .then((value) => print("Location atualizada"))
       .catchError((error) => print("Falha na atualização da Location: $error"));
@@ -113,7 +140,7 @@ abstract class _DriverController with Store {
   @computed 
   get locationInTime async {
     if (sharedLocation) {
-      timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
+      timer = Timer.periodic(Duration(seconds: 10), (Timer t) => getPosition());
     } else {
       timer.cancel();
     }

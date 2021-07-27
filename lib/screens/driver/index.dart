@@ -19,11 +19,19 @@ class _DriverScreenState extends State<DriverScreen> {
   void didChangeDependencies() {
     _loginController = Provider.of<LoginController>(context);
     _driverController = Provider.of<DriverController>(context);
+    _driverController.listenPosition();
     _driverController.setBus(null);
     _driverController.setLine(null);
 
 
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _driverController.positionStream.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -55,23 +63,6 @@ class _DriverScreenState extends State<DriverScreen> {
         children: [
           Column(
             children: [
-              // Observer(builder: (_) {
-              //   return Container(
-              //     width: double.infinity,
-              //     height: 150,
-              //     decoration: BoxDecoration(
-              //       color: Colors.red,
-              //       image: DecorationImage(
-              //         image: AssetImage(
-              //           !_driverController.sharedLocation
-              //             ? 'lib/assets/images/static_bus.jpg'
-              //             : 'lib/assets/images/bus.gif',
-              //         ),
-              //         fit: BoxFit.fill,
-              //       ),
-              //     ),
-              //   );
-              // }),
               SizedBox(
                 height: 30,
               ),
@@ -170,7 +161,8 @@ class _DriverScreenState extends State<DriverScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     width: 150,
                     child: Center(
-                      child: Text(!_driverController.sharedLocation /*&& _driverController.serviceEnabled*/
+                      child: Text(
+                        !_driverController.sharedLocation
                           ? 'Iniciar'
                           : 'Parar'),
                     ),
@@ -178,7 +170,7 @@ class _DriverScreenState extends State<DriverScreen> {
                   color: Theme.of(context).accentColor,
                   disabledColor: Theme.of(context).accentColor.withAlpha(100),
                   textColor: Colors.white,
-                  onPressed: (_driverController.sharedButtonEnabled /*&& _driverController.serviceEnabled)*/)
+                  onPressed: _driverController.sharedButtonEnabled
                       ? () {
                           _driverController.setCharedLocation();
                           _driverController.locationInTime;
