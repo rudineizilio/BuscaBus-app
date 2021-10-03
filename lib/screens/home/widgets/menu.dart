@@ -30,13 +30,14 @@ class _MenuScreenState extends State<MenuScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             height: 200,
+            width: double.infinity,
             child: SvgPicture.asset('lib/assets/images/people_location.svg'),
             decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
             ),
           ),
           Expanded(
-            child: Container(
+            child: Container(              
               color: Theme.of(context).backgroundColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

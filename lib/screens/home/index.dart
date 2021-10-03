@@ -1,8 +1,12 @@
+import 'dart:ui';
+import 'package:buscabus/controllers/map/map_controller.dart';
+import 'package:buscabus/widgets/defaul_modalbottomsheet.dart';
+import 'package:buscabus/widgets/default_tabtoggler.dart';
 import 'package:flutter/material.dart';
 import 'package:buscabus/screens/home/widgets/map.dart';
 import 'package:buscabus/screens/home/widgets/menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:provider/provider.dart';
 import '../../widgets/default_appBar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +15,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  MapController _mapController;
+
+  @override
+  void didChangeDependencies() {
+    _mapController = Provider.of<MapController>(context);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,19 +34,76 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: MapScreen(),
+      body: Stack(
+        children: [
+          MapScreen(),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 30,
+            child: DefaultTabToggler(
+              items: ['Linhas', 'Pontos'],
+            ),
+          ),
+        ],
+      ),
       endDrawer: Drawer(
         child: MenuScreen()
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).accentColor,
-        elevation: 3,
-        tooltip: 'Filtrar linha',
-        child: Icon(
-          Icons.filter_list,
-          color: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: GestureDetector(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          height: 50,
+          width: 150,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Theme.of(context).accentColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.filter_alt_rounded,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+              'Filtrar',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ]
+          ),
         ),
-        onPressed: () => showFilterDialog(context),
+        onTap: () {
+          DefaultModalBottomSheet(
+            title: _mapController.filterType == 'lines'
+              ? 'Filtrar Linhas'
+              : 'Filtrar Pontos',
+            items: [
+              ItemModalBottomSheet(                
+                body: Container(
+                  height: 200,
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      // final item = lines[index];
+
+                      return Text('Nome da linha');
+                    },
+                  ),
+                ),
+                onTap: () {
+                  print('Seleciona linha');
+                }
+              ),
+            ]
+          ).show(context);
+        }
       ),
     );
   }
@@ -74,55 +144,55 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   } 
 
-  void showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: Theme.of(context).backgroundColor,
-        contentPadding: const EdgeInsets.all(0),
-        title: Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          child: TextField(              
-            decoration: InputDecoration(
-              hintText: 'Buscar por',
-              suffixIcon: Icon(
-                Icons.search,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            onChanged: (value) => print(value),
-          ),
-        ),
-        content: lineList(),
-        actions: [
-          InkWell(
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Salvar',
-                    style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).accentColor,
-                  ),
-                ],
-              ),
-            ),
-            onTap: () {
-              print('Aplica filtro selecionado');
-              Navigator.pop(context);              
-            },            
-          ),
-        ],        
-      ),
-    );
-  }    
+  // void showFilterDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (_) => AlertDialog(
+  //       backgroundColor: Theme.of(context).backgroundColor,
+  //       contentPadding: const EdgeInsets.all(0),
+  //       title: Container(
+  //         margin: const EdgeInsets.only(bottom: 10),
+  //         child: TextField(              
+  //           decoration: InputDecoration(
+  //             hintText: 'Buscar por',
+  //             suffixIcon: Icon(
+  //               Icons.search,
+  //               color: Theme.of(context).accentColor,
+  //             ),
+  //           ),
+  //           onChanged: (value) => print(value),
+  //         ),
+  //       ),
+  //       content: lineList(),
+  //       actions: [
+  //         InkWell(
+  //           child: Container(
+  //             margin: const EdgeInsets.all(10),
+  //             child: Row(
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               children: [
+  //                 Text(
+  //                   'Salvar',
+  //                   style: TextStyle(
+  //                     color: Theme.of(context).accentColor,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //                 SizedBox(width: 5),
+  //                 Icon(
+  //                   Icons.check,
+  //                   color: Theme.of(context).accentColor,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           onTap: () {
+  //             print('Aplica filtro selecionado');
+  //             Navigator.pop(context);              
+  //           },            
+  //         ),
+  //       ],        
+  //     ),
+  //   );
+  // }    
 }

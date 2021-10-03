@@ -16,6 +16,9 @@ abstract class _MapController with Store {
   @observable
   LocationPermission locationPermission;
 
+  @observable
+  String filterType = 'lines';
+
   @action
   Future<void> getPosition() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -35,4 +38,8 @@ abstract class _MapController with Store {
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
+  @action
+  void setFilterType(String value) {
+    filterType = value;
+  }
 }

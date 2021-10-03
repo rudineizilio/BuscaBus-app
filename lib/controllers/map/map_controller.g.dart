@@ -56,6 +56,21 @@ mixin _$MapController on _MapController, Store {
     });
   }
 
+  final _$filterTypeAtom = Atom(name: '_MapController.filterType');
+
+  @override
+  String get filterType {
+    _$filterTypeAtom.reportRead();
+    return super.filterType;
+  }
+
+  @override
+  set filterType(String value) {
+    _$filterTypeAtom.reportWrite(value, super.filterType, () {
+      super.filterType = value;
+    });
+  }
+
   final _$getPositionAsyncAction = AsyncAction('_MapController.getPosition');
 
   @override
@@ -63,11 +78,26 @@ mixin _$MapController on _MapController, Store {
     return _$getPositionAsyncAction.run(() => super.getPosition());
   }
 
+  final _$_MapControllerActionController =
+      ActionController(name: '_MapController');
+
+  @override
+  void setFilterType(String value) {
+    final _$actionInfo = _$_MapControllerActionController.startAction(
+        name: '_MapController.setFilterType');
+    try {
+      return super.setFilterType(value);
+    } finally {
+      _$_MapControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 serviceEnabled: ${serviceEnabled},
-locationPermission: ${locationPermission}
+locationPermission: ${locationPermission},
+filterType: ${filterType}
     ''';
   }
 }
