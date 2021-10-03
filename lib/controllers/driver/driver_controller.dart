@@ -92,21 +92,7 @@ abstract class _DriverController with Store {
   }
 
   @action
-  Future<void> updateDriverLocation() {    
-    // LocationOpen location = LocationOpen(
-    //   bus: "AXD-0000",
-    //   driver: "Rudão Motora",
-    //   start: DateTime.now(),
-    //   end: DateTime.now(),
-    //   lastUpdate: driverPosition.timestamp,
-    //   line: "Linha-TESTE",
-    //   location: LatLng(driverPosition.latitude, driverPosition.longitude),
-    // );
-
-    // Map<String, LocationOpen> data = {
-    //   'location': location
-    // };
-
+  Future<void> updateDriverLocation() {
     return driverLocation
       .doc('KArObpNBylILV0xc6N9u')
       .update({
@@ -140,7 +126,7 @@ abstract class _DriverController with Store {
   @computed 
   get locationInTime async {
     if (sharedLocation) {
-      timer = Timer.periodic(Duration(seconds: 10), (Timer t) => getPosition());
+      timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
     } else {
       timer.cancel();
     }

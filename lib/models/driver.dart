@@ -11,19 +11,23 @@ class Driver {
     this.email
   });
 
-  Driver.fromJson(Map<String, dynamic> json) {
-    password = json['password'];
-    cpf = json['cpf'];
-    name = json['name'];
-    email = json['email'];
-  }
+  static Driver fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['password'] = this.password;
-    data['cpf'] = this.cpf;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    return data;
+    return Driver(
+      password: map['password'],
+      cpf: map['cpf'],
+      name: map['name'],
+      email: map['email'],
+    );
+  }  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'password': password,
+      'cpf': cpf,
+      'name': name,
+      'email': email,
+    };
   }
 }

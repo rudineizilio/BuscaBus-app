@@ -7,15 +7,19 @@ class Stop {
     this.location,
   });
 
-  Stop.fromJson(Map<String, dynamic> json) {
-    description = json['description'].cast<String>();
-    location = json['location'].cast<String>();
-  }
+  static Stop fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['description'] = this.description;
-    data['location'] = this.location;
-    return data;
+    return Stop(
+      description: map['description'],
+      location: map['location'],
+    );
+  }  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'description': description,
+      'location': location,
+    };
   }
 }

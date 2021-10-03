@@ -19,25 +19,29 @@ class LocationOpen {
     this.location
   });
 
-  LocationOpen.fromJson(Map<String, dynamic> json) {
-    bus = json['bus'];
-    driver = json['driver'];
-    start = json['start'] != null ? DateTime.parse(json['start']).toLocal() : null;
-    end = json['end'] != null ? DateTime.parse(json['end']).toLocal() : null;
-    lastUpdate = json['lastUpdate'] != null ? DateTime.parse(json['lastUpdate']).toLocal() : null;
-    line = json['line'];
-    location = json['location'];
-  }
+  static LocationOpen fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bus'] = this.bus;
-    data['driver'] = this.driver;
-    data['start'] = this.start;
-    data['end'] = this.end;
-    data['lastUpdate'] = this.lastUpdate;
-    data['line'] = this.line;
-    data['location'] = this.location;
-    return data;
+    return LocationOpen(
+      bus: map['bus'],
+      driver: map['driver'],
+      start: map['start'],
+      end: map['end'],
+      lastUpdate: map['lastUpdate'],
+      line: map['line'],
+      location: map['location'],
+    );
+  }  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'bus': bus,
+      'driver': driver,
+      'start': start,
+      'end': end,
+      'lastUpdate': lastUpdate,
+      'line': line,
+      'location': location,
+    };
   }
 }

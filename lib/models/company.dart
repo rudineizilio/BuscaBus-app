@@ -22,62 +22,29 @@ class Company {
     this.stops,
   });
 
-  Company.fromJson(Map<String, dynamic> json) {
-    password = json['password'];
-    cnpj = json['cnpj'];
-    email = json['email'];
+  static Company fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
 
-    if (json['bus'] != null) {
-      bus = new List<Bus>();
-      json['bus'].forEach((v) {
-        bus.add(new Bus.fromJson(v));
-      });
-    }
+    return Company(
+      password: map['password'],
+      cnpj: map['cnpj'],
+      email: map['email'],
+      bus: map['bus'],
+      driver: map['driver'],
+      lines: map['lines'],
+      stops: map['stops'],
+    );
+  }  
 
-    if (json['driver'] != null) {
-      driver = new List<Driver>();
-      json['driver'].forEach((v) {
-        driver.add(new Driver.fromJson(v));
-      });
-    }
-    
-    if (json['lines'] != null) {
-      lines = new List<Line>();
-      json['lines'].forEach((v) {
-        lines.add(new Line.fromJson(v));
-      });
-    }
-
-    if (json['stops'] != null) {
-      stops = new List<Stop>();
-      json['stops'].forEach((v) {
-        stops.add(new Stop.fromJson(v));
-      });
-    } 
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['password'] = this.password;
-    data['cnpj'] = this.cnpj;
-    data['email'] = this.email;
-    
-    if (this.bus != null) {
-      data['bus'] = this.bus.map((v) => v.toJson()).toList();
-    }
-    
-    if (this.driver != null) {
-      data['driver'] = this.driver.map((v) => v.toJson()).toList();
-    }
-    
-    if (this.lines != null) {
-      data['lines'] = this.lines.map((v) => v.toJson()).toList();
-    }
-
-    if (this.stops != null) {
-      data['stops'] = this.stops.map((v) => v.toJson()).toList();
-    }    
-    
-    return data;
+  Map<String, dynamic> toMap() {
+    return {
+      'password': password,
+      'cnpj': cnpj,
+      'email': email,
+      'bus': bus,
+      'driver': driver,
+      'lines': lines,
+      'stops': stops,
+    };
   }
 }

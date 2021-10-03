@@ -3,13 +3,17 @@ class Bus {
 
   Bus({this.licensePlate});
 
-  Bus.fromJson(Map<String, dynamic> json) {
-    licensePlate = json['license_plate'];
-  }
+  static Bus fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['license_plate'] = this.licensePlate;
-    return data;
+    return Bus(
+      licensePlate: map['licensePlate'],
+    );
+  }  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'licensePlate': licensePlate,
+    };
   }
 }
