@@ -1,7 +1,10 @@
+import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/screens/company/widget/company_list_view.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:buscabus/screens/company/create/stop.dart';
 
 class ViewStopScreen extends StatefulWidget {
   @override
@@ -9,6 +12,15 @@ class ViewStopScreen extends StatefulWidget {
 }
 
 class _ViewStopScreenState extends State<ViewStopScreen> {
+  CompanyController _companyController;
+
+  @override
+  void didChangeDependencies() {
+    _companyController = Provider.of<CompanyController>(context);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +28,24 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
       appBar: DefaultAppBar(
         title: Text('Pontos'),
       ),
-      body: CompanyListView(
-        icon: FontAwesomeIcons.store,
-        itens: ['CAPEG', 'Casa do artesão', 'UTFPR', 'Ponto 4', 'Ponto 5', 'Ponto 6', 'Ponto 7', 'Ponto 8', 'Ponto 9', 'Ponto 10'],
+      body: FutureBuilder(
+        future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+          }
+          if (snapshot.hasData) {
+            final data = snapshot.data;
+        
+            return CompanyListView(
+              icon: FontAwesomeIcons.store,
+              itens: data['stops'].map((e) => e['description']).toList()
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
@@ -26,7 +53,11 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
           Icons.add,
         ),
         onPressed: () {
-          print('Tela de cadastro');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CreateStopScreen()),
+          );
         },
       ),      
     );

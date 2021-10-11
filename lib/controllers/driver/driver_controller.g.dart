@@ -191,6 +191,36 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$companyAtom = Atom(name: '_DriverController.company');
+
+  @override
+  CollectionReference get company {
+    _$companyAtom.reportRead();
+    return super.company;
+  }
+
+  @override
+  set company(CollectionReference value) {
+    _$companyAtom.reportWrite(value, super.company, () {
+      super.company = value;
+    });
+  }
+
+  final _$driversAtom = Atom(name: '_DriverController.drivers');
+
+  @override
+  List<Driver> get drivers {
+    _$driversAtom.reportRead();
+    return super.drivers;
+  }
+
+  @override
+  set drivers(List<Driver> value) {
+    _$driversAtom.reportWrite(value, super.drivers, () {
+      super.drivers = value;
+    });
+  }
+
   final _$listenPositionAsyncAction =
       AsyncAction('_DriverController.listenPosition');
 
@@ -278,6 +308,8 @@ driverLocation: ${driverLocation},
 positionStream: ${positionStream},
 status: ${status},
 positionLocation: ${positionLocation},
+company: ${company},
+drivers: ${drivers},
 sharedButtonEnabled: ${sharedButtonEnabled},
 locationInTime: ${locationInTime}
     ''';

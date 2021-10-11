@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:buscabus/models/driver.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
@@ -42,6 +43,12 @@ abstract class _DriverController with Store {
 
   @observable
   Position positionLocation;
+
+  @observable
+  CollectionReference company = FirebaseFirestore.instance.collection('company');
+
+  @observable
+  List<Driver> drivers = [];
 
   @action
   Future<void> listenPosition() async {

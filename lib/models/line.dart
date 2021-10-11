@@ -1,21 +1,21 @@
 class Line {
-  List<String> districts;
+  String title;
 
   Line({
-    this.districts,
+    this.title,
   });
 
   static Line fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
     return Line(
-      districts: map['districts'],
+      title: map['title'],
     );
   }  
 
   Map<String, dynamic> toMap() {
     return {
-      'districts': districts,
+      'title': title,
     };
   }
 }

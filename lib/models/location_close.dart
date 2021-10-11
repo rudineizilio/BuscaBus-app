@@ -1,35 +1,27 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-class LocationOpen {
+class LocationClose {
   String bus;
   String driver;
   DateTime startDate;
   DateTime endDate;
-  DateTime lastUpdate;
   String line;
-  LatLng location;
 
-  LocationOpen({
+  LocationClose({
     this.bus,
     this.driver,
     this.startDate,
     this.endDate,
-    this.lastUpdate,
     this.line,
-    this.location
   });
 
-  static LocationOpen fromMap(Map<String, dynamic> map) {
+  static LocationClose fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return LocationOpen(
+    return LocationClose(
       bus: map['bus'],
       driver: map['driver'],
       startDate: map['startDate'],
       endDate: map['endDate'],
-      lastUpdate: map['lastUpdate'],
-      line: map['line'],
-      location: map['location'],
+      line: map['line'],    
     );
   }  
 
@@ -39,9 +31,7 @@ class LocationOpen {
       'driver': driver,
       'startDate': startDate,
       'endDate': endDate,
-      'lastUpdate': lastUpdate,
       'line': line,
-      'location': location,
     };
   }
 }

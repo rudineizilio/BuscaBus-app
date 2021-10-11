@@ -1,5 +1,5 @@
 class Driver {
-  int password;
+  String password;
   String cpf;
   String name;
   String email;

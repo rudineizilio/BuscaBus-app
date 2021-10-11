@@ -8,7 +8,7 @@ class Company {
   int cnpj;
   String email;
   List<Bus> bus;
-  List<Driver> driver;
+  List<Driver> drivers;
   List<Line> lines;
   List<Stop> stops;
 
@@ -17,7 +17,7 @@ class Company {
     this.cnpj,
     this.email,
     this.bus,
-    this.driver,
+    this.drivers,
     this.lines,
     this.stops,
   });
@@ -30,7 +30,7 @@ class Company {
       cnpj: map['cnpj'],
       email: map['email'],
       bus: map['bus'],
-      driver: map['driver'],
+      drivers: map['drivers'],
       lines: map['lines'],
       stops: map['stops'],
     );
@@ -42,7 +42,7 @@ class Company {
       'cnpj': cnpj,
       'email': email,
       'bus': bus,
-      'driver': driver,
+      'drivers': drivers,
       'lines': lines,
       'stops': stops,
     };

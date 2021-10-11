@@ -1,7 +1,10 @@
+import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/screens/company/widget/company_list_view.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:buscabus/screens/company/create/line.dart';
 
 class ViewLineScreen extends StatefulWidget {
   @override
@@ -9,6 +12,15 @@ class ViewLineScreen extends StatefulWidget {
 }
 
 class _ViewLineScreenState extends State<ViewLineScreen> {
+  CompanyController _companyController;
+
+  @override
+  void didChangeDependencies() {
+    _companyController = Provider.of<CompanyController>(context);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +28,24 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
       appBar: DefaultAppBar(
         title: Text('Linhas'),
       ),
-      body: CompanyListView(
-        icon: FontAwesomeIcons.projectDiagram,
-        itens: ['Linha 1', 'Linha 2', 'Linha 3', 'Linha 4', 'Linha 5', 'Linha 6', 'Linha 7', 'Linha 8', 'Linha 9', 'Linha 10'],
+      body: FutureBuilder(
+        future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+          }
+          if (snapshot.hasData) {
+            final data = snapshot.data;
+        
+            return CompanyListView(
+              icon: FontAwesomeIcons.projectDiagram,
+              itens: data['lines'].map((e) => e['title']).toList()
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
@@ -26,7 +53,11 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
           Icons.add,
         ),
         onPressed: () {
-          print('Tela de cadastro');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CreateLineScreen()),
+          );
         },
       ),      
     );
