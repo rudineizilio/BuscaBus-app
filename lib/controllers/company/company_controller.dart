@@ -16,9 +16,6 @@ abstract class _CompanyController with Store {
 
   @action
   Future<void> addDriver(Driver driver) {
-    print('aaaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    print(driver);
-
     return company
       .doc('262gZboPV0OZfjQxzfko')
       .update({'drivers': FieldValue.arrayUnion([driver.toMap()])})

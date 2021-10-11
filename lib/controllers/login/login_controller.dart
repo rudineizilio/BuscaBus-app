@@ -42,10 +42,6 @@ abstract class _LoginController with Store {
       identification = prefs.getString('driverIdentification');
       password = prefs.getString('driverPassword');
     }
-
-    print('LOGIN TYPE: $loginType');
-    print('IDENTIFICATION: $identification');
-    print('PASSWORD: $password');
     
     return;
   }
