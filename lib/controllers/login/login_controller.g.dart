@@ -9,62 +9,48 @@ part of 'login_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginController on _LoginController, Store {
-  Computed<bool> _$isIdentificationIsValidComputed;
+  final _$companyAtom = Atom(name: '_LoginController.company');
 
   @override
-  bool get isIdentificationIsValid => (_$isIdentificationIsValidComputed ??=
-          Computed<bool>(() => super.isIdentificationIsValid,
-              name: '_LoginController.isIdentificationIsValid'))
-      .value;
-  Computed<bool> _$isPasswordIsValidComputed;
-
-  @override
-  bool get isPasswordIsValid => (_$isPasswordIsValidComputed ??= Computed<bool>(
-          () => super.isPasswordIsValid,
-          name: '_LoginController.isPasswordIsValid'))
-      .value;
-  Computed<bool> _$isFormValidComputed;
-
-  @override
-  bool get isFormValid =>
-      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_LoginController.isFormValid'))
-          .value;
-  Computed<Function> _$loginPressedComputed;
-
-  @override
-  Function get loginPressed =>
-      (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
-              name: '_LoginController.loginPressed'))
-          .value;
-
-  final _$prefsAtom = Atom(name: '_LoginController.prefs');
-
-  @override
-  SharedPreferences get prefs {
-    _$prefsAtom.reportRead();
-    return super.prefs;
+  CollectionReference get company {
+    _$companyAtom.reportRead();
+    return super.company;
   }
 
   @override
-  set prefs(SharedPreferences value) {
-    _$prefsAtom.reportWrite(value, super.prefs, () {
-      super.prefs = value;
+  set company(CollectionReference value) {
+    _$companyAtom.reportWrite(value, super.company, () {
+      super.company = value;
     });
   }
 
-  final _$identificationAtom = Atom(name: '_LoginController.identification');
+  final _$companyDataAtom = Atom(name: '_LoginController.companyData');
 
   @override
-  String get identification {
-    _$identificationAtom.reportRead();
-    return super.identification;
+  DocumentSnapshot get companyData {
+    _$companyDataAtom.reportRead();
+    return super.companyData;
   }
 
   @override
-  set identification(String value) {
-    _$identificationAtom.reportWrite(value, super.identification, () {
-      super.identification = value;
+  set companyData(DocumentSnapshot value) {
+    _$companyDataAtom.reportWrite(value, super.companyData, () {
+      super.companyData = value;
+    });
+  }
+
+  final _$userAtom = Atom(name: '_LoginController.user');
+
+  @override
+  String get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(String value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
     });
   }
 
@@ -128,22 +114,6 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
-  final _$memorizeLoginDataAtom =
-      Atom(name: '_LoginController.memorizeLoginData');
-
-  @override
-  bool get memorizeLoginData {
-    _$memorizeLoginDataAtom.reportRead();
-    return super.memorizeLoginData;
-  }
-
-  @override
-  set memorizeLoginData(bool value) {
-    _$memorizeLoginDataAtom.reportWrite(value, super.memorizeLoginData, () {
-      super.memorizeLoginData = value;
-    });
-  }
-
   final _$loginTypeAtom = Atom(name: '_LoginController.loginType');
 
   @override
@@ -159,29 +129,23 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
-  final _$getPrefsAsyncAction = AsyncAction('_LoginController.getPrefs');
+  final _$getCompanyDataAsyncAction =
+      AsyncAction('_LoginController.getCompanyData');
 
   @override
-  Future<void> getPrefs() {
-    return _$getPrefsAsyncAction.run(() => super.getPrefs());
-  }
-
-  final _$loginAsyncAction = AsyncAction('_LoginController.login');
-
-  @override
-  Future<void> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<DocumentSnapshot> getCompanyData() {
+    return _$getCompanyDataAsyncAction.run(() => super.getCompanyData());
   }
 
   final _$_LoginControllerActionController =
       ActionController(name: '_LoginController');
 
   @override
-  void setIdentification(String value) {
+  void setUser(String value) {
     final _$actionInfo = _$_LoginControllerActionController.startAction(
-        name: '_LoginController.setIdentification');
+        name: '_LoginController.setUser');
     try {
-      return super.setIdentification(value);
+      return super.setUser(value);
     } finally {
       _$_LoginControllerActionController.endAction(_$actionInfo);
     }
@@ -210,22 +174,22 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   @override
-  void logout() {
+  void login(BuildContext context) {
     final _$actionInfo = _$_LoginControllerActionController.startAction(
-        name: '_LoginController.logout');
+        name: '_LoginController.login');
     try {
-      return super.logout();
+      return super.login(context);
     } finally {
       _$_LoginControllerActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setMemorizeLoginData(bool value) {
+  void logout() {
     final _$actionInfo = _$_LoginControllerActionController.startAction(
-        name: '_LoginController.setMemorizeLoginData');
+        name: '_LoginController.logout');
     try {
-      return super.setMemorizeLoginData(value);
+      return super.logout();
     } finally {
       _$_LoginControllerActionController.endAction(_$actionInfo);
     }
@@ -245,18 +209,14 @@ mixin _$LoginController on _LoginController, Store {
   @override
   String toString() {
     return '''
-prefs: ${prefs},
-identification: ${identification},
+company: ${company},
+companyData: ${companyData},
+user: ${user},
 password: ${password},
 passwordVisible: ${passwordVisible},
 loading: ${loading},
 loggedIn: ${loggedIn},
-memorizeLoginData: ${memorizeLoginData},
-loginType: ${loginType},
-isIdentificationIsValid: ${isIdentificationIsValid},
-isPasswordIsValid: ${isPasswordIsValid},
-isFormValid: ${isFormValid},
-loginPressed: ${loginPressed}
+loginType: ${loginType}
     ''';
   }
 }

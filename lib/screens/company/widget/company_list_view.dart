@@ -70,17 +70,6 @@ class _CompanyListViewState extends State<CompanyListView> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  button(
-                    icon: Icons.edit,
-                    color: Theme.of(context).accentColor,
-                    tooltip: 'Editar',
-                    function: () {
-                      print('Tela de edição');
-                    }
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
                   Observer(builder: (_) {
                     return button(
                       icon: Icons.delete,

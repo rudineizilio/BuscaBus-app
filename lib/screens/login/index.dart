@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,40 +16,22 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginController _loginController;
-  // ReactionDisposer disposer;
-
- TextEditingController _textEditingController;  
 
   @override
   void didChangeDependencies() {
-    _loginController = Provider.of<LoginController>(context);    
-    _loginController.getPrefs();
-    _loginController.setMemorizeLoginData(false);
+    _loginController = Provider.of<LoginController>(context);   
+    _loginController.getCompanyData(); 
 
-    // void _textEditingControllerListener() {
-    //     _textEditingController.text = newValue;
-    // }    
-
-    // autorun((_) {
-    //   if (_loginController.loggedIn) {
-    //     _loginController.loginType == 'company'
-    //       ? Navigator.of(context).pushReplacement(
-    //           MaterialPageRoute(builder: (_) => CompanyScreen())
-    //         )
-    //       : Navigator.of(context).pushReplacement(
-    //           MaterialPageRoute(builder: (_) => DriverScreen())
-    //         );
-    //   }
-    // });
     super.didChangeDependencies();
   }
 
-  // @override
-  // void dispose() {
-  //   disposer();
+  @override
+  void dispose() {
+    _loginController.setUser(null);
+    _loginController.setPassword(null);
 
-  //   super.dispose();
-  // }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Theme.of(context).accentColor,
                                       ),
                                       textInputType: TextInputType.number,
-                                      onChanged:
-                                          _loginController.setIdentification,
-                                      enabled: !_loginController.loading,
-                                      initialValue: _loginController.identification ?? '',
+                                      onChanged: (value) {
+                                        _loginController.setUser(value);
+                                      }
                                     );
                                   }),
                                   const SizedBox(
@@ -141,10 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Icons.lock,
                                         color: Theme.of(context).accentColor,
                                       ),
-                                      obscure:
-                                          !_loginController.passwordVisible,
-                                      onChanged: _loginController.setPassword,
+                                      obscure: !_loginController.passwordVisible,
                                       enabled: !_loginController.loading,
+                                      onChanged: (value) {
+                                        _loginController.setPassword(value);
+                                      },
                                       suffix: IconButton(
                                         icon: Icon(
                                           !_loginController.passwordVisible
@@ -157,7 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                               .togglePasswordVisibility();
                                         },
                                       ),
-                                      // initialValue: _loginController.password ?? '',
                                     );
                                   }),
                                   const SizedBox(
@@ -177,18 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             .accentColor
                                             .withAlpha(100),
                                         textColor: Colors.white,
-                                        onPressed: () async {
-                                          await _loginController.login();
-
-                                          _loginController.loginType == 'company'
-                                            ? Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => CompanyScreen()),
-                                              )
-                                            : Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => DriverScreen()),
-                                              );
+                                        onPressed: () {
+                                          _loginController.login(context);
                                         }
                                       );
                                     }),
@@ -201,31 +171,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Loading(),
                           ));
               }),
-              // Observer(builder: (_) {
-              //   return Visibility(
-              //     visible: !_loginController.loading,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       mainAxisSize: MainAxisSize.min,
-              //       children: <Widget>[
-              //         Text(
-              //           'Memorizar meus dados',
-              //           style: TextStyle(
-              //             fontWeight: FontWeight.bold,
-              //             color: Colors.grey[500],
-              //           ),
-              //         ),
-              //         Observer(builder: (_) {
-              //           return Switch(
-              //               value: _loginController.memorizeLoginData,
-              //               activeColor: Theme.of(context).accentColor,
-              //               inactiveThumbColor: Colors.white,
-              //               onChanged: _loginController.setMemorizeLoginData);
-              //         }),
-              //       ],
-              //     ),
-              //   );
-              // })
             ],
           ),
         ),

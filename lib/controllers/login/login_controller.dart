@@ -1,15 +1,22 @@
+import 'package:buscabus/screens/company/index.dart';
+import 'package:buscabus/screens/driver/index.dart';
+import 'package:buscabus/widgets/default_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 part 'login_controller.g.dart';
 
 class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
   @observable
-  SharedPreferences prefs;  
-  
+  CollectionReference company = FirebaseFirestore.instance.collection('company');
+
   @observable
-  String identification;
+  DocumentSnapshot companyData;
+
+  @observable
+  String user;
 
   @observable
   String password;
@@ -24,88 +31,68 @@ abstract class _LoginController with Store {
   bool loggedIn = false;
 
   @observable
-  bool memorizeLoginData = false;
-
-  @observable
   String loginType;
 
   @action
-  Future<void> getPrefs() async {
-    prefs = await SharedPreferences.getInstance();
+  Future<DocumentSnapshot> getCompanyData() async {
+    companyData = await company.doc('262gZboPV0OZfjQxzfko').get();
 
-    if (loginType == 'company') {
-      identification = prefs.getString('companyIdentification');
-      password = prefs.getString('companyPassword');
-    } 
-    
-    if (loginType == 'driver') {
-      identification = prefs.getString('driverIdentification');
-      password = prefs.getString('driverPassword');
-    }
-    
-    return;
+    return companyData;
   }
 
   @action
-  void setIdentification(String value) => identification = value;
+  void setUser(String value) {
+    user = value;
+  }
 
   @action
-  void setPassword(String value) => password = value;
+  void setPassword(String value) {
+    password = value;
+  }
 
   @action
   void togglePasswordVisibility() => passwordVisible = !passwordVisible;
 
   @action
-  Future<void> login() async {
-    loading = true;
-
-    if (memorizeLoginData) {
-      if (loginType == 'company') {
-        prefs.setString('companyIdentification', identification);
-        prefs.setString('companyPassword', password);
-      } 
-      
-      if (loginType == 'driver') {
-        prefs.setString('driverIdentification', identification);
-        prefs.setString('driverPassword', password);        
+  void login(BuildContext context) {
+    if (loginType == 'company') {
+      if ((companyData['cnpj'] == user) && (companyData['password'] == password)) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CompanyScreen()),
+        );
+      } else {
+        DefaultToast(
+          message: 'Credenciais incorretas.',
+          toastType: DefaultToastType.warning,
+        ).show(context);
       }
+    } else {
+      companyData['drivers'].forEach((e) {
+        if ((e['cpf'] == user) && (e['password'] == password)) {
+          print(e);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DriverScreen()),
+          );          
+        } else {
+          DefaultToast(
+            message: 'Credenciais incorretas.',
+            toastType: DefaultToastType.warning,
+          ).show(context);          
+        }
+      });
     }
-
-    await Future.delayed(Duration(seconds: 3));
-
-    loading = false;
-    loggedIn = true;
   }
 
   @action
   void logout() {
     loggedIn = false;
-
-    loginType = '';
-    identification = '';
-    password = '';
-  }
-
-  @action
-  void setMemorizeLoginData(bool value) {
-    memorizeLoginData = value;
   }
 
   @action
   void setLoginType(String value) {
     loginType = value;
   }
-
-  @computed
-  bool get isIdentificationIsValid => identification != null && identification.length > 1;
-
-  @computed
-  bool get isPasswordIsValid => password != null && password.length > 1;
-
-  @computed
-  bool get isFormValid => isIdentificationIsValid && isPasswordIsValid;
-
-  @computed
-  Function get loginPressed =>
-    (isIdentificationIsValid && isPasswordIsValid && !loading) ? login : (null);
 }
