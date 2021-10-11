@@ -9,6 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CreateBusScreen extends StatefulWidget {
+  final Function callback;
+
+  const CreateBusScreen({
+   @required this.callback,
+  });
+
   @override
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
@@ -72,12 +78,9 @@ class _CreateBusScreenState extends State<CreateBusScreen> {
           onPressed: () async {
             if (_formKey.currentState.validate()) {
               await _companyController.addBus(_bus);
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ViewBusScreen()),
-              );
+              
+              Navigator.pop(context);
+              widget.callback();
 
               DefaultToast(
                 message: 'Ônibus adicionado :)',

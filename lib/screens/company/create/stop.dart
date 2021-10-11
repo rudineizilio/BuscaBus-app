@@ -8,6 +8,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class CreateStopScreen extends StatefulWidget {
+  final Function callback;
+
+  const CreateStopScreen({
+    @required this.callback,
+  });
+
   @override
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
@@ -87,11 +93,8 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
             if (_formKey.currentState.validate()) {
               await _companyController.addStop(_stop);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ViewStopScreen()),
-              );
+              Navigator.pop(context);
+              widget.callback();
 
               DefaultToast(
                 message: 'Ponto adicionado :)',

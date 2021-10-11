@@ -55,10 +55,10 @@ class _ViewBusScreenState extends State<ViewBusScreen> {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CreateBusScreen()),
+                builder: (context) => CreateBusScreen(callback: callback)),
           );
         },
       ),      

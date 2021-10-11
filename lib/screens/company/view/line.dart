@@ -58,7 +58,7 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CreateLineScreen()),
+                builder: (context) => CreateLineScreen(callback: callback)),
           );
         },
       ),      

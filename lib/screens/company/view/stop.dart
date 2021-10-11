@@ -55,10 +55,10 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CreateStopScreen()),
+                builder: (context) => CreateStopScreen(callback: callback)),
           );
         },
       ),      

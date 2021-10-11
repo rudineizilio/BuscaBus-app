@@ -59,10 +59,10 @@ class _ViewDriverScreenState extends State<ViewDriverScreen> {
             Icons.add,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CreateDriverScreen()),
+                  builder: (context) => CreateDriverScreen(callback: callback)),
             );
           },
         );

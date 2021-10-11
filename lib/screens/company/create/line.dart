@@ -8,6 +8,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class CreateLineScreen extends StatefulWidget {
+  final Function callback;
+
+  const CreateLineScreen({
+    @required this.callback,
+  });
+
   @override
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
@@ -69,11 +75,8 @@ class _CreateBusScreenState extends State<CreateLineScreen> {
             if (_formKey.currentState.validate()) {
               await _companyController.addLine(_line);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ViewLineScreen()),
-              );
+              Navigator.pop(context);
+              widget.callback();
 
               DefaultToast(
                 message: 'Linha adicionada :)',

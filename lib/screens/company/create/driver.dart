@@ -10,6 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CreateDriverScreen extends StatefulWidget {
+  final Function callback;
+
+  const CreateDriverScreen({
+    @required this.callback,
+  });
+
   @override
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
@@ -143,11 +149,8 @@ class _CreateBusScreenState extends State<CreateDriverScreen> {
             if (_formKey.currentState.validate()) {
               await _companyController.addDriver(_driver);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ViewDriverScreen()),
-              );
+              Navigator.pop(context);
+              widget.callback();
 
               DefaultToast(
                 message: 'Motorista adicionado :)',
