@@ -72,6 +72,50 @@ mixin _$CompanyController on _CompanyController, Store {
   }
 
   @override
+  Future<void> deleteDriver(dynamic item) {
+    final _$actionInfo = _$_CompanyControllerActionController.startAction(
+        name: '_CompanyController.deleteDriver');
+    try {
+      return super.deleteDriver(item);
+    } finally {
+      _$_CompanyControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> deleteBus(dynamic item) {
+    final _$actionInfo = _$_CompanyControllerActionController.startAction(
+        name: '_CompanyController.deleteBus');
+    try {
+      return super.deleteBus(item);
+    } finally {
+      _$_CompanyControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> deleteLine(dynamic item) {
+    final _$actionInfo = _$_CompanyControllerActionController.startAction(
+        name: '_CompanyController.deleteLine');
+    try {
+      return super.deleteLine(item);
+    } finally {
+      _$_CompanyControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> deleteStop(dynamic item) {
+    final _$actionInfo = _$_CompanyControllerActionController.startAction(
+        name: '_CompanyController.deleteStop');
+    try {
+      return super.deleteStop(item);
+    } finally {
+      _$_CompanyControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 company: ${company}

@@ -39,7 +39,9 @@ class _ViewBusScreenState extends State<ViewBusScreen> {
         
             return CompanyListView(
               icon: FontAwesomeIcons.bus,
-              itens: data['bus'].map((e) => e['licensePlate']).toList()
+              itens: data['bus'].map((e) => e).toList(),
+              type: 'Ônibus',
+              callback: callback,
             );
           }
           return Center(
@@ -61,5 +63,9 @@ class _ViewBusScreenState extends State<ViewBusScreen> {
         },
       ),      
     );
+  }
+
+  void callback() {
+    setState(() {});
   }
 }

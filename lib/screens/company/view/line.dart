@@ -39,7 +39,9 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
         
             return CompanyListView(
               icon: FontAwesomeIcons.projectDiagram,
-              itens: data['lines'].map((e) => e['title']).toList()
+              itens: data['lines'].map((e) => e).toList(),
+              type: 'Linha',
+              callback: callback,
             );
           }
           return Center(
@@ -53,7 +55,7 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
           Icons.add,
         ),
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CreateLineScreen()),
@@ -62,4 +64,8 @@ class _ViewLineScreenState extends State<ViewLineScreen> {
       ),      
     );
   }
+
+  void callback() {
+    setState(() {});
+  }  
 }

@@ -40,8 +40,11 @@ class _ViewDriverScreenState extends State<ViewDriverScreen> {
               final data = snapshot.data;
 
               return CompanyListView(
-                  icon: FontAwesomeIcons.userAlt,
-                  itens: data['drivers'].map((e) => e['name']).toList());
+                icon: FontAwesomeIcons.userAlt,
+                itens: data['drivers'].map((e) => e).toList(),
+                type: 'Motorista',
+                callback: callback,
+              );
             }
             return Center(
               child: CircularProgressIndicator(),
@@ -66,4 +69,8 @@ class _ViewDriverScreenState extends State<ViewDriverScreen> {
       }),
     );
   }
+
+  void callback() {
+    setState(() {});
+  }  
 }

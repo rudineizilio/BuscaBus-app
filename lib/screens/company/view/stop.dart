@@ -39,7 +39,9 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
         
             return CompanyListView(
               icon: FontAwesomeIcons.store,
-              itens: data['stops'].map((e) => e['description']).toList()
+              itens: data['stops'].map((e) => e).toList(),
+              type: 'Ponto',
+              callback: callback,
             );
           }
           return Center(
@@ -62,4 +64,8 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
       ),      
     );
   }
+
+  void callback() {
+    setState(() {});
+  }  
 }

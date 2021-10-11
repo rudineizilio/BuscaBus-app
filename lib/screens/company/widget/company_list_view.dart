@@ -1,15 +1,25 @@
+import 'package:buscabus/controllers/company/company_controller.dart';
+import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CompanyListView extends StatefulWidget {
   final IconData icon;
   final List<dynamic> itens;
   final bool visibleButtons;
+  final String fieldName;
+  final String type;
+  final Function callback;
 
   CompanyListView({
     @required this.icon,
     @required this.itens,
     this.visibleButtons = true,
+    this.fieldName,
+    @required this.type,
+    @required this.callback,
   });
 
   @override
@@ -17,6 +27,15 @@ class CompanyListView extends StatefulWidget {
 }
 
 class _CompanyListViewState extends State<CompanyListView> {
+  CompanyController _companyController;
+
+  @override
+  void didChangeDependencies() {
+    _companyController = Provider.of<CompanyController>(context);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -45,7 +64,7 @@ class _CompanyListViewState extends State<CompanyListView> {
                 ),
               ),
             ),
-            title: Text(item),
+            title: Text(getTitle(item)),
             trailing: Visibility(
               visible: widget.visibleButtons,
               child: Row(
@@ -62,14 +81,32 @@ class _CompanyListViewState extends State<CompanyListView> {
                   SizedBox(
                     width: 5,
                   ),
-                  button(
-                    icon: Icons.delete,
-                    color: Colors.red,
-                    tooltip: 'Excluir',
-                    function: () {
-                      print('Excluir registro');
-                    }
-                  ),                  
+                  Observer(builder: (_) {
+                    return button(
+                      icon: Icons.delete,
+                      color: Colors.red,
+                      tooltip: 'Excluir',
+                      function: () async {
+                      
+                        if (widget.type == 'Motorista') {
+                          await _companyController.deleteDriver(item);
+                        } else if (widget.type == 'Ônibus') {
+                          await _companyController.deleteBus(item);
+                        } else if (widget.type == 'Linha') {
+                          await _companyController.deleteLine(item);
+                        } else {
+                          await _companyController.deleteStop(item);
+                        }
+
+                        DefaultToast(
+                          message: '${widget.type} removido :)',
+                          toastType: DefaultToastType.success,
+                        ).show(context);
+
+                        widget.callback();
+                      }
+                    );
+                  }),
                 ],
               ),
             ),
@@ -101,5 +138,26 @@ class _CompanyListViewState extends State<CompanyListView> {
         onTap: function,
       ),
     );
+  }
+
+  String getTitle(dynamic item) {
+    String title = '';
+
+    switch (widget.type) {
+      case 'Motorista':
+        return title = item['name'];
+        break;
+      case 'Ônibus':
+        return title = item['licensePlate'];
+        break;
+      case 'Linha':
+        return title = item['title'];
+        break;
+      case 'Ponto':
+        return title = item['description'];
+        break;                        
+    }
+
+    return title;
   }
 }

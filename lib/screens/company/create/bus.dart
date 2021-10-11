@@ -23,7 +23,7 @@ class _CreateBusScreenState extends State<CreateBusScreen> {
   @override
   void didChangeDependencies() {
     _companyController = Provider.of<CompanyController>(context);
-    _licensePlateMasked = MaskTextInputFormatter(mask: '###-####', filter: { "#": RegExp('^[a-zA-Z]{3}[0-9][A-Za-z0-9][0-9]{2}')});
+    _licensePlateMasked = MaskTextInputFormatter(mask: '###-####', filter: { "#": RegExp('')});
 
     super.didChangeDependencies();
   }
@@ -51,7 +51,7 @@ class _CreateBusScreenState extends State<CreateBusScreen> {
                       labelText: 'Placa'
                     ),
                     onChanged: (_) {
-                      _bus.licensePlate = _licensePlateMasked.getUnmaskedText();
+                      _bus.licensePlate = _licensePlateMasked.getMaskedText();
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
