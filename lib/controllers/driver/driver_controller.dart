@@ -48,6 +48,9 @@ abstract class _DriverController with Store {
   CollectionReference company = FirebaseFirestore.instance.collection('company');
 
   @observable
+  CollectionReference locationClose = FirebaseFirestore.instance.collection('location_close');
+
+  @observable
   List<Driver> drivers = [];
 
   @action

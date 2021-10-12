@@ -74,7 +74,7 @@ abstract class _LoginController with Store {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DriverScreen()),
+            MaterialPageRoute(builder: (context) => DriverScreen(driverName: e['name'])),
           );          
         } else {
           DefaultToast(

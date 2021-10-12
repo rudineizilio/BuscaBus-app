@@ -2,12 +2,20 @@ import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class DriverScreen extends StatefulWidget {
+  final String driverName;
+
+  const DriverScreen({
+    @required this.driverName,
+  });
+
   @override
   _DriverScreenState createState() => _DriverScreenState();
 }
@@ -68,43 +76,6 @@ class _DriverScreenState extends State<DriverScreen> {
               SizedBox(
                 height: 30,
               ),
-              // Observer(builder: (_) {
-              //   return Padding(
-              //     padding:
-              //         const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              //     child: Container(
-              //       padding: const EdgeInsets.symmetric(horizontal: 5),
-              //       decoration: BoxDecoration(
-              //           border: Border.all(
-              //             width: 1,
-              //             color: Colors.grey,
-              //           ),
-              //           borderRadius: BorderRadius.circular(5)),
-              //       child: DropdownButton(
-              //         style: TextStyle(
-              //           fontSize: 12,
-              //           color: Colors.grey[700],
-              //         ),
-              //         underline: SizedBox(),
-              //         hint: Text(_driverController.busSelected == null
-              //             ? 'Selecione um ônibus'
-              //             : _driverController.busSelected),
-              //         items: ['Ônibus 1', 'Ônibus 2', 'Ônibus 3'].map((item) {
-              //           return DropdownMenuItem<String>(
-              //             value: item,
-              //             child: Text(item),
-              //           );
-              //         }).toList(),
-              //         isExpanded: true,
-              //         iconSize: 30,
-              //         onChanged: (value) {
-              //           _driverController.setBus(value);
-              //         },
-              //         dropdownColor: Colors.white,
-              //       ),
-              //     ),
-              //   );
-              // }),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
@@ -256,43 +227,75 @@ class _DriverScreenState extends State<DriverScreen> {
               ),
             ],
           ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: DataTable(
-                  columnSpacing: 20,
-                  horizontalMargin: 10,
-                  headingRowHeight: 30,
-                  dividerThickness: 0.001,
-                  headingTextStyle: const TextStyle(
-                    fontSize: 13,
-                  ),
-                  headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Theme.of(context).accentColor,
-                  ),
-                  columns: [
-                    DataColumn(label: Text('Descrição')),
-                    DataColumn(label: Text('Início')),
-                    DataColumn(label: Text('Fim')),
-                  ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        DataCell(Text('Exemplo')),
-                        DataCell(Text('23/05/2021 - 10:00')),
-                        DataCell(Text('23/05/2021 - 14:20')),
-                      ],
+          FutureBuilder(
+            future: _driverController.locationClose.get(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print('Error: ${snapshot.error}');
+              }
+              if (snapshot.hasData) {
+                QuerySnapshot snap = snapshot.data;
+
+                return Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    child: SingleChildScrollView(
+                      child: DataTable(
+                        horizontalMargin: 10,
+                        headingRowHeight: 30,
+                        dividerThickness: 0.001,
+                        headingTextStyle: const TextStyle(
+                          fontSize: 13,
+                        ),
+                        headingRowColor: MaterialStateProperty.resolveWith(
+                          (states) => Theme.of(context).accentColor,
+                        ),
+                        columns: [
+                          DataColumn(label: Text('Descrição')),
+                          DataColumn(label: Text('Início')),
+                          DataColumn(label: Text('Fim')),
+                        ],
+                        rows: snap.docs.map((e) {
+                          if (e.data().containsValue(widget.driverName)) {
+                            return DataRow(
+                              cells: [
+                                DataCell(Text(e.get('line'))),
+                                DataCell(
+                                  Text(
+                                    DateFormat('dd/MM/yyyy - HH:mm').format(e.get('startDate').toDate()).toString()
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    DateFormat('dd/MM/yyyy - HH:mm').format(e.get('endDate').toDate()).toString()
+                                  ),
+                                ),
+                              ]
+                            );
+                          } else {
+                            return DataRow(
+                              cells: [
+                                DataCell(Text('')),
+                                DataCell(Text('')),
+                                DataCell(Text('')),
+                              ]
+                            );
+                          }
+                        }).toList(),
+                        dataRowHeight: 30,
+                        dataTextStyle: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.black54,
+                        ),
+                      ),
                     ),
-                  ],
-                  dataRowHeight: 30,
-                  dataTextStyle: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.black54,
                   ),
-                ),
-              ),
-            ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
