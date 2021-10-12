@@ -1,6 +1,4 @@
 import 'package:buscabus/controllers/login/login_controller.dart';
-import 'package:buscabus/screens/company/index.dart';
-import 'package:buscabus/screens/driver/index.dart';
 import 'package:buscabus/widgets/custom_textField.dart';
 import 'package:buscabus/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
