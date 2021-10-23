@@ -104,7 +104,7 @@ abstract class _DriverController with Store {
   @action
   Future<void> updateDriverLocation() {
     return driverLocation
-      .doc('KArObpNBylILV0xc6N9u')
+      .doc('odC3QAZfETDGn2l1rdPq')
       .update({
         "bus": "AXD-0000",
         "driver": "Rudão Motora",
