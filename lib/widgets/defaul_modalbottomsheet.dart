@@ -15,7 +15,7 @@ class ItemModalBottomSheet {
 
 class DefaultModalBottomSheet {
   final String title;
-  final List<ItemModalBottomSheet> items;
+  final List<dynamic> items;
 
   DefaultModalBottomSheet({
     this.title,
@@ -27,11 +27,12 @@ class DefaultModalBottomSheet {
       isScrollControlled: true,
       elevation: 3,     
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent,      
       builder: (BuildContext context) {
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Container(
+            height: 200,
             decoration: BoxDecoration(
               color: Colors.white, // or some other color
               borderRadius: BorderRadius.only(
@@ -52,36 +53,37 @@ class DefaultModalBottomSheet {
                   ),
                 ),
                 Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: items.map((item) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: InkWell(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              item.icon != null
-                                ? Icon(
-                                    item.icon,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 18,
-                                  )
-                                : Container(),
-                              SizedBox(
-                                width: 10,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: ListView(
+                        children: items.map((item) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: InkWell(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  item.icon != null
+                                    ? Icon(
+                                        item.icon,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      )
+                                    : Container(),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: item.body
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: item.body
-                              ),
-                            ],
-                          ),
-                          onTap: item.onTap,
-                        ),
-                      );
-                    }).toList(),
+                              onTap: item.onTap,
+                            ),
+                          );
+                        }).toList(),
+                      ),
                   ),
                 ),
               ],

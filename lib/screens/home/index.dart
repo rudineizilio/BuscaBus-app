@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:buscabus/widgets/defaul_modalbottomsheet.dart';
 import 'package:buscabus/widgets/default_tabtoggler.dart';
@@ -16,10 +17,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   MapController _mapController;
+  CompanyController _companyController;
+  dynamic _companyData;
 
   @override
   void didChangeDependencies() {
     _mapController = Provider.of<MapController>(context);
+    _companyController = Provider.of<CompanyController>(context);
 
     super.didChangeDependencies();
   }
@@ -37,13 +41,26 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           MapScreen(),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 30,
-            child: DefaultTabToggler(
-              items: ['Linhas', 'Pontos'],
-            ),
+          FutureBuilder(
+            future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print('Error: ${snapshot.error}');
+              }
+              if (snapshot.hasData) {
+                _companyData = snapshot.data;
+
+                return Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 30,
+                  child: DefaultTabToggler(
+                    items: ['Linhas', 'Pontos'],
+                  ),
+                );
+              }
+              return CircularProgressIndicator();
+            }
           ),
         ],
       ),
@@ -80,28 +97,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         onTap: () {
-          DefaultModalBottomSheet(
+          DefaultModalBottomSheet(          
             title: _mapController.filterType == 'lines'
               ? 'Filtrar Linhas'
               : 'Filtrar Pontos',
-            items: [
-              ItemModalBottomSheet(                
-                body: Container(
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      // final item = lines[index];
-
-                      return Text('Nome da linha');
-                    },
-                  ),
-                ),
-                onTap: () {
-                  print('Seleciona linha');
-                }
-              ),
-            ]
+            items: _mapController.filterType == 'lines'
+              ? _companyData['lines'].map((e) {
+                  return ItemModalBottomSheet(
+                    body: Container(
+                      child: Text(e['title']),
+                    ),
+                    onTap: () {
+                      print('Seleciona linha ${e['title']}');
+                    }
+                  );
+                }).toList()
+              : _companyData['stops'].map((e) {
+                  return ItemModalBottomSheet(
+                    body: Container(
+                      child: Text(e['description']),
+                    ),
+                    onTap: () {
+                      print('Seleciona ponto ${e['description']}');
+                    }
+                  );
+                }).toList(),
           ).show(context);
         }
       ),
