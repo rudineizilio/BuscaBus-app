@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:buscabus/controllers/company/company_controller.dart';
+import 'package:buscabus/controllers/location_open/location_open_controller.dart';
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:buscabus/widgets/defaul_modalbottomsheet.dart';
 import 'package:buscabus/widgets/default_tabtoggler.dart';
@@ -18,12 +19,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   MapController _mapController;
   CompanyController _companyController;
+  LocationOpenController _locationOpenController;
+
   dynamic _companyData;
+  dynamic _locationOpenData;
 
   @override
   void didChangeDependencies() {
     _mapController = Provider.of<MapController>(context);
     _companyController = Provider.of<CompanyController>(context);
+    _locationOpenController = Provider.of<LocationOpenController>(context);
 
     super.didChangeDependencies();
   }
@@ -42,13 +47,17 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           MapScreen(),
           FutureBuilder(
-            future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+            future: Future.wait([
+              _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+              _locationOpenController.location_open.get(),
+            ]),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 print('Error: ${snapshot.error}');
               }
               if (snapshot.hasData) {
-                _companyData = snapshot.data;
+                _companyData = snapshot.data[0];
+                _locationOpenData = snapshot.data[1];
 
                 return Positioned(
                   left: 0,
@@ -71,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: GestureDetector(
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
-          height: 50,
+          height: 35,
           width: 150,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
@@ -102,13 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ? 'Filtrar Linhas'
               : 'Filtrar Pontos',
             items: _mapController.filterType == 'lines'
-              ? _companyData['lines'].map((e) {
+              ? _locationOpenData.docs.map((e) {
                   return ItemModalBottomSheet(
                     body: Container(
-                      child: Text(e['title']),
+                      child: Text(e['line']),
                     ),
                     onTap: () {
-                      print('Seleciona linha ${e['title']}');
+                      print('Seleciona linha ${e['line']}');
                     }
                   );
                 }).toList()
@@ -162,57 +171,5 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-  } 
-
-  // void showFilterDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (_) => AlertDialog(
-  //       backgroundColor: Theme.of(context).backgroundColor,
-  //       contentPadding: const EdgeInsets.all(0),
-  //       title: Container(
-  //         margin: const EdgeInsets.only(bottom: 10),
-  //         child: TextField(              
-  //           decoration: InputDecoration(
-  //             hintText: 'Buscar por',
-  //             suffixIcon: Icon(
-  //               Icons.search,
-  //               color: Theme.of(context).accentColor,
-  //             ),
-  //           ),
-  //           onChanged: (value) => print(value),
-  //         ),
-  //       ),
-  //       content: lineList(),
-  //       actions: [
-  //         InkWell(
-  //           child: Container(
-  //             margin: const EdgeInsets.all(10),
-  //             child: Row(
-  //               crossAxisAlignment: CrossAxisAlignment.center,
-  //               children: [
-  //                 Text(
-  //                   'Salvar',
-  //                   style: TextStyle(
-  //                     color: Theme.of(context).accentColor,
-  //                     fontWeight: FontWeight.w500,
-  //                   ),
-  //                 ),
-  //                 SizedBox(width: 5),
-  //                 Icon(
-  //                   Icons.check,
-  //                   color: Theme.of(context).accentColor,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           onTap: () {
-  //             print('Aplica filtro selecionado');
-  //             Navigator.pop(context);              
-  //           },            
-  //         ),
-  //       ],        
-  //     ),
-  //   );
-  // }    
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/company/company_controller.dart';
+import 'package:buscabus/controllers/location_open/location_open_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/screens/home/index.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,9 @@ void main() async {
         ),
         Provider<CompanyController>(
           create: (_) => CompanyController(),
+        ),
+        Provider<LocationOpenController>(
+          create: (_) => LocationOpenController(),
         ),        
       ],
       child: MyApp(),

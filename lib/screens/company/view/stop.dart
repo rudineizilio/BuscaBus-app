@@ -61,7 +61,7 @@ class _ViewStopScreenState extends State<ViewStopScreen> {
                 builder: (context) => CreateStopScreen(callback: callback)),
           );
         },
-      ),      
+      ),
     );
   }
 

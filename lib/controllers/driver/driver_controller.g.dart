@@ -206,6 +206,21 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$locationCloseAtom = Atom(name: '_DriverController.locationClose');
+
+  @override
+  CollectionReference get locationClose {
+    _$locationCloseAtom.reportRead();
+    return super.locationClose;
+  }
+
+  @override
+  set locationClose(CollectionReference value) {
+    _$locationCloseAtom.reportWrite(value, super.locationClose, () {
+      super.locationClose = value;
+    });
+  }
+
   final _$driversAtom = Atom(name: '_DriverController.drivers');
 
   @override
@@ -309,6 +324,7 @@ positionStream: ${positionStream},
 status: ${status},
 positionLocation: ${positionLocation},
 company: ${company},
+locationClose: ${locationClose},
 drivers: ${drivers},
 sharedButtonEnabled: ${sharedButtonEnabled},
 locationInTime: ${locationInTime}
