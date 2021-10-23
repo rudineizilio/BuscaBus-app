@@ -1,19 +1,17 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LocationOpen {
   String bus;
   String driver;
   DateTime startDate;
-  DateTime endDate;
   DateTime lastUpdate;
   String line;
-  LatLng location;
+  GeoPoint location;
 
   LocationOpen({
     this.bus,
     this.driver,
     this.startDate,
-    this.endDate,
     this.lastUpdate,
     this.line,
     this.location
@@ -26,7 +24,6 @@ class LocationOpen {
       bus: map['bus'],
       driver: map['driver'],
       startDate: map['startDate'],
-      endDate: map['endDate'],
       lastUpdate: map['lastUpdate'],
       line: map['line'],
       location: map['location'],
@@ -38,7 +35,6 @@ class LocationOpen {
       'bus': bus,
       'driver': driver,
       'startDate': startDate,
-      'endDate': endDate,
       'lastUpdate': lastUpdate,
       'line': line,
       'location': location,

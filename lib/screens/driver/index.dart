@@ -1,6 +1,7 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
+import 'package:buscabus/models/location_open.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -206,20 +207,38 @@ class _DriverScreenState extends State<DriverScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     width: 150,
                     child: Center(
-                      child: Text(!_driverController.sharedLocation
-                          ? 'Iniciar'
-                          : 'Parar'),
+                      child: Text(
+                        _driverController.sharedLocation
+                          ? 'Parar'
+                          : 'Iniciar',
+                      ),
                     ),
                   ),
                   color: Theme.of(context).accentColor,
                   disabledColor: Theme.of(context).accentColor.withAlpha(100),
                   textColor: Colors.white,
                   onPressed: _driverController.sharedButtonEnabled
+                    ? !_driverController.sharedLocation 
                       ? () {
-                          _driverController.setCharedLocation();
-                          _driverController.locationInTime;
+                          _driverController.setSharedLocation(true);
+
+                          _driverController.openDriverLocation(
+                            LocationOpen(
+                              bus: _driverController.busSelected,
+                              line: _driverController.lineSelected,
+                              driver: 'Fazer pegar o logado',
+                              startDate: DateTime.now(),
+                              location: GeoPoint(-26.2047639,-52.6897099),
+                              lastUpdate: DateTime.now(),
+                            ),
+                          );
                         }
-                      : null,
+                      : () {
+                          _driverController.setSharedLocation(false);
+
+                          _driverController.deleteDriverLocation();
+                        }
+                    : null,
                 );
               }),
               SizedBox(

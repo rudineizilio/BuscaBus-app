@@ -19,7 +19,6 @@ abstract class _CompanyController with Store {
     return company
       .doc('262gZboPV0OZfjQxzfko')
       .update({'drivers': FieldValue.arrayUnion([driver.toMap()])})
-      .then((value) => print('Driver Added'))
       .catchError((error) => print("Failed to add driver: $error"));
   }
 
@@ -28,7 +27,6 @@ abstract class _CompanyController with Store {
     return company
       .doc('262gZboPV0OZfjQxzfko')
       .update({'bus': FieldValue.arrayUnion([bus.toMap()])})
-      .then((value) => print('Bus Added'))
       .catchError((error) => print("Failed to add bus: $error"));
   }
 
@@ -37,7 +35,6 @@ abstract class _CompanyController with Store {
     return company
       .doc('262gZboPV0OZfjQxzfko')
       .update({'lines': FieldValue.arrayUnion([line.toMap()])})
-      .then((value) => print('Line Added'))
       .catchError((error) => print("Failed to add line: $error"));
   }
 
@@ -46,7 +43,6 @@ abstract class _CompanyController with Store {
     return company
       .doc('262gZboPV0OZfjQxzfko')
       .update({'stops': FieldValue.arrayUnion([stop.toMap()])})
-      .then((value) => print('Stop Added'))
       .catchError((error) => print("Failed to add stop: $error"));
   }
 
@@ -61,7 +57,6 @@ abstract class _CompanyController with Store {
           'cpf': item['cpf'],
           'password': item['password']
         }])})
-      .then((value) => print('Driver deleted'))
       .catchError((error) => print('Failed to delete Driver: $error'));
   }
 
@@ -73,7 +68,6 @@ abstract class _CompanyController with Store {
         {
           'licensePlate': item['licensePlate'],
         }])})
-      .then((value) => print('Bus deleted'))
       .catchError((error) => print('Failed to delete Bus: $error'));
   }
 
@@ -85,7 +79,6 @@ abstract class _CompanyController with Store {
         {
           'title': item['title'],
         }])})
-      .then((value) => print('Line deleted'))
       .catchError((error) => print('Failed to delete Line: $error'));
   }
 
@@ -98,7 +91,6 @@ abstract class _CompanyController with Store {
           'description': item['description'],
           'location': item['location'],
         }])})
-      .then((value) => print('Stop deleted'))
       .catchError((error) => print('Failed to delete Stop: $error'));
   }      
 }

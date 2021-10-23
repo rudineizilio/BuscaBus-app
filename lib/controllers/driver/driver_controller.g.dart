@@ -221,6 +221,21 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$locationOpenAtom = Atom(name: '_DriverController.locationOpen');
+
+  @override
+  CollectionReference get locationOpen {
+    _$locationOpenAtom.reportRead();
+    return super.locationOpen;
+  }
+
+  @override
+  set locationOpen(CollectionReference value) {
+    _$locationOpenAtom.reportWrite(value, super.locationOpen, () {
+      super.locationOpen = value;
+    });
+  }
+
   final _$driversAtom = Atom(name: '_DriverController.drivers');
 
   @override
@@ -236,12 +251,70 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$currentLocationAtom = Atom(name: '_DriverController.currentLocation');
+
+  @override
+  LocationOpen get currentLocation {
+    _$currentLocationAtom.reportRead();
+    return super.currentLocation;
+  }
+
+  @override
+  set currentLocation(LocationOpen value) {
+    _$currentLocationAtom.reportWrite(value, super.currentLocation, () {
+      super.currentLocation = value;
+    });
+  }
+
+  final _$currentLocationIdAtom =
+      Atom(name: '_DriverController.currentLocationId');
+
+  @override
+  String get currentLocationId {
+    _$currentLocationIdAtom.reportRead();
+    return super.currentLocationId;
+  }
+
+  @override
+  set currentLocationId(String value) {
+    _$currentLocationIdAtom.reportWrite(value, super.currentLocationId, () {
+      super.currentLocationId = value;
+    });
+  }
+
   final _$listenPositionAsyncAction =
       AsyncAction('_DriverController.listenPosition');
 
   @override
   Future<void> listenPosition() {
     return _$listenPositionAsyncAction.run(() => super.listenPosition());
+  }
+
+  final _$openDriverLocationAsyncAction =
+      AsyncAction('_DriverController.openDriverLocation');
+
+  @override
+  Future<void> openDriverLocation(LocationOpen location) {
+    return _$openDriverLocationAsyncAction
+        .run(() => super.openDriverLocation(location));
+  }
+
+  final _$addDriverLocationAsyncAction =
+      AsyncAction('_DriverController.addDriverLocation');
+
+  @override
+  Future<void> addDriverLocation(LocationOpen location) {
+    return _$addDriverLocationAsyncAction
+        .run(() => super.addDriverLocation(location));
+  }
+
+  final _$deleteDriverLocationAsyncAction =
+      AsyncAction('_DriverController.deleteDriverLocation');
+
+  @override
+  Future<void> deleteDriverLocation() {
+    return _$deleteDriverLocationAsyncAction
+        .run(() => super.deleteDriverLocation());
   }
 
   final _$getPositionAsyncAction = AsyncAction('_DriverController.getPosition');
@@ -288,11 +361,11 @@ mixin _$DriverController on _DriverController, Store {
   }
 
   @override
-  void setCharedLocation() {
+  void setSharedLocation(bool value) {
     final _$actionInfo = _$_DriverControllerActionController.startAction(
-        name: '_DriverController.setCharedLocation');
+        name: '_DriverController.setSharedLocation');
     try {
-      return super.setCharedLocation();
+      return super.setSharedLocation(value);
     } finally {
       _$_DriverControllerActionController.endAction(_$actionInfo);
     }
@@ -304,6 +377,28 @@ mixin _$DriverController on _DriverController, Store {
         name: '_DriverController.updateDriverLocation');
     try {
       return super.updateDriverLocation();
+    } finally {
+      _$_DriverControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTimerPeriodic() {
+    final _$actionInfo = _$_DriverControllerActionController.startAction(
+        name: '_DriverController.setTimerPeriodic');
+    try {
+      return super.setTimerPeriodic();
+    } finally {
+      _$_DriverControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void cancelTimer() {
+    final _$actionInfo = _$_DriverControllerActionController.startAction(
+        name: '_DriverController.cancelTimer');
+    try {
+      return super.cancelTimer();
     } finally {
       _$_DriverControllerActionController.endAction(_$actionInfo);
     }
@@ -325,7 +420,10 @@ status: ${status},
 positionLocation: ${positionLocation},
 company: ${company},
 locationClose: ${locationClose},
+locationOpen: ${locationOpen},
 drivers: ${drivers},
+currentLocation: ${currentLocation},
+currentLocationId: ${currentLocationId},
 sharedButtonEnabled: ${sharedButtonEnabled},
 locationInTime: ${locationInTime}
     ''';

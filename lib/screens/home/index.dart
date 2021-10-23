@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           FutureBuilder(
             future: Future.wait([
               _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
-              _locationOpenController.location_open.get(),
+              _locationOpenController.locationOpen.get(),
             ]),
             builder: (context, snapshot) {
               if (snapshot.hasError) {

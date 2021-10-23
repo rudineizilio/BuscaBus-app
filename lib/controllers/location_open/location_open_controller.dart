@@ -7,5 +7,5 @@ class LocationOpenController = _LocationOpenController with _$LocationOpenContro
 
 abstract class _LocationOpenController with Store {
   @observable
-  CollectionReference location_open = FirebaseFirestore.instance.collection('location_open');
+  CollectionReference locationOpen = FirebaseFirestore.instance.collection('location_open');
 }
