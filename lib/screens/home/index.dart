@@ -58,10 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return Stack(
                   children: [
-                    MapScreen(
-                      stops: _companyData['stops'],
-                      locationsOpen: _locationOpenData.docs,
-                    ),
+                    MapScreen(),
                     Positioned(
                       left: 0,
                       right: 0,

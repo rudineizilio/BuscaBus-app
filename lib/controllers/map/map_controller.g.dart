@@ -71,21 +71,6 @@ mixin _$MapController on _MapController, Store {
     });
   }
 
-  final _$markersAtom = Atom(name: '_MapController.markers');
-
-  @override
-  List<Marker> get markers {
-    _$markersAtom.reportRead();
-    return super.markers;
-  }
-
-  @override
-  set markers(List<Marker> value) {
-    _$markersAtom.reportWrite(value, super.markers, () {
-      super.markers = value;
-    });
-  }
-
   final _$getPositionAsyncAction = AsyncAction('_MapController.getPosition');
 
   @override
@@ -108,23 +93,11 @@ mixin _$MapController on _MapController, Store {
   }
 
   @override
-  void addMarkers(List<dynamic> stops, List<dynamic> locationsOpen) {
-    final _$actionInfo = _$_MapControllerActionController.startAction(
-        name: '_MapController.addMarkers');
-    try {
-      return super.addMarkers(stops, locationsOpen);
-    } finally {
-      _$_MapControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 serviceEnabled: ${serviceEnabled},
 locationPermission: ${locationPermission},
-filterType: ${filterType},
-markers: ${markers}
+filterType: ${filterType}
     ''';
   }
 }

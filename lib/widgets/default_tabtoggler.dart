@@ -27,20 +27,22 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
     _mapController = Provider.of<MapController>(context);
 
     super.didChangeDependencies();
-  }  
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Observer(builder: (_) {
+          return GestureDetector(
             child: Container(
               width: 110,
               height: 25,
               decoration: BoxDecoration(
-                color: _tabSelected == 0 ? Theme.of(context).primaryColor : Colors.white,
+                color: _tabSelected == 0
+                    ? Theme.of(context).primaryColor
+                    : Colors.white,
                 boxShadow: kElevationToShadow[3],
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(50),
@@ -61,17 +63,20 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             onTap: () {
               setState(() {
                 _tabSelected = 0;
-              });
                 _mapController.setFilterType('lines');
-                _mapController.addMarkers(widget.stops, widget.locationsOpen);
+              });
             },
-          ),
-          GestureDetector(
+          );
+        }),
+        Observer(builder: (_) {
+          return GestureDetector(
             child: Container(
               width: 110,
               height: 25,
               decoration: BoxDecoration(
-                color: _tabSelected == 1 ? Theme.of(context).primaryColor : Colors.white,
+                color: _tabSelected == 1
+                    ? Theme.of(context).primaryColor
+                    : Colors.white,
                 boxShadow: kElevationToShadow[3],
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(50),
@@ -92,13 +97,12 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             onTap: () {
               setState(() {
                 _tabSelected = 1;
-              });
                 _mapController.setFilterType('stops');
-                _mapController.addMarkers(widget.stops, widget.locationsOpen);
-            },          
-          ),
-        ],
-      );
-    });
-  }  
+              });
+            },
+          );
+        }),
+      ],
+    );
+  }
 }
