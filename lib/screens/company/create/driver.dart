@@ -1,6 +1,5 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/driver.dart';
-import 'package:buscabus/screens/company/view/driver.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +52,7 @@ class _CreateBusScreenState extends State<CreateDriverScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       hintText: 'Nome',
                       labelText: 'Nome'
@@ -71,8 +71,9 @@ class _CreateBusScreenState extends State<CreateDriverScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     inputFormatters: [_cpfMasked],
-                    decoration: InputDecoration(
+                    decoration: InputDecoration(                    
                       hintText: 'CPF',
                       labelText: 'CPF'
                     ),
@@ -90,6 +91,7 @@ class _CreateBusScreenState extends State<CreateDriverScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'E-mail',
                       labelText: 'E-mail'

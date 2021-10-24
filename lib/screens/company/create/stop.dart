@@ -1,6 +1,5 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/stop.dart';
-import 'package:buscabus/screens/company/view/stop.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +65,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Coordenadas',
                       labelText: 'Coordenadas'
