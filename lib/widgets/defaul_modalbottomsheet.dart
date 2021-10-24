@@ -49,17 +49,23 @@ class DefaultModalBottomSheet {
                     title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),
                 Divider(),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                     child: ListView(
                         children: items.map((item) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                          return Container(
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                            margin: const EdgeInsets.only(bottom: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: InkWell(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

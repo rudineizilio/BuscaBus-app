@@ -94,11 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Observer(builder: (_) {
-                                    return CustomTextField(
+                                    return CustomTextField(                                      
                                       hint: _loginController.loginType ==
                                               'company'
                                           ? 'CNPJ'
-                                          : 'CPF',
+                                          : 'CPF',                                      
                                       prefix: Icon(
                                         Icons.account_circle,
                                         color: Theme.of(context).accentColor,
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           borderRadius:
                                               BorderRadius.circular(32),
                                         ),
-                                        child: Text('ACESSAR'),
+                                        child: Text('ACESSAR', style: TextStyle(fontSize: 16)),
                                         color: Theme.of(context).accentColor,
                                         disabledColor: Theme.of(context)
                                             .accentColor

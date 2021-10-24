@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
         key: key,
         style: TextStyle(
           color: Colors.grey[700],
-          fontSize: 13,
+          fontSize: 16,
         ),
         initialValue: initialValue,
         controller: controller,
@@ -51,6 +51,7 @@ class CustomTextField extends StatelessWidget {
           hintText: hint,
           hintStyle: TextStyle(
             color: Colors.grey[700],
+            fontSize: 16,
           ),
           border: InputBorder.none,
           prefixIcon: prefix,

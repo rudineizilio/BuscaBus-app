@@ -21,7 +21,8 @@ class _MapScreenState extends State<MapScreen> {
   CompanyController _companyController;
   LocationOpenController _locationOpenController;
 
-  List<Marker> markers = <Marker>[];
+  List<Marker> lineMarkers = <Marker>[];
+  List<Marker> stopMarkers = <Marker>[];
 
   dynamic _companyData;
   dynamic _locationOpenData;  
@@ -57,15 +58,17 @@ class _MapScreenState extends State<MapScreen> {
                   if (snapshot.hasData) {
                     _companyData = snapshot.data[0];
                     _locationOpenData = snapshot.data[1];
-
-                    _mapController.filterType == 'lines'
-                      ? addLineMarkers()
-                      : addStopMarkers();
+                   
+                    addLineMarkers(_locationOpenData.docs);
+                    addStopMarkers(_companyData['stops']);
 
                     return GoogleMap(
                       myLocationButtonEnabled: true,
                       myLocationEnabled: true,
-                      zoomControlsEnabled: false,
+                      zoomControlsEnabled: false,  
+                      mapToolbarEnabled: _mapController.filterType == 'lines'
+                        ? false
+                        : true,                  
                       onMapCreated: (GoogleMapController controller) {
                         _googleMapController.complete(controller);
                       },
@@ -73,7 +76,9 @@ class _MapScreenState extends State<MapScreen> {
                         target: LatLng(-26.22815111640855, -52.671710505622876),
                         zoom: 13,
                       ),
-                      markers: Set<Marker>.of(markers),
+                      markers: _mapController.filterType == 'lines'
+                        ? Set<Marker>.of(lineMarkers)
+                        : Set<Marker>.of(stopMarkers),
                     );
                   }
                   return Center(child: CircularProgressIndicator());
@@ -86,34 +91,40 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  void addLineMarkers() {
-    markers.clear();
+  void addLineMarkers(List<dynamic> locations) {
+    lineMarkers.clear();
 
-    _locationOpenData.docs.forEach((location) async {
-      markers.add(
+    locations.forEach((location) async {
+      lineMarkers.add(
         Marker(
           markerId: MarkerId(location['location'].toString()),
           position: LatLng(location['location'].latitude, location['location'].longitude),
           infoWindow: InfoWindow(
+            snippet: 'AAAAAA',
             title: location['line'],              
           ),
+          zIndex: 100,
+          icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
           // icon: await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'lib/assets/images/bus.png'),
         ),
       );
     });
   }
 
-  void addStopMarkers() {
-    markers.clear();
+  void addStopMarkers(List<dynamic> stops) {
+    stopMarkers.clear();
 
-    _companyData['stops'].forEach((stop) async {
-      markers.add(
+    stops.forEach((stop) async {
+      stopMarkers.add(
         Marker(
           markerId: MarkerId(stop['description']),
           position: LatLng(double.parse(stop['location'].split(',').first.trim()), double.parse(stop['location'].split(',').last.trim())),
           infoWindow: InfoWindow(
+            snippet: 'AAAAAA',
             title: stop['description'],
           ),
+          zIndex: 100,
+          icon: BitmapDescriptor.fromAsset('lib/assets/images/bus-stop.png'),
           // icon: await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'lib/assets/images/bus-stop.png'),
         ),
       );

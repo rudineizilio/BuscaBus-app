@@ -38,7 +38,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
           return GestureDetector(
             child: Container(
               width: 110,
-              height: 25,
+              height: 35,
               decoration: BoxDecoration(
                 color: _tabSelected == 0
                     ? Theme.of(context).primaryColor
@@ -55,7 +55,6 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
                   style: TextStyle(
                     color: _tabSelected == 0 ? Colors.white : Colors.grey[700],
                     fontWeight: FontWeight.bold,
-                    fontSize: 13,
                   ),
                 ),
               ),
@@ -72,7 +71,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
           return GestureDetector(
             child: Container(
               width: 110,
-              height: 25,
+              height: 35,
               decoration: BoxDecoration(
                 color: _tabSelected == 1
                     ? Theme.of(context).primaryColor

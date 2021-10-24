@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: GestureDetector(
           child: Container(
             margin: const EdgeInsets.only(bottom: 10),
-            height: 35,
+            height: 40,
             width: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
@@ -98,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Filtrar',
                 style: TextStyle(
                   color: Colors.white,
+                  fontSize: 16,
                 ),
               ),
             ]),
@@ -110,8 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
               items: _mapController.filterType == 'lines'
                   ? _locationOpenData.docs.map((e) {
                       return ItemModalBottomSheet(
+                          icon: FontAwesomeIcons.projectDiagram,
                           body: Container(
-                            child: Text(e['line']),
+                            child: Text(e['line'], style: TextStyle(fontSize: 16)),
                           ),
                           onTap: () {
                             print('Seleciona linha ${e['line']}');
@@ -119,8 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     }).toList()
                   : _companyData['stops'].map((e) {
                       return ItemModalBottomSheet(
+                          icon: FontAwesomeIcons.store,
                           body: Container(
-                            child: Text(e['description']),
+                            child: Text(e['description'], style: TextStyle(fontSize: 16)),
                           ),
                           onTap: () {
                             print('Seleciona ponto ${e['description']}');

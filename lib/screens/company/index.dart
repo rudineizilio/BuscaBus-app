@@ -146,7 +146,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
               label,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16
+                fontSize: 16,
               ),
             )
           ],

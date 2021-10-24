@@ -110,8 +110,8 @@ class _CompanyListViewState extends State<CompanyListView> {
       message: tooltip,
       child: GestureDetector(
         child: Container(
-          width: 30,
-          height: 30,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(100)
@@ -119,7 +119,7 @@ class _CompanyListViewState extends State<CompanyListView> {
           child: Center(
             child: Icon(
               icon,
-              size: 15,
+              size: 20,
               color: Colors.white,
             ),
           ),

@@ -102,8 +102,8 @@ class _DriverScreenState extends State<DriverScreen> {
                         return Observer(builder: (_) {
                           return DropdownButton<dynamic>(
                             style: TextStyle(
-                              fontSize: 12,
                               color: Colors.grey[700],
+                              fontSize: 16,
                             ),
                             underline: SizedBox(),
                             hint: Text(
@@ -111,7 +111,8 @@ class _DriverScreenState extends State<DriverScreen> {
                                   ? 'Selecione um ônibus'
                                   : _driverController.busSelected,
                               style: TextStyle(
-                                color: Colors.grey[700]
+                                color: Colors.grey[700],
+                                fontSize: 16,
                               ),
                             ),
                             items: data.map<DropdownMenuItem<dynamic>>((e) {
@@ -158,8 +159,8 @@ class _DriverScreenState extends State<DriverScreen> {
                         return Observer(builder: (_) {
                           return DropdownButton<dynamic>(
                             style: TextStyle(
-                              fontSize: 12,
                               color: Colors.grey[700],
+                              fontSize: 16,
                             ),
                             underline: SizedBox(),
                             hint: Text(
@@ -170,6 +171,7 @@ class _DriverScreenState extends State<DriverScreen> {
                                 color: _driverController.busSelected != null
                                     ? Colors.grey[700]
                                     : Colors.grey,
+                                  fontSize: 16,
                               ),
                             ),
                             items: data.map<DropdownMenuItem<dynamic>>((e) {
@@ -202,7 +204,7 @@ class _DriverScreenState extends State<DriverScreen> {
               Observer(builder: (_) {
                 return RaisedButton(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -212,6 +214,9 @@ class _DriverScreenState extends State<DriverScreen> {
                         _driverController.sharedLocation
                           ? 'Parar'
                           : 'Iniciar',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),

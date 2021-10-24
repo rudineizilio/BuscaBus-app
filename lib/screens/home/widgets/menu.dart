@@ -50,12 +50,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: InkWell(
                       child: Container(
                         margin: const EdgeInsets.only(top: 10, right: 30),
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                         decoration: BoxDecoration(
                           color: Theme.of(context).accentColor,
                           borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
+                            topRight: Radius.circular(100),
+                            bottomRight: Radius.circular(100),
                           ),
                         ),
                         child: Row(
@@ -75,8 +75,9 @@ class _MenuScreenState extends State<MenuScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
+                                fontSize: 16,
                               ),
-                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -85,8 +86,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   Observer(builder: (_) {
                     return InkWell(
                       child: Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        margin: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -104,6 +105,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               style: TextStyle(
                                 color: Colors.grey[700],
                                 fontWeight: FontWeight.w500,
+                                fontSize: 16,
                               ),
                             )
                           ],
@@ -123,8 +125,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   Observer(builder: (_) {
                     return InkWell(
                       child: Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        margin: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -142,6 +144,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               style: TextStyle(
                                 color: Colors.grey[700],
                                 fontWeight: FontWeight.w500,
+                                fontSize: 16,
                               ),
                             )
                           ],
