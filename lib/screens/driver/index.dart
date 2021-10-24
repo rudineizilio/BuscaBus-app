@@ -263,36 +263,44 @@ class _DriverScreenState extends State<DriverScreen> {
               ),
             ],
           ),
-          FutureBuilder(
-            future: _driverController.locationClose.get(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print('Error: ${snapshot.error}');
-              }
-              if (snapshot.hasData) {
-                QuerySnapshot snap = snapshot.data;
+          Expanded(
+            child: SingleChildScrollView(
+              child: FutureBuilder(
+                future: _driverController.locationClose.get(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    print('Error: ${snapshot.error}');
+                  }
+                  if (snapshot.hasData) {
+                    QuerySnapshot snap = snapshot.data;
+                    List<dynamic> snaps = [];
 
-                return Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      child: DataTable(
-                        horizontalMargin: 10,
-                        headingRowHeight: 30,
-                        dividerThickness: 0.001,
-                        headingTextStyle: const TextStyle(
-                          fontSize: 13,
-                        ),
-                        headingRowColor: MaterialStateProperty.resolveWith(
-                          (states) => Theme.of(context).accentColor,
-                        ),
-                        columns: [
-                          DataColumn(label: Text('Descrição')),
-                          DataColumn(label: Text('Início')),
-                          DataColumn(label: Text('Fim')),
-                        ],
-                        rows: snap.docs.map((e) {
-                          if (e.data().containsValue(widget.driverName)) {
+                    snap.docs.forEach((e) {
+                      if (e.data().containsValue(widget.driverName)) {
+                        snaps.add(e);
+                      }
+                    });
+
+                    return Container(
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          horizontalMargin: 10,
+                          headingRowHeight: 50,
+                          dividerThickness: 0.001,
+                          headingTextStyle: const TextStyle(
+                            fontSize: 13,
+                          ),
+                          headingRowColor: MaterialStateProperty.resolveWith(
+                            (states) => Theme.of(context).accentColor,
+                          ),
+                          columns: [
+                            DataColumn(label: Text('Descrição')),
+                            DataColumn(label: Text('Início')),
+                            DataColumn(label: Text('Fim')),
+                          ],                       
+                          rows: snaps.map((e) {
                             return DataRow(
                               cells: [
                                 DataCell(Text(e.get('line'))),
@@ -308,30 +316,23 @@ class _DriverScreenState extends State<DriverScreen> {
                                 ),
                               ]
                             );
-                          } else {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text('')),
-                                DataCell(Text('')),
-                                DataCell(Text('')),
-                              ]
-                            );
-                          }
-                        }).toList(),
-                        dataRowHeight: 30,
-                        dataTextStyle: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black54,
+                          }).toList(),
+                          dataRowHeight: 50,
+                          columnSpacing: 100,
+                          dataTextStyle: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.black54,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
