@@ -25,18 +25,14 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
-  dio: ^3.0.9
   provider: ^4.0.1
   flutter_mobx: 1.1.0+2
   mobx: ^1.2.1+4
-  retrofit: any
   flushbar: ^1.10.4
   font_awesome_flutter: ^8.8.1
-  shared_preferences: any
   firebase_core: ^0.7.0
   cloud_firestore: 0.16.0+1
   google_maps_flutter: ^1.2.0
-  # geoflutterfire: ^2.2.2
   geolocator: ^6.2.1
   permission_handler: ^5.1.0+1
   flutter_svg: ^0.18.0

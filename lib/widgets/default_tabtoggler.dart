@@ -5,9 +5,13 @@ import 'package:provider/provider.dart';
 
 class DefaultTabToggler extends StatefulWidget {
   final List<String> items;
+  final List<dynamic> stops;
+  final List<dynamic> locationsOpen;
 
   const DefaultTabToggler({
     @required this.items,
+    this.stops,
+    this.locationsOpen,
   });
 
   @override
@@ -57,8 +61,9 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             onTap: () {
               setState(() {
                 _tabSelected = 0;
-                _mapController.setFilterType('lines');
               });
+                _mapController.setFilterType('lines');
+                _mapController.addMarkers(widget.stops, widget.locationsOpen);
             },
           ),
           GestureDetector(
@@ -87,8 +92,9 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             onTap: () {
               setState(() {
                 _tabSelected = 1;
-                _mapController.setFilterType('points');
               });
+                _mapController.setFilterType('stops');
+                _mapController.addMarkers(widget.stops, widget.locationsOpen);
             },          
           ),
         ],
