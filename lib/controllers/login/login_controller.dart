@@ -67,20 +67,23 @@ abstract class _LoginController with Store {
           toastType: DefaultToastType.warning,
         ).show(context);
       }
-    } else {
-      companyData['drivers'].forEach((e) {
-        if ((e['cpf'] != user) && (e['password'] != password)) {        
+    } 
+
+    if (loginType == 'driver') {
+      for (var item in companyData['drivers']) {
+        if ((item['cpf'] == user) && (item['password'] == password)) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DriverScreen(driverName: item['name'])),
+          );
+          break;
+        } else {
           DefaultToast(
             message: 'Credenciais incorretas.',
             toastType: DefaultToastType.warning,
-          ).show(context);                              
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DriverScreen(driverName: e['name'])),
-          );      
+          ).show(context);
         }
-      });
+      }      
     }
   }
 
