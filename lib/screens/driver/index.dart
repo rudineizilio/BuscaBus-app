@@ -1,6 +1,7 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/controllers/driver/driver_controller.dart';
 import 'package:buscabus/controllers/login/login_controller.dart';
+import 'package:buscabus/models/location_close.dart';
 import 'package:buscabus/models/location_open.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -226,7 +227,7 @@ class _DriverScreenState extends State<DriverScreen> {
                             LocationOpen(
                               bus: _driverController.busSelected,
                               line: _driverController.lineSelected,
-                              driver: 'Fazer pegar o logado',
+                              driver: widget.driverName,
                               startDate: DateTime.now(),
                               location: GeoPoint(-26.2047639,-52.6897099),
                               lastUpdate: DateTime.now(),
@@ -236,7 +237,18 @@ class _DriverScreenState extends State<DriverScreen> {
                       : () {
                           _driverController.setSharedLocation(false);
 
-                          _driverController.deleteDriverLocation();
+                          _driverController.deleteDriverLocation(
+                            LocationClose(
+                              bus: _driverController.currentLocation.bus,
+                              line: _driverController.currentLocation.line,
+                              driver: _driverController.currentLocation.driver,
+                              startDate: _driverController.currentLocation.startDate,
+                              lastUpdate: _driverController.currentLocation.lastUpdate,
+                              endDate: DateTime.now(),
+                            ),
+                          );
+
+                          _driverController.cancelTimer();
                         }
                     : null,
                 );

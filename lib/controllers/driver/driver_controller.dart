@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:buscabus/models/driver.dart';
+import 'package:buscabus/models/location_close.dart';
 import 'package:buscabus/models/location_open.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,9 +33,6 @@ abstract class _DriverController with Store {
 
   @observable
   Timer timer;
-
-  @observable
-  CollectionReference driverLocation = FirebaseFirestore.instance.collection('location');
 
   @observable
   StreamSubscription<Position> positionStream;
@@ -116,8 +114,7 @@ abstract class _DriverController with Store {
     currentLocation = location;
 
     await addDriverLocation(currentLocation);
-
-    locationInTime;
+    setTimerPeriodic();
   }
 
   @action
@@ -128,35 +125,25 @@ abstract class _DriverController with Store {
   }
 
   @action
-  Future<void> deleteDriverLocation() async {
-    await locationClose.add(currentLocation.toMap()).catchError((error) => print('Failed to add Location: $error'));
+  Future<void> deleteDriverLocation(LocationClose location) async {
+    await locationClose.add(location.toMap()).catchError((error) => print('Failed to add Location: $error'));
 
     return locationOpen
       .doc(currentLocationId)
       .delete()
       .catchError((error) => print('Failed to delete Driver: $error'));    
-  }
-
-  @action
-  Future<void> updateDriverLocation() {
-    return driverLocation
-      .doc(currentLocationId)
-      .update({
-        'bus': currentLocation.bus,
-        'driver': currentLocation.driver,
-        'start': currentLocation.startDate,
-        'line': currentLocation.line,
-        'lastUpdate': driverPosition.timestamp,
-        'location': GeoPoint(driverPosition.latitude, driverPosition.longitude),
-      })
-      .catchError((error) => print("Location update failed: $error"));
   }  
 
   @action
+  void setDriverPosition(Position position) {
+    driverPosition = position;
+  }
+
+  @action
   Future<void> getPosition() async {
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low, forceAndroidLocationManager: true)
       .then((Position position) {
-        driverPosition = position;        
+        setDriverPosition(position);
       }).catchError((e) {
         print(e);
       });
@@ -165,26 +152,31 @@ abstract class _DriverController with Store {
   }
 
   @action
+  Future<void> updateDriverLocation() {
+    print('Update call');
+    return locationOpen
+      .doc(currentLocationId)
+      .update({
+        'bus': currentLocation.bus,
+        'driver': currentLocation.driver,
+        'startDate': currentLocation.startDate,
+        'line': currentLocation.line,
+        'lastUpdate': currentLocation.lastUpdate,
+        'location': GeoPoint(driverPosition.latitude, driverPosition.longitude),
+      })
+      .catchError((error) => print("Failed to update Location: $error | LOCATION DOC ID $currentLocationId"));
+  }  
+
+  @action
   void setTimerPeriodic() {
-    print('chamouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu o periodiccccccccccccc');
     timer = Timer.periodic(Duration(seconds: 2), (Timer t) => getPosition());
   }
 
   @action
   void cancelTimer() {
-    print('chamouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu o cencellllllllllllllllll');
     timer.cancel();
   }
 
   @computed
   bool get sharedButtonEnabled => (busSelected != null && lineSelected != null) ? true : false;
-
-  @computed 
-  get locationInTime async {
-    if (sharedLocation) {
-      setTimerPeriodic();
-    } else {
-      cancelTimer();
-    }
-  }
 }

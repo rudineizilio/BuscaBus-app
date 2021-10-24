@@ -3,6 +3,7 @@ class LocationClose {
   String driver;
   DateTime startDate;
   DateTime endDate;
+  DateTime lastUpdate;
   String line;
 
   LocationClose({
@@ -10,6 +11,7 @@ class LocationClose {
     this.driver,
     this.startDate,
     this.endDate,
+    this.lastUpdate,
     this.line,
   });
 
@@ -21,6 +23,7 @@ class LocationClose {
       driver: map['driver'],
       startDate: map['startDate'],
       endDate: map['endDate'],
+      lastUpdate: map['lastUpdate'],
       line: map['line'],    
     );
   }  
@@ -31,6 +34,7 @@ class LocationClose {
       'driver': driver,
       'startDate': startDate,
       'endDate': endDate,
+      'lastUpdate': lastUpdate,
       'line': line,
     };
   }

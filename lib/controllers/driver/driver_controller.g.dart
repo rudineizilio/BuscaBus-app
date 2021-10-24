@@ -16,13 +16,6 @@ mixin _$DriverController on _DriverController, Store {
           Computed<bool>(() => super.sharedButtonEnabled,
               name: '_DriverController.sharedButtonEnabled'))
       .value;
-  Computed<dynamic> _$locationInTimeComputed;
-
-  @override
-  dynamic get locationInTime => (_$locationInTimeComputed ??= Computed<dynamic>(
-          () => super.locationInTime,
-          name: '_DriverController.locationInTime'))
-      .value;
 
   final _$busSelectedAtom = Atom(name: '_DriverController.busSelected');
 
@@ -127,21 +120,6 @@ mixin _$DriverController on _DriverController, Store {
   set timer(Timer value) {
     _$timerAtom.reportWrite(value, super.timer, () {
       super.timer = value;
-    });
-  }
-
-  final _$driverLocationAtom = Atom(name: '_DriverController.driverLocation');
-
-  @override
-  CollectionReference get driverLocation {
-    _$driverLocationAtom.reportRead();
-    return super.driverLocation;
-  }
-
-  @override
-  set driverLocation(CollectionReference value) {
-    _$driverLocationAtom.reportWrite(value, super.driverLocation, () {
-      super.driverLocation = value;
     });
   }
 
@@ -312,9 +290,9 @@ mixin _$DriverController on _DriverController, Store {
       AsyncAction('_DriverController.deleteDriverLocation');
 
   @override
-  Future<void> deleteDriverLocation() {
+  Future<void> deleteDriverLocation(LocationClose location) {
     return _$deleteDriverLocationAsyncAction
-        .run(() => super.deleteDriverLocation());
+        .run(() => super.deleteDriverLocation(location));
   }
 
   final _$getPositionAsyncAction = AsyncAction('_DriverController.getPosition');
@@ -372,6 +350,17 @@ mixin _$DriverController on _DriverController, Store {
   }
 
   @override
+  void setDriverPosition(Position position) {
+    final _$actionInfo = _$_DriverControllerActionController.startAction(
+        name: '_DriverController.setDriverPosition');
+    try {
+      return super.setDriverPosition(position);
+    } finally {
+      _$_DriverControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   Future<void> updateDriverLocation() {
     final _$actionInfo = _$_DriverControllerActionController.startAction(
         name: '_DriverController.updateDriverLocation');
@@ -414,7 +403,6 @@ driverPosition: ${driverPosition},
 serviceEnabled: ${serviceEnabled},
 locationPermission: ${locationPermission},
 timer: ${timer},
-driverLocation: ${driverLocation},
 positionStream: ${positionStream},
 status: ${status},
 positionLocation: ${positionLocation},
@@ -424,8 +412,7 @@ locationOpen: ${locationOpen},
 drivers: ${drivers},
 currentLocation: ${currentLocation},
 currentLocationId: ${currentLocationId},
-sharedButtonEnabled: ${sharedButtonEnabled},
-locationInTime: ${locationInTime}
+sharedButtonEnabled: ${sharedButtonEnabled}
     ''';
   }
 }
