@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/controllers/location_open/location_open_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,6 +22,9 @@ class _MapScreenState extends State<MapScreen> {
   CompanyController _companyController;
   LocationOpenController _locationOpenController;
 
+  Stream<DocumentSnapshot> _stopsStream;
+  Stream<QuerySnapshot> _linesStream;
+
   List<Marker> lineMarkers = <Marker>[];
   List<Marker> stopMarkers = <Marker>[];
 
@@ -32,6 +36,9 @@ class _MapScreenState extends State<MapScreen> {
     _mapController = Provider.of<MapController>(context);
     _companyController = Provider.of<CompanyController>(context);
     _locationOpenController = Provider.of<LocationOpenController>(context);
+
+    _stopsStream = _companyController.company.doc('262gZboPV0OZfjQxzfko').snapshots();
+    _linesStream = _locationOpenController.locationOpen.snapshots();
 
     _mapController.setTabSelected(0);
     _mapController.getPosition();
@@ -48,44 +55,78 @@ class _MapScreenState extends State<MapScreen> {
           Flexible(
             child: Container(    
               child: _mapController.filterSelected == 'stops'
-                ? FutureBuilder(
-                    future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+                ? StreamBuilder<DocumentSnapshot>(
+                    stream: _stopsStream,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
                       if (snapshot.hasError) {
                         print('Error: ${snapshot.error}');
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
                       }
                       if (snapshot.hasData) {
                         _companyData = snapshot.data;
-
                         addStopMarkers(_companyData['stops']);
 
-                        return map();
+                        return map();                        
                       }
-                      return Center(child: CircularProgressIndicator());
-                    },
+                      return Center(child: CircularProgressIndicator());                     
+                    }, 
                   )
-                : FutureBuilder(
-                    future: _locationOpenController.locationOpen.get(),
+                : StreamBuilder<QuerySnapshot>(
+                    stream: _linesStream,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
                       if (snapshot.hasError) {
                         print('Error: ${snapshot.error}');
                       }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
                       if (snapshot.hasData) {
                         _locationOpenData = snapshot.data; 
-
                         addLineMarkers(_locationOpenData.docs);
 
-                        return map();
+                        return map();                        
                       }
-                      return Center(child: CircularProgressIndicator());
-                    },
+                      return Center(child: CircularProgressIndicator());                     
+                    }, 
                   ),
+                // ? FutureBuilder(
+                //     future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.waiting) {
+                //         return Center(child: CircularProgressIndicator());
+                //       }
+                //       if (snapshot.hasError) {
+                //         print('Error: ${snapshot.error}');
+                //       }
+                //       if (snapshot.hasData) {
+                //         _companyData = snapshot.data;
+                //         addStopMarkers(_companyData['stops']);
+
+                //         return map();
+                //       }
+                //       return Center(child: CircularProgressIndicator());
+                //     },
+                //   )
+                // : FutureBuilder(
+                //     future: _locationOpenController.locationOpen.get(),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.waiting) {
+                //         return Center(child: CircularProgressIndicator());
+                //       }
+                //       if (snapshot.hasError) {
+                //         print('Error: ${snapshot.error}');
+                //       }
+                //       if (snapshot.hasData) {
+                //         _locationOpenData = snapshot.data; 
+                //         addLineMarkers(_locationOpenData.docs);
+
+                //         return map();
+                //       }
+                //       return Center(child: CircularProgressIndicator());
+                //     },
+                //   ),
             ),
           ),
         ],
