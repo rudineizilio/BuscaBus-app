@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../controllers/map/map_controller.dart';
 
@@ -48,6 +49,8 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
+    
     return Observer(builder: (_) {
       return Flex(
         direction: Axis.vertical,
@@ -161,17 +164,18 @@ class _MapScreenState extends State<MapScreen> {
     lineMarkers.clear();
 
     locations.forEach((location) async {
+      String lastUpdate = timeago.format(location['lastUpdate'].toDate(), locale: 'pt_BR').toLowerCase();
+
       lineMarkers.add(
         Marker(
           markerId: MarkerId(location['location'].toString()),
           position: LatLng(location['location'].latitude, location['location'].longitude),
           infoWindow: InfoWindow(
-            snippet: 'AAAAAA',
             title: location['line'],
+            snippet: 'Atualizado $lastUpdate',
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
-          // icon: await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'lib/assets/images/bus.png'),
         ),
       );
     });
@@ -186,12 +190,10 @@ class _MapScreenState extends State<MapScreen> {
           markerId: MarkerId(stop['description']),
           position: LatLng(double.parse(stop['location'].split(',').first.trim()), double.parse(stop['location'].split(',').last.trim())),
           infoWindow: InfoWindow(
-            snippet: 'AAAAAA',
             title: stop['description'],
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus-stop.png'),
-          // icon: await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'lib/assets/images/bus-stop.png'),
         ),
       );
     });

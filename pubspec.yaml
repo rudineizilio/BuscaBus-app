@@ -37,6 +37,7 @@ dependencies:
   permission_handler: ^5.1.0+1
   flutter_svg: ^0.18.0
   mask_text_input_formatter: ^1.2.1
+  timeago: ^2.0.30
 
 dev_dependencies:
   flutter_test:
