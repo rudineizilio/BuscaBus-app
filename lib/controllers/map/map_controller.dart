@@ -17,7 +17,10 @@ abstract class _MapController with Store {
   LocationPermission locationPermission;
 
   @observable
-  String filterType = 'lines';
+  int tabSelected;
+
+  @observable
+  String filterSelected;
 
   @action
   Future<void> getPosition() async {
@@ -39,7 +42,14 @@ abstract class _MapController with Store {
   }
 
   @action
-  void setFilterType(String value) {
-    filterType = value;
+  void setFilterSelected(String value) {
+    filterSelected = value;
+  }
+
+  @action
+  void setTabSelected(int value) {
+    tabSelected = value;
+
+    tabSelected == 0 ? setFilterSelected('lines') : setFilterSelected('stops');
   }  
 }

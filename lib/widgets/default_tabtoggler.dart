@@ -19,7 +19,6 @@ class DefaultTabToggler extends StatefulWidget {
 }
 
 class _DefaultTabTogglerState extends State<DefaultTabToggler> {
-  int _tabSelected = 0;
   MapController _mapController;
 
   @override
@@ -40,7 +39,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
               width: 110,
               height: 35,
               decoration: BoxDecoration(
-                color: _tabSelected == 0
+                color: _mapController.tabSelected == 0
                     ? Theme.of(context).primaryColor
                     : Colors.white,
                 boxShadow: kElevationToShadow[3],
@@ -53,17 +52,14 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
                 child: Text(
                   widget.items[0],
                   style: TextStyle(
-                    color: _tabSelected == 0 ? Colors.white : Colors.grey[700],
+                    color: _mapController.tabSelected == 0 ? Colors.white : Colors.grey[700],
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             onTap: () {
-              setState(() {
-                _tabSelected = 0;
-                _mapController.setFilterType('lines');
-              });
+              _mapController.setTabSelected(0);
             },
           );
         }),
@@ -73,7 +69,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
               width: 110,
               height: 35,
               decoration: BoxDecoration(
-                color: _tabSelected == 1
+                color: _mapController.tabSelected == 1
                     ? Theme.of(context).primaryColor
                     : Colors.white,
                 boxShadow: kElevationToShadow[3],
@@ -86,7 +82,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
                 child: Text(
                   widget.items[1],
                   style: TextStyle(
-                    color: _tabSelected == 1 ? Colors.white : Colors.grey[700],
+                    color: _mapController.tabSelected == 1 ? Colors.white : Colors.grey[700],
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
                   ),
@@ -94,10 +90,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
               ),
             ),
             onTap: () {
-              setState(() {
-                _tabSelected = 1;
-                _mapController.setFilterType('stops');
-              });
+              _mapController.setTabSelected(1);
             },
           );
         }),

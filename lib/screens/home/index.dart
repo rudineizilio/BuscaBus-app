@@ -105,10 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onTap: () {
             DefaultModalBottomSheet(
-              title: _mapController.filterType == 'lines'
+              title: _mapController.filterSelected == 'lines'
                   ? 'Filtrar Linhas'
                   : 'Filtrar Pontos',
-              items: _mapController.filterType == 'lines'
+              items: _mapController.filterSelected == 'lines'
                   ? _locationOpenData.docs.map((e) {
                       return ItemModalBottomSheet(
                           icon: FontAwesomeIcons.projectDiagram,

@@ -56,18 +56,33 @@ mixin _$MapController on _MapController, Store {
     });
   }
 
-  final _$filterTypeAtom = Atom(name: '_MapController.filterType');
+  final _$tabSelectedAtom = Atom(name: '_MapController.tabSelected');
 
   @override
-  String get filterType {
-    _$filterTypeAtom.reportRead();
-    return super.filterType;
+  int get tabSelected {
+    _$tabSelectedAtom.reportRead();
+    return super.tabSelected;
   }
 
   @override
-  set filterType(String value) {
-    _$filterTypeAtom.reportWrite(value, super.filterType, () {
-      super.filterType = value;
+  set tabSelected(int value) {
+    _$tabSelectedAtom.reportWrite(value, super.tabSelected, () {
+      super.tabSelected = value;
+    });
+  }
+
+  final _$filterSelectedAtom = Atom(name: '_MapController.filterSelected');
+
+  @override
+  String get filterSelected {
+    _$filterSelectedAtom.reportRead();
+    return super.filterSelected;
+  }
+
+  @override
+  set filterSelected(String value) {
+    _$filterSelectedAtom.reportWrite(value, super.filterSelected, () {
+      super.filterSelected = value;
     });
   }
 
@@ -82,11 +97,22 @@ mixin _$MapController on _MapController, Store {
       ActionController(name: '_MapController');
 
   @override
-  void setFilterType(String value) {
+  void setFilterSelected(String value) {
     final _$actionInfo = _$_MapControllerActionController.startAction(
-        name: '_MapController.setFilterType');
+        name: '_MapController.setFilterSelected');
     try {
-      return super.setFilterType(value);
+      return super.setFilterSelected(value);
+    } finally {
+      _$_MapControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTabSelected(int value) {
+    final _$actionInfo = _$_MapControllerActionController.startAction(
+        name: '_MapController.setTabSelected');
+    try {
+      return super.setTabSelected(value);
     } finally {
       _$_MapControllerActionController.endAction(_$actionInfo);
     }
@@ -97,7 +123,8 @@ mixin _$MapController on _MapController, Store {
     return '''
 serviceEnabled: ${serviceEnabled},
 locationPermission: ${locationPermission},
-filterType: ${filterType}
+tabSelected: ${tabSelected},
+filterSelected: ${filterSelected}
     ''';
   }
 }

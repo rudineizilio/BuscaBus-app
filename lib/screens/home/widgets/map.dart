@@ -33,62 +33,87 @@ class _MapScreenState extends State<MapScreen> {
     _companyController = Provider.of<CompanyController>(context);
     _locationOpenController = Provider.of<LocationOpenController>(context);
 
-    _mapController.getPosition();    
+    _mapController.setTabSelected(0);
+    _mapController.getPosition();
 
     super.didChangeDependencies();
   }
 
   @override
-  Widget build(BuildContext context) {  
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        Flexible(
-          child: Container(
-            child: Observer(builder: (_) {
-              return FutureBuilder(
-                future: Future.wait([
-                  _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
-                  _locationOpenController.locationOpen.get(),
-                ]),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    print('Error: ${snapshot.error}');
-                  }
-                  if (snapshot.hasData) {
-                    _companyData = snapshot.data[0];
-                    _locationOpenData = snapshot.data[1];
-                   
-                    addLineMarkers(_locationOpenData.docs);
-                    addStopMarkers(_companyData['stops']);
+  Widget build(BuildContext context) {
+    return Observer(builder: (_) {
+      return Flex(
+        direction: Axis.vertical,
+        children: [
+          Flexible(
+            child: Container(    
+              child: _mapController.filterSelected == 'stops'
+                ? FutureBuilder(
+                    future: _companyController.company.doc('262gZboPV0OZfjQxzfko').get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        print('Error: ${snapshot.error}');
+                      }
+                      if (snapshot.hasData) {
+                        _companyData = snapshot.data;
 
-                    return GoogleMap(
-                      myLocationButtonEnabled: true,
-                      myLocationEnabled: true,
-                      zoomControlsEnabled: false,  
-                      mapToolbarEnabled: _mapController.filterType == 'lines'
-                        ? false
-                        : true,                  
-                      onMapCreated: (GoogleMapController controller) {
-                        _googleMapController.complete(controller);
-                      },
-                      initialCameraPosition: const CameraPosition(
-                        target: LatLng(-26.22815111640855, -52.671710505622876),
-                        zoom: 13,
-                      ),
-                      markers: _mapController.filterType == 'lines'
-                        ? Set<Marker>.of(lineMarkers)
-                        : Set<Marker>.of(stopMarkers),
-                    );
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
-              );
-            }),
+                        addStopMarkers(_companyData['stops']);
+
+                        return map();
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  )
+                : FutureBuilder(
+                    future: _locationOpenController.locationOpen.get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        print('Error: ${snapshot.error}');
+                      }
+                      if (snapshot.hasData) {
+                        _locationOpenData = snapshot.data; 
+
+                        addLineMarkers(_locationOpenData.docs);
+
+                        return map();
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  ),
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    }); 
+  }
+
+  Widget map() {
+    return GoogleMap(
+      myLocationButtonEnabled: true,
+      myLocationEnabled: true,
+      zoomControlsEnabled: false,  
+      mapToolbarEnabled: _mapController.filterSelected == 'lines'
+        ? false
+        : true,                  
+      onMapCreated: (GoogleMapController controller) {
+        if (!_googleMapController.isCompleted) {
+          _googleMapController.complete(controller);
+        }
+      },
+      initialCameraPosition: const CameraPosition(
+        target: LatLng(-26.22815111640855, -52.671710505622876),
+        zoom: 13,
+      ),
+      markers: _mapController.filterSelected == 'lines'
+        ? Set<Marker>.of(lineMarkers)
+        : Set<Marker>.of(stopMarkers),
+    );    
   }
 
   void addLineMarkers(List<dynamic> locations) {
@@ -101,7 +126,7 @@ class _MapScreenState extends State<MapScreen> {
           position: LatLng(location['location'].latitude, location['location'].longitude),
           infoWindow: InfoWindow(
             snippet: 'AAAAAA',
-            title: location['line'],              
+            title: location['line'],
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
