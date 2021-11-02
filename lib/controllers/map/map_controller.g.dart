@@ -86,6 +86,36 @@ mixin _$MapController on _MapController, Store {
     });
   }
 
+  final _$lineSelectedAtom = Atom(name: '_MapController.lineSelected');
+
+  @override
+  String get lineSelected {
+    _$lineSelectedAtom.reportRead();
+    return super.lineSelected;
+  }
+
+  @override
+  set lineSelected(String value) {
+    _$lineSelectedAtom.reportWrite(value, super.lineSelected, () {
+      super.lineSelected = value;
+    });
+  }
+
+  final _$stopSelectedAtom = Atom(name: '_MapController.stopSelected');
+
+  @override
+  String get stopSelected {
+    _$stopSelectedAtom.reportRead();
+    return super.stopSelected;
+  }
+
+  @override
+  set stopSelected(String value) {
+    _$stopSelectedAtom.reportWrite(value, super.stopSelected, () {
+      super.stopSelected = value;
+    });
+  }
+
   final _$getPositionAsyncAction = AsyncAction('_MapController.getPosition');
 
   @override
@@ -119,12 +149,36 @@ mixin _$MapController on _MapController, Store {
   }
 
   @override
+  void setLineSelected(String value) {
+    final _$actionInfo = _$_MapControllerActionController.startAction(
+        name: '_MapController.setLineSelected');
+    try {
+      return super.setLineSelected(value);
+    } finally {
+      _$_MapControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setStopSelected(String value) {
+    final _$actionInfo = _$_MapControllerActionController.startAction(
+        name: '_MapController.setStopSelected');
+    try {
+      return super.setStopSelected(value);
+    } finally {
+      _$_MapControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 serviceEnabled: ${serviceEnabled},
 locationPermission: ${locationPermission},
 tabSelected: ${tabSelected},
-filterSelected: ${filterSelected}
+filterSelected: ${filterSelected},
+lineSelected: ${lineSelected},
+stopSelected: ${stopSelected}
     ''';
   }
 }

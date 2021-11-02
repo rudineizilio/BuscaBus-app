@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Stop {
   String description;
-  String location;
+  GeoPoint location;
 
   Stop({
     this.description,

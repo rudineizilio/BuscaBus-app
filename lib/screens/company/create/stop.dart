@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/stop.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CreateStopScreen extends StatefulWidget {
@@ -71,7 +75,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
                       labelText: 'Coordenadas'
                     ),
                     onChanged: (value) {
-                      _stop.location = value;
+                      _stop.location = GeoPoint(double.parse(value.split(',').first.toString().trim()), double.parse(value.split(',').last.toString().trim()));
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {

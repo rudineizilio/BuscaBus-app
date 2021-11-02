@@ -20,6 +20,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   MapController _mapController;
   Completer<GoogleMapController> _googleMapController = Completer();
+  GoogleMapController _mapControllerOptions;
   CompanyController _companyController;
   LocationOpenController _locationOpenController;
 
@@ -74,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
                         return map();                        
                       }
                       return Center(child: CircularProgressIndicator());                     
-                    }, 
+                    },
                   )
                 : StreamBuilder<QuerySnapshot>(
                     stream: _linesStream,
@@ -146,6 +147,8 @@ class _MapScreenState extends State<MapScreen> {
         ? false
         : true,                  
       onMapCreated: (GoogleMapController controller) {
+        _mapControllerOptions = controller;
+
         if (!_googleMapController.isCompleted) {
           _googleMapController.complete(controller);
         }
@@ -176,6 +179,10 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
+          onTap: () async {
+            await _mapControllerOptions.animateCamera(CameraUpdate.newLatLng(LatLng(location['location'].latitude, location['location'].longitude)));
+            _mapControllerOptions.animateCamera(CameraUpdate.zoomTo(14.5));
+          }
         ),
       );
     });
@@ -194,6 +201,10 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus-stop.png'),
+          onTap: () async {
+            await _mapControllerOptions.animateCamera(CameraUpdate.newLatLng(LatLng(stop['location'].latitude, stop['location'].longitude)));
+            _mapControllerOptions.animateCamera(CameraUpdate.zoomTo(14.5));
+          }          
         ),
       );
     });

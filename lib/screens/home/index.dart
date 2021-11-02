@@ -35,6 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    _mapController.setLineSelected(null);
+    _mapController.setStopSelected(null);
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(
@@ -78,59 +86,60 @@ class _HomeScreenState extends State<HomeScreen> {
       endDrawer: Drawer(child: MenuScreen()),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            height: 40,
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Theme.of(context).accentColor,
-            ),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(
-                Icons.filter_alt_rounded,
-                color: Colors.white,
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                'Filtrar',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-            ]),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          height: 40,
+          width: 150,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Theme.of(context).accentColor,
           ),
-          onTap: () {
-            DefaultModalBottomSheet(
-              title: _mapController.filterSelected == 'lines'
-                  ? 'Filtrar Linhas'
-                  : 'Filtrar Pontos',
-              items: _mapController.filterSelected == 'lines'
-                  ? _locationOpenData.docs.map((e) {
-                      return ItemModalBottomSheet(
-                          icon: FontAwesomeIcons.projectDiagram,
-                          body: Container(
-                            child: Text(e['line'], style: TextStyle(fontSize: 16)),
-                          ),
-                          onTap: () {
-                            print('Seleciona linha ${e['line']}');
-                          });
-                    }).toList()
-                  : _companyData['stops'].map((e) {
-                      return ItemModalBottomSheet(
-                          icon: FontAwesomeIcons.store,
-                          body: Container(
-                            child: Text(e['description'], style: TextStyle(fontSize: 16)),
-                          ),
-                          onTap: () {
-                            print('Seleciona ponto ${e['description']}');
-                          });
-                    }).toList(),
-            ).show(context);
-          }),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(
+              Icons.filter_alt_rounded,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              'Filtrar',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+          ]),
+        ),
+        onTap: () {
+          DefaultModalBottomSheet(
+            title: _mapController.filterSelected == 'lines'
+                ? 'Filtrar Linhas'
+                : 'Filtrar Pontos',
+            items: _mapController.filterSelected == 'lines'
+                ? _locationOpenData.docs.map((e) {
+                    return ItemModalBottomSheet(
+                        icon: FontAwesomeIcons.projectDiagram,
+                        body: Container(
+                          child: Text(e['line'], style: TextStyle(fontSize: 16)),
+                        ),
+                        onTap: () {
+                          _mapController.setLineSelected(e['line']);
+                        });
+                  }).toList()
+                : _companyData['stops'].map((e) {
+                    return ItemModalBottomSheet(
+                        icon: FontAwesomeIcons.store,
+                        body: Container(
+                          child: Text(e['description'], style: TextStyle(fontSize: 16)),
+                        ),
+                        onTap: () {
+                          _mapController.setStopSelected(e['description']);
+                        });
+                  }).toList(),
+          ).show(context);
+        },
+      ),
     );
   }
 

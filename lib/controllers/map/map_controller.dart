@@ -22,6 +22,12 @@ abstract class _MapController with Store {
   @observable
   String filterSelected;
 
+  @observable
+  String lineSelected;
+
+  @observable
+  String stopSelected;
+
   @action
   Future<void> getPosition() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -51,5 +57,15 @@ abstract class _MapController with Store {
     tabSelected = value;
 
     tabSelected == 0 ? setFilterSelected('lines') : setFilterSelected('stops');
-  }  
+  }
+
+  @action
+  void setLineSelected(String value) {
+    lineSelected = value;
+  }
+
+  @action
+  void setStopSelected(String value) {
+    stopSelected = value;
+  }
 }
