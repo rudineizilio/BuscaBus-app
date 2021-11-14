@@ -1,6 +1,5 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/line.dart';
-import 'package:buscabus/screens/company/view/line.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';

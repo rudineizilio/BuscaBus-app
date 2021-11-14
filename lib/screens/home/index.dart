@@ -36,15 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  void dispose() {
-    _mapController.setLineSelected(null);
-    _mapController.setStopSelected(null);
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: DefaultAppBar(
         title: Container(
@@ -67,7 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return Stack(
                   children: [
-                    MapScreen(),
+                    MapScreen(
+                      callback: callback,
+                    ),
                     Positioned(
                       left: 0,
                       right: 0,
@@ -112,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ]),
         ),
-        onTap: () {
-          setState(() {
+        onTap: () {          
           DefaultModalBottomSheet(
             title: _mapController.filterSelected == 'lines'
                 ? 'Filtrar Linhas'
@@ -125,9 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       body: Container(
                         child: Text(e['line'], style: TextStyle(fontSize: 16)),
                       ),
-                      onTap: () {                         
+                      onTap: () {
                         _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
                         Navigator.pop(context);
+                        // callback();
                       },
                     );
                   }).toList()
@@ -140,47 +134,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
                         Navigator.pop(context);
+                        // callback();
                       },
                     );
                   }).toList(),
-          ).show(context);            
-          });
+          ).show(context);
         },
       ),
     );
   }
 
-  Widget lineList() {
-    return ListView.separated(
-      separatorBuilder: (context, index) {
-        return Divider(
-          height: 5,
-          color: Theme.of(context).accentColor,
-          indent: 70,
-        );
-      },
-      itemCount: 50,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.mapSigns,
-                color: Colors.white,
-                size: 18,
-              ),
-            ),
-          ),
-          title: Text('Linha Teste $index'),
-          onTap: () => print('Pressionou o item $index'),
-        );
-      },
-    );
-  }
+  void callback() {
+    print('DESGRACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  }  
 }

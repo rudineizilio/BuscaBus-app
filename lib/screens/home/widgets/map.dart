@@ -12,6 +12,11 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../../../controllers/map/map_controller.dart';
 
 class MapScreen extends StatefulWidget {
+  final Function callback;
+
+  const MapScreen({
+    this.callback,
+  });
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -38,11 +43,6 @@ class _MapScreenState extends State<MapScreen> {
     _companyController = Provider.of<CompanyController>(context);
     _locationOpenController = Provider.of<LocationOpenController>(context);
 
-    // _mapController = CameraPosition(
-    //   target: LatLng(-26.22815111640855, -52.671710505622876),
-    //   zoom: 13,
-    // );
-
     _mapController.setCameraPosition(CameraPosition(target: LatLng(-26.22815111640855, -52.671710505622876), zoom: 13));
 
     _stopsStream = _companyController.company.doc('262gZboPV0OZfjQxzfko').snapshots();
@@ -57,7 +57,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
-    
     return Observer(builder: (_) {
       return Flex(
         direction: Axis.vertical,
@@ -181,9 +180,7 @@ class _MapScreenState extends State<MapScreen> {
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
           onTap: () {
-            setState(() {    
-              _mapController.setCameraPosition(CameraPosition(target: LatLng(location['location'].latitude, location['location'].longitude), zoom: 14.5));
-            });
+            _mapController.setCameraPosition(CameraPosition(target: LatLng(location['location'].latitude, location['location'].longitude), zoom: 14.5));
           }
         ),
       );
@@ -194,7 +191,6 @@ class _MapScreenState extends State<MapScreen> {
     stopMarkers.clear();
 
     stops.forEach((stop) async {
-    print(stop['location']);      
       stopMarkers.add(
         Marker(
           markerId: MarkerId(stop['description']),
@@ -205,9 +201,7 @@ class _MapScreenState extends State<MapScreen> {
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus-stop.png'),
           onTap: () {
-            setState(() {
-              _mapController.setCameraPosition(CameraPosition(target: LatLng(stop['location'].latitude, stop['location'].longitude), zoom: 14.5));
-            });            
+            _mapController.setCameraPosition(CameraPosition(target: LatLng(stop['location'].latitude, stop['location'].longitude), zoom: 14.5));
           }          
         ),
       );

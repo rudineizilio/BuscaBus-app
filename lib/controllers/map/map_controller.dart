@@ -69,14 +69,4 @@ abstract class _MapController with Store {
 
     tabSelected == 0 ? setFilterSelected('lines') : setFilterSelected('stops');
   }
-
-  @action
-  void setLineSelected(String value) {
-    lineSelected = value;
-  }
-
-  @action
-  void setStopSelected(String value) {
-    stopSelected = value;
-  }
 }
