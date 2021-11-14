@@ -59,9 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return Stack(
                   children: [
-                    MapScreen(
-                      callback: callback,
-                    ),
+                    MapScreen(),
                     Positioned(
                       left: 0,
                       right: 0,
@@ -121,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
                         Navigator.pop(context);
-                        // callback();
                       },
                     );
                   }).toList()
@@ -134,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
                         Navigator.pop(context);
-                        // callback();
                       },
                     );
                   }).toList(),
@@ -142,9 +138,5 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  void callback() {
-    print('DESGRACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-  }  
+  } 
 }
