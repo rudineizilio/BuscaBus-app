@@ -9,6 +9,7 @@ import 'package:buscabus/screens/home/widgets/map.dart';
 import 'package:buscabus/screens/home/widgets/menu.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/default_appBar.dart';
 
@@ -112,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
         onTap: () {
+          setState(() {
           DefaultModalBottomSheet(
             title: _mapController.filterSelected == 'lines'
                 ? 'Filtrar Linhas'
@@ -119,25 +121,30 @@ class _HomeScreenState extends State<HomeScreen> {
             items: _mapController.filterSelected == 'lines'
                 ? _locationOpenData.docs.map((e) {
                     return ItemModalBottomSheet(
-                        icon: FontAwesomeIcons.projectDiagram,
-                        body: Container(
-                          child: Text(e['line'], style: TextStyle(fontSize: 16)),
-                        ),
-                        onTap: () {
-                          _mapController.setLineSelected(e['line']);
-                        });
+                      icon: FontAwesomeIcons.projectDiagram,
+                      body: Container(
+                        child: Text(e['line'], style: TextStyle(fontSize: 16)),
+                      ),
+                      onTap: () {                         
+                        _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
+                        Navigator.pop(context);
+                      },
+                    );
                   }).toList()
                 : _companyData['stops'].map((e) {
                     return ItemModalBottomSheet(
-                        icon: FontAwesomeIcons.store,
-                        body: Container(
-                          child: Text(e['description'], style: TextStyle(fontSize: 16)),
-                        ),
-                        onTap: () {
-                          _mapController.setStopSelected(e['description']);
-                        });
+                      icon: FontAwesomeIcons.store,
+                      body: Container(
+                        child: Text(e['description'], style: TextStyle(fontSize: 16)),
+                      ),
+                      onTap: () {
+                        _mapController.setCameraPosition(CameraPosition(target: LatLng(e['location'].latitude, e['location'].longitude), zoom: 14.5));
+                        Navigator.pop(context);
+                      },
+                    );
                   }).toList(),
-          ).show(context);
+          ).show(context);            
+          });
         },
       ),
     );

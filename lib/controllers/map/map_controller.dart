@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 
 part 'map_controller.g.dart';
@@ -27,6 +28,16 @@ abstract class _MapController with Store {
 
   @observable
   String stopSelected;
+
+  @observable
+  CameraPosition cameraPosition;
+
+  @action
+  void setCameraPosition(CameraPosition position) {
+    cameraPosition = position;
+
+    print(position.toMap().toString());
+  }
 
   @action
   Future<void> getPosition() async {

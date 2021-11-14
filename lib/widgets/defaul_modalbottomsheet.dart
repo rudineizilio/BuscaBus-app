@@ -33,9 +33,9 @@ class DefaultModalBottomSheet {
           return Padding(
             padding: MediaQuery.of(context).viewInsets,
             child: Container(
-              height: 200,
+              height: 350,
               decoration: BoxDecoration(
-                color: Colors.white, // or some other color
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.0),
                   topRight: Radius.circular(10.0),
@@ -58,8 +58,7 @@ class DefaultModalBottomSheet {
                   Divider(),
                   Expanded(
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                       child: ListView(
                         children: items.map((item) {
                           return Container(
@@ -70,28 +69,26 @@ class DefaultModalBottomSheet {
                               color: Colors.grey[100],
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Observer(builder: (_) {
-                              return InkWell(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    item.icon != null
-                                        ? Icon(
-                                            item.icon,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            size: 18,
-                                          )
-                                        : Container(),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(child: item.body),
-                                  ],
-                                ),
-                                onTap: item.onTap,
-                              );
-                            }),
+                            child: InkWell(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  item.icon != null
+                                      ? Icon(
+                                          item.icon,
+                                          color:
+                                              Theme.of(context).primaryColor,
+                                          size: 18,
+                                        )
+                                      : Container(),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(child: item.body),
+                                ],
+                              ),
+                              onTap: item.onTap,
+                            ),
                           );
                         }).toList(),
                       ),

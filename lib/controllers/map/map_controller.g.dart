@@ -116,6 +116,21 @@ mixin _$MapController on _MapController, Store {
     });
   }
 
+  final _$cameraPositionAtom = Atom(name: '_MapController.cameraPosition');
+
+  @override
+  CameraPosition get cameraPosition {
+    _$cameraPositionAtom.reportRead();
+    return super.cameraPosition;
+  }
+
+  @override
+  set cameraPosition(CameraPosition value) {
+    _$cameraPositionAtom.reportWrite(value, super.cameraPosition, () {
+      super.cameraPosition = value;
+    });
+  }
+
   final _$getPositionAsyncAction = AsyncAction('_MapController.getPosition');
 
   @override
@@ -125,6 +140,17 @@ mixin _$MapController on _MapController, Store {
 
   final _$_MapControllerActionController =
       ActionController(name: '_MapController');
+
+  @override
+  void setCameraPosition(CameraPosition position) {
+    final _$actionInfo = _$_MapControllerActionController.startAction(
+        name: '_MapController.setCameraPosition');
+    try {
+      return super.setCameraPosition(position);
+    } finally {
+      _$_MapControllerActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setFilterSelected(String value) {
@@ -178,7 +204,8 @@ locationPermission: ${locationPermission},
 tabSelected: ${tabSelected},
 filterSelected: ${filterSelected},
 lineSelected: ${lineSelected},
-stopSelected: ${stopSelected}
+stopSelected: ${stopSelected},
+cameraPosition: ${cameraPosition}
     ''';
   }
 }

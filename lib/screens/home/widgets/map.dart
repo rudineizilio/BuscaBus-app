@@ -20,7 +20,6 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   MapController _mapController;
   Completer<GoogleMapController> _googleMapController = Completer();
-  GoogleMapController _mapControllerOptions;
   CompanyController _companyController;
   LocationOpenController _locationOpenController;
 
@@ -38,6 +37,13 @@ class _MapScreenState extends State<MapScreen> {
     _mapController = Provider.of<MapController>(context);
     _companyController = Provider.of<CompanyController>(context);
     _locationOpenController = Provider.of<LocationOpenController>(context);
+
+    // _mapController = CameraPosition(
+    //   target: LatLng(-26.22815111640855, -52.671710505622876),
+    //   zoom: 13,
+    // );
+
+    _mapController.setCameraPosition(CameraPosition(target: LatLng(-26.22815111640855, -52.671710505622876), zoom: 13));
 
     _stopsStream = _companyController.company.doc('262gZboPV0OZfjQxzfko').snapshots();
     _linesStream = _locationOpenController.locationOpen.snapshots();
@@ -147,16 +153,11 @@ class _MapScreenState extends State<MapScreen> {
         ? false
         : true,                  
       onMapCreated: (GoogleMapController controller) {
-        _mapControllerOptions = controller;
-
         if (!_googleMapController.isCompleted) {
           _googleMapController.complete(controller);
         }
       },
-      initialCameraPosition: const CameraPosition(
-        target: LatLng(-26.22815111640855, -52.671710505622876),
-        zoom: 13,
-      ),
+      initialCameraPosition: _mapController.cameraPosition,
       markers: _mapController.filterSelected == 'lines'
         ? Set<Marker>.of(lineMarkers)
         : Set<Marker>.of(stopMarkers),
@@ -179,9 +180,10 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus.png'),
-          onTap: () async {
-            await _mapControllerOptions.animateCamera(CameraUpdate.newLatLng(LatLng(location['location'].latitude, location['location'].longitude)));
-            _mapControllerOptions.animateCamera(CameraUpdate.zoomTo(14.5));
+          onTap: () {
+            setState(() {    
+              _mapController.setCameraPosition(CameraPosition(target: LatLng(location['location'].latitude, location['location'].longitude), zoom: 14.5));
+            });
           }
         ),
       );
@@ -192,18 +194,20 @@ class _MapScreenState extends State<MapScreen> {
     stopMarkers.clear();
 
     stops.forEach((stop) async {
+    print(stop['location']);      
       stopMarkers.add(
         Marker(
           markerId: MarkerId(stop['description']),
-          position: LatLng(double.parse(stop['location'].split(',').first.trim()), double.parse(stop['location'].split(',').last.trim())),
+          position: LatLng(stop['location'].latitude, stop['location'].longitude),
           infoWindow: InfoWindow(
             title: stop['description'],
           ),
           zIndex: 100,
           icon: BitmapDescriptor.fromAsset('lib/assets/images/bus-stop.png'),
-          onTap: () async {
-            await _mapControllerOptions.animateCamera(CameraUpdate.newLatLng(LatLng(stop['location'].latitude, stop['location'].longitude)));
-            _mapControllerOptions.animateCamera(CameraUpdate.zoomTo(14.5));
+          onTap: () {
+            setState(() {
+              _mapController.setCameraPosition(CameraPosition(target: LatLng(stop['location'].latitude, stop['location'].longitude), zoom: 14.5));
+            });            
           }          
         ),
       );
