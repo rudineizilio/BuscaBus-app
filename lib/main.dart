@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 import 'controllers/map/map_controller.dart';
 
@@ -75,7 +76,24 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),      
-      home: HomeScreen(),
+      home: AnimatedSplashScreen(
+        nextScreen: HomeScreen(),
+        splash: Column(
+          children: [
+            Image.asset('lib/assets/images/logo.png'),
+            SizedBox(height: 20),
+            Text(
+              'v.1.0.0+1',
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ],
+        ),
+        splashIconSize: 300,
+        splashTransition: SplashTransition.fadeTransition,
+        backgroundColor: Colors.grey[800],
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
