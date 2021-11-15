@@ -35,8 +35,6 @@ abstract class _MapController with Store {
   @action
   void setCameraPosition(CameraPosition position) {
     cameraPosition = position;
-
-    print(position.toMap().toString());
   }
 
   @action
