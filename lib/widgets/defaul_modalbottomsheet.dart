@@ -33,7 +33,7 @@ class DefaultModalBottomSheet {
             return Padding(
               padding: MediaQuery.of(context).viewInsets,
               child: Container(
-                height: 350,
+                height: 300,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(

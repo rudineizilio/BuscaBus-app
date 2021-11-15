@@ -1,6 +1,7 @@
 import 'package:buscabus/controllers/map/map_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class DefaultTabToggler extends StatefulWidget {
@@ -60,6 +61,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             ),
             onTap: () {
               _mapController.setTabSelected(0);
+              _mapController.setCameraPosition(CameraPosition(target: LatLng(-26.22815111640855, -52.671710505622876), zoom: 13));
             },
           );
         }),
@@ -91,6 +93,7 @@ class _DefaultTabTogglerState extends State<DefaultTabToggler> {
             ),
             onTap: () {
               _mapController.setTabSelected(1);
+              _mapController.setCameraPosition(CameraPosition(target: LatLng(-26.22815111640855, -52.671710505622876), zoom: 13));
             },
           );
         }),
