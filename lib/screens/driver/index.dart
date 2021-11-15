@@ -264,75 +264,66 @@ class _DriverScreenState extends State<DriverScreen> {
             ],
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: FutureBuilder(
-                future: _driverController.locationClose.get(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    print('Error: ${snapshot.error}');
-                  }
-                  if (snapshot.hasData) {
-                    QuerySnapshot snap = snapshot.data;
-                    List<dynamic> snaps = [];
+            child: FutureBuilder(
+              future: _driverController.locationClose.get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print('Error: ${snapshot.error}');
+                }
+                if (snapshot.hasData) {
+                  QuerySnapshot snap = snapshot.data;
+                  List<dynamic> snaps = [];
 
-                    snap.docs.forEach((e) {
-                      if (e.data().containsValue(widget.driverName)) {
-                        snaps.add(e);
-                      }
-                    });
+                  snap.docs.forEach((e) {
+                    if (e.data().containsValue(widget.driverName)) {
+                      snaps.add(e);
+                    }
+                  });
 
-                    return Container(
-                      width: double.infinity,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          horizontalMargin: 10,
-                          headingRowHeight: 50,
-                          dividerThickness: 0.001,
-                          headingTextStyle: const TextStyle(
-                            fontSize: 13,
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 5,
+                        color: Theme.of(context).accentColor,
+                        indent: 70,
+                      );
+                    },
+                    itemCount: snaps.length,
+                    itemBuilder: (context, index) {
+                      final dynamic item = snaps[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Theme.of(context).accentColor,
+                            child: Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.busAlt,
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                            ),
                           ),
-                          headingRowColor: MaterialStateProperty.resolveWith(
-                            (states) => Theme.of(context).accentColor,
-                          ),
-                          columns: [
-                            DataColumn(label: Text('Descrição')),
-                            DataColumn(label: Text('Início')),
-                            DataColumn(label: Text('Fim')),
-                          ],                       
-                          rows: snaps.map((e) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(e.get('line'))),
-                                DataCell(
-                                  Text(
-                                    DateFormat('dd/MM/yyyy - HH:mm').format(e.get('startDate').toDate()).toString()
-                                  ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    DateFormat('dd/MM/yyyy - HH:mm').format(e.get('endDate').toDate()).toString()
-                                  ),
-                                ),
-                              ]
-                            );
-                          }).toList(),
-                          dataRowHeight: 50,
-                          columnSpacing: 100,
-                          dataTextStyle: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black54,
+                          title: Text(item.get('line')),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Início: ${DateFormat('dd/MM/yyyy - HH:mm').format(item.get('startDate').toDate()).toString()}'),
+                              Text('Fim: ${DateFormat('dd/MM/yyyy - HH:mm').format(item.get('endDate').toDate()).toString()}'),
+                            ],
                           ),
                         ),
-                      ),
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
+                      );
+                    },
                   );
-                },
-              ),
-            ),
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },   
+            ),            
           ),
         ],
       ),

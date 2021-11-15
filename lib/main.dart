@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.white,
         primaryColor: Color.fromRGBO(27, 137, 250, 1),
         accentColor: Color.fromRGBO(27, 137, 250, 1),
-        scaffoldBackgroundColor: Colors.grey[200],
+        scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         dividerColor: Colors.grey[800],
         appBarTheme: AppBarTheme(
