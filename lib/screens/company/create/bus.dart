@@ -54,9 +54,9 @@ class _CreateBusScreenState extends State<CreateBusScreen> {
                     decoration: InputDecoration(
                       hintText: 'Placa',
                       labelText: 'Placa'
-                    ),
+                    ),                      
                     onChanged: (_) {
-                      _bus.licensePlate = _licensePlateMasked.getMaskedText();
+                      _bus.licensePlate = _licensePlateMasked.getMaskedText().toUpperCase();
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
