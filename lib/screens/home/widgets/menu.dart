@@ -33,7 +33,8 @@ class _MenuScreenState extends State<MenuScreen> {
             width: double.infinity,
             child: SvgPicture.asset('lib/assets/images/people_location.svg'),
             decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
+              // color: Theme.of(context).accentColor,
+              color: Colors.grey[200]
             ),
           ),
           Expanded(
