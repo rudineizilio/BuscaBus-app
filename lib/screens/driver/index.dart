@@ -33,6 +33,7 @@ class _DriverScreenState extends State<DriverScreen> {
     _driverController = Provider.of<DriverController>(context);
     _companyController = Provider.of<CompanyController>(context);
     _driverController.listenPosition();
+    _driverController.getPosition();
     _driverController.setBus(null);
     _driverController.setLine(null);
 
@@ -234,7 +235,7 @@ class _DriverScreenState extends State<DriverScreen> {
                               line: _driverController.lineSelected,
                               driver: widget.driverName,
                               startDate: DateTime.now(),
-                              location: GeoPoint(-26.2047639,-52.6897099),
+                              location: GeoPoint(_driverController.driverPosition.latitude, _driverController.driverPosition.longitude),
                               lastUpdate: DateTime.now(),
                             ),
                           );
@@ -254,6 +255,8 @@ class _DriverScreenState extends State<DriverScreen> {
                           );
 
                           _driverController.cancelTimer();
+
+                          setState(() {_driverController.locationClose.get();});
                         }
                     : null,
                 );

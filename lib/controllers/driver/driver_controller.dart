@@ -61,6 +61,12 @@ abstract class _DriverController with Store {
   @observable
   String currentLocationId;
 
+  @observable
+  GeoPoint locationStart;
+
+  @action
+
+
   @action
   Future<void> listenPosition() async {
     ph.PermissionStatus permission = await ph.Permission.location.request();
