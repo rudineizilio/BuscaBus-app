@@ -1,4 +1,5 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
+import 'package:buscabus/screens/company/edit/bus.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -70,13 +71,38 @@ class _CompanyListViewState extends State<CompanyListView> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Observer(builder: (_) {
+                  //   return button(
+                  //     icon: Icons.edit,
+                  //     color: Color.fromRGBO(18, 178, 89, 1),
+                  //     tooltip: 'Alterar',
+                  //     function: () {                      
+                  //       if (widget.type == 'Ônibus') {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => EditBusScreen(
+                  //             bus: item,
+                  //             callback: widget.callback,
+                  //           )),
+                  //         );
+                  //       }
+                        // } else if (widget.type == 'Ônibus') {
+                        //   await _companyController.deleteBus(item);
+                        // } else if (widget.type == 'Linha') {
+                        //   await _companyController.deleteLine(item);
+                        // } else {
+                        //   await _companyController.deleteStop(item);
+                        // }
+                  //     }
+                  //   );
+                  // }),
+                  // SizedBox(width: 10),
                   Observer(builder: (_) {
                     return button(
                       icon: Icons.delete,
                       color: Colors.red,
                       tooltip: 'Excluir',
-                      function: () async {
-                      
+                      function: () async {                      
                         if (widget.type == 'Motorista') {
                           await _companyController.deleteDriver(item);
                         } else if (widget.type == 'Ônibus') {

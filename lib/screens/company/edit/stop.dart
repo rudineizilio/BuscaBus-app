@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class CreateStopScreen extends StatefulWidget {
+class EditStopScreen extends StatefulWidget {
   final Function callback;
 
-  const CreateStopScreen({
+  const EditStopScreen({
     @required this.callback,
   });
 
@@ -18,7 +18,7 @@ class CreateStopScreen extends StatefulWidget {
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
 
-class _CreateBusScreenState extends State<CreateStopScreen> {
+class _CreateBusScreenState extends State<EditStopScreen> {
   CompanyController _companyController;
   Stop _stop = Stop();
 

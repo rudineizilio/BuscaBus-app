@@ -1,16 +1,15 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
-import 'package:buscabus/models/stop.dart';
+import 'package:buscabus/models/line.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class CreateStopScreen extends StatefulWidget {
+class EditLineScreen extends StatefulWidget {
   final Function callback;
 
-  const CreateStopScreen({
+  const EditLineScreen({
     @required this.callback,
   });
 
@@ -18,9 +17,9 @@ class CreateStopScreen extends StatefulWidget {
   _CreateBusScreenState createState() => _CreateBusScreenState();
 }
 
-class _CreateBusScreenState extends State<CreateStopScreen> {
+class _CreateBusScreenState extends State<EditLineScreen> {
   CompanyController _companyController;
-  Stop _stop = Stop();
+  Line _line = Line();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,7 +35,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: Text('Novo ponto'),
+        title: Text('Nova linha'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -53,7 +52,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
                       labelText: 'Descrição'
                     ),
                     onChanged: (value) {
-                      _stop.description = value;
+                      _line.title = value;
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -62,25 +61,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
                       return null;
                     },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Coordenadas',
-                      labelText: 'Coordenadas'
-                    ),
-                    onChanged: (value) {
-                      _stop.location = GeoPoint(double.parse(value.split(',').first.toString().trim()), double.parse(value.split(',').last.toString().trim()));
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Informe as Coordenadas';
-                      }
-                      return null;
-                    },
-                  ),
-                ),                
+                ),              
               ],
             ),
           ),
@@ -91,13 +72,13 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
           child: Text('Salvar'),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              await _companyController.addStop(_stop);
+              await _companyController.addLine(_line);
 
               Navigator.pop(context);
               widget.callback();
 
               DefaultToast(
-                message: 'Ponto adicionado :)',
+                message: 'Linha adicionada :)',
                 toastType: DefaultToastType.success,
               ).show(context);
             } else {

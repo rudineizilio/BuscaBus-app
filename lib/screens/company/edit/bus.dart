@@ -1,32 +1,36 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
-import 'package:buscabus/models/stop.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class CreateStopScreen extends StatefulWidget {
+class EditBusScreen extends StatefulWidget {
   final Function callback;
+  final dynamic bus;
 
-  const CreateStopScreen({
-    @required this.callback,
+  const EditBusScreen({
+   @required this.callback,
+   @required this.bus,
   });
 
   @override
-  _CreateBusScreenState createState() => _CreateBusScreenState();
+  _EditBusScreenState createState() => _EditBusScreenState();
 }
 
-class _CreateBusScreenState extends State<CreateStopScreen> {
+class _EditBusScreenState extends State<EditBusScreen> {
   CompanyController _companyController;
-  Stop _stop = Stop();
 
   final _formKey = GlobalKey<FormState>();
+  MaskTextInputFormatter _licensePlateMasked;
+  TextEditingController _textEditingController;
 
   @override
   void didChangeDependencies() {
     _companyController = Provider.of<CompanyController>(context);
+    _licensePlateMasked = MaskTextInputFormatter(mask: '###-####', filter: { "#": RegExp('')});
+    _textEditingController = TextEditingController(text: widget.bus['licensePlate']);
 
     super.didChangeDependencies();
   }
@@ -36,7 +40,7 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: DefaultAppBar(
-        title: Text('Novo ponto'),
+        title: Text('Novo ônibus'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -48,39 +52,24 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
+                    controller: _textEditingController,
+                    // inputFormatters: [_licensePlateMasked],
                     decoration: InputDecoration(
-                      hintText: 'Descrição',
-                      labelText: 'Descrição'
-                    ),
+                      hintText: 'Placa',
+                      labelText: 'Placa'
+                    ),                      
                     onChanged: (value) {
-                      _stop.description = value;
+                      _textEditingController.text = value;
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Informe uma Descrição';
+                        return 'Informe uma Placa';
                       }
                       return null;
                     },
+                    // initialValue: widget.bus['licensePlate'].toString(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Coordenadas',
-                      labelText: 'Coordenadas'
-                    ),
-                    onChanged: (value) {
-                      _stop.location = GeoPoint(double.parse(value.split(',').first.toString().trim()), double.parse(value.split(',').last.toString().trim()));
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Informe as Coordenadas';
-                      }
-                      return null;
-                    },
-                  ),
-                ),                
               ],
             ),
           ),
@@ -91,13 +80,13 @@ class _CreateBusScreenState extends State<CreateStopScreen> {
           child: Text('Salvar'),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              await _companyController.addStop(_stop);
-
+              // await _companyController.editBus(widget.bus);
+              
               Navigator.pop(context);
               widget.callback();
 
               DefaultToast(
-                message: 'Ponto adicionado :)',
+                message: 'Ônibus adicionado :)',
                 toastType: DefaultToastType.success,
               ).show(context);
             } else {

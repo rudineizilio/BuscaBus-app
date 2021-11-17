@@ -260,6 +260,21 @@ mixin _$DriverController on _DriverController, Store {
     });
   }
 
+  final _$locationStartAtom = Atom(name: '_DriverController.locationStart');
+
+  @override
+  GeoPoint get locationStart {
+    _$locationStartAtom.reportRead();
+    return super.locationStart;
+  }
+
+  @override
+  set locationStart(GeoPoint value) {
+    _$locationStartAtom.reportWrite(value, super.locationStart, () {
+      super.locationStart = value;
+    });
+  }
+
   final _$listenPositionAsyncAction =
       AsyncAction('_DriverController.listenPosition');
 
@@ -412,6 +427,7 @@ locationOpen: ${locationOpen},
 drivers: ${drivers},
 currentLocation: ${currentLocation},
 currentLocationId: ${currentLocationId},
+locationStart: ${locationStart},
 sharedButtonEnabled: ${sharedButtonEnabled}
     ''';
   }
