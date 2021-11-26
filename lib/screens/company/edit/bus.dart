@@ -1,9 +1,8 @@
-import 'package:buscabus/controllers/company/company_controller.dart';
+import 'package:buscabus/models/bus.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EditBusScreen extends StatefulWidget {
@@ -20,17 +19,13 @@ class EditBusScreen extends StatefulWidget {
 }
 
 class _EditBusScreenState extends State<EditBusScreen> {
-  CompanyController _companyController;
-
+  Bus _bus = Bus();
   final _formKey = GlobalKey<FormState>();
   MaskTextInputFormatter _licensePlateMasked;
-  TextEditingController _textEditingController;
 
   @override
   void didChangeDependencies() {
-    _companyController = Provider.of<CompanyController>(context);
     _licensePlateMasked = MaskTextInputFormatter(mask: '###-####', filter: { "#": RegExp('')});
-    _textEditingController = TextEditingController(text: widget.bus['licensePlate']);
 
     super.didChangeDependencies();
   }
@@ -52,14 +47,13 @@ class _EditBusScreenState extends State<EditBusScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: TextFormField(
-                    controller: _textEditingController,
-                    // inputFormatters: [_licensePlateMasked],
+                    inputFormatters: [_licensePlateMasked],
                     decoration: InputDecoration(
                       hintText: 'Placa',
                       labelText: 'Placa'
                     ),                      
                     onChanged: (value) {
-                      _textEditingController.text = value;
+                      _bus.licensePlate = value;
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -67,7 +61,7 @@ class _EditBusScreenState extends State<EditBusScreen> {
                       }
                       return null;
                     },
-                    // initialValue: widget.bus['licensePlate'].toString(),
+                    initialValue: widget.bus['licensePlate'].toString(),
                   ),
                 ),
               ],
@@ -79,14 +73,12 @@ class _EditBusScreenState extends State<EditBusScreen> {
         return ElevatedButton(
           child: Text('Salvar'),
           onPressed: () async {
-            if (_formKey.currentState.validate()) {
-              // await _companyController.editBus(widget.bus);
-              
+            if (_formKey.currentState.validate()) {            
               Navigator.pop(context);
               widget.callback();
 
               DefaultToast(
-                message: 'Ônibus adicionado :)',
+                message: 'Ônibus alterado :)',
                 toastType: DefaultToastType.success,
               ).show(context);
             } else {

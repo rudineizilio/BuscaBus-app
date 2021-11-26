@@ -1,5 +1,8 @@
 import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/screens/company/edit/bus.dart';
+import 'package:buscabus/screens/company/edit/driver.dart';
+import 'package:buscabus/screens/company/edit/line.dart';
+import 'package:buscabus/screens/company/edit/stop.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -71,32 +74,49 @@ class _CompanyListViewState extends State<CompanyListView> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Observer(builder: (_) {
-                  //   return button(
-                  //     icon: Icons.edit,
-                  //     color: Color.fromRGBO(18, 178, 89, 1),
-                  //     tooltip: 'Alterar',
-                  //     function: () {                      
-                  //       if (widget.type == 'Ônibus') {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => EditBusScreen(
-                  //             bus: item,
-                  //             callback: widget.callback,
-                  //           )),
-                  //         );
-                  //       }
-                        // } else if (widget.type == 'Ônibus') {
-                        //   await _companyController.deleteBus(item);
-                        // } else if (widget.type == 'Linha') {
-                        //   await _companyController.deleteLine(item);
-                        // } else {
-                        //   await _companyController.deleteStop(item);
-                        // }
-                  //     }
-                  //   );
-                  // }),
-                  // SizedBox(width: 10),
+                  Observer(builder: (_) {
+                    return button(
+                      icon: Icons.edit,
+                      color: Color.fromRGBO(18, 178, 89, 1),
+                      tooltip: 'Alterar',
+                      function: () {                      
+                        if (widget.type == 'Motorista') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditDriverScreen(
+                              driver: item,
+                              callback: widget.callback,
+                            )),
+                          );
+                        } else if (widget.type == 'Bus') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditBusScreen(
+                              bus: item,
+                              callback: widget.callback,
+                            )),
+                          );                          
+                        } else if (widget.type == 'Linha') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditLineScreen(
+                              line: item,
+                              callback: widget.callback,
+                            )),
+                          );                          
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditStopScreen(
+                              stop: item,
+                              callback: widget.callback,
+                            )),
+                          );                          
+                        }
+                      }
+                    );
+                  }),
+                  SizedBox(width: 10),
                   Observer(builder: (_) {
                     return button(
                       icon: Icons.delete,

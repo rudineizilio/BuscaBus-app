@@ -1,18 +1,18 @@
-import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/driver.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EditDriverScreen extends StatefulWidget {
   final Function callback;
+  final dynamic driver;
 
   const EditDriverScreen({
     @required this.callback,
+    @required this.driver,
   });
 
   @override
@@ -20,7 +20,6 @@ class EditDriverScreen extends StatefulWidget {
 }
 
 class _CreateBusScreenState extends State<EditDriverScreen> {
-  CompanyController _companyController;
   Driver _driver = Driver();
   bool _obscurePassword = true;
 
@@ -29,7 +28,6 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
 
   @override
   void didChangeDependencies() {
-    _companyController = Provider.of<CompanyController>(context);
     _cpfMasked = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
 
     super.didChangeDependencies();
@@ -66,6 +64,7 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
                       }
                       return null;
                     },
+                    initialValue: widget.driver['name'].toString(),
                   ),
                 ),
                 Padding(
@@ -86,6 +85,7 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
                       }
                       return null;
                     },
+                    initialValue: widget.driver['cpf'].toString(),
                   ),
                 ),
                 Padding(
@@ -105,6 +105,7 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
                       }
                       return null;
                     },
+                    initialValue: widget.driver['email'].toString(),
                   ),
                 ),
                 Padding(
@@ -137,8 +138,9 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
                       }
                       return null;
                     },
+                    initialValue: widget.driver['password'].toString(),
                   ),
-                ),                
+                ),
               ],
             ),
           ),
@@ -149,13 +151,11 @@ class _CreateBusScreenState extends State<EditDriverScreen> {
           child: Text('Salvar'),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              await _companyController.addDriver(_driver);
-
               Navigator.pop(context);
               widget.callback();
 
               DefaultToast(
-                message: 'Motorista adicionado :)',
+                message: 'Motorista alterado :)',
                 toastType: DefaultToastType.success,
               ).show(context);
             } else {

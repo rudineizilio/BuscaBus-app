@@ -1,16 +1,16 @@
-import 'package:buscabus/controllers/company/company_controller.dart';
 import 'package:buscabus/models/line.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
 import 'package:buscabus/widgets/default_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 
 class EditLineScreen extends StatefulWidget {
   final Function callback;
+  final dynamic line;
 
   const EditLineScreen({
     @required this.callback,
+    @required this.line,
   });
 
   @override
@@ -18,17 +18,9 @@ class EditLineScreen extends StatefulWidget {
 }
 
 class _CreateBusScreenState extends State<EditLineScreen> {
-  CompanyController _companyController;
   Line _line = Line();
 
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  void didChangeDependencies() {
-    _companyController = Provider.of<CompanyController>(context);
-
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +52,7 @@ class _CreateBusScreenState extends State<EditLineScreen> {
                       }
                       return null;
                     },
+                    initialValue: widget.line['title'].toString(),
                   ),
                 ),              
               ],
@@ -72,13 +65,11 @@ class _CreateBusScreenState extends State<EditLineScreen> {
           child: Text('Salvar'),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              await _companyController.addLine(_line);
-
               Navigator.pop(context);
               widget.callback();
 
               DefaultToast(
-                message: 'Linha adicionada :)',
+                message: 'Linha alterada :)',
                 toastType: DefaultToastType.success,
               ).show(context);
             } else {
