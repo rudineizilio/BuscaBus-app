@@ -11,6 +11,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/default_toast.dart';
+import '../../widgets/default_toast.dart';
+
 class DriverScreen extends StatefulWidget {
   final String driverName;
 
@@ -76,6 +79,13 @@ class _DriverScreenState extends State<DriverScreen> {
         children: [
           Column(
             children: [
+              Container(
+                width: double.infinity,
+                color: Color.fromRGBO(242, 242, 242, 1),
+                child: _driverController.sharedLocation
+                  ? Image.asset('lib/assets/images/bus_start.gif', height: 250)
+                  : Image.asset('lib/assets/images/bus_end.png', height: 250),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -239,6 +249,13 @@ class _DriverScreenState extends State<DriverScreen> {
                               lastUpdate: DateTime.now(),
                             ),
                           );
+
+                          setState(() {});
+
+                          DefaultToast(
+                            message: 'Compartilhamento de localização iniciado',
+                            toastType: DefaultToastType.info,
+                          ).show(context);
                         }
                       : () {
                           _driverController.setSharedLocation(false);
@@ -257,6 +274,11 @@ class _DriverScreenState extends State<DriverScreen> {
                           _driverController.cancelTimer();
 
                           setState(() {_driverController.locationClose.get();});
+
+                          DefaultToast(
+                            message: 'Compartilhamento de localização finalizado',
+                            toastType: DefaultToastType.info,
+                          ).show(context);                          
                         }
                     : null,
                 );

@@ -88,7 +88,7 @@ class _CompanyListViewState extends State<CompanyListView> {
                               callback: widget.callback,
                             )),
                           );
-                        } else if (widget.type == 'Bus') {
+                        } else if (widget.type == 'Ônibus') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => EditBusScreen(
