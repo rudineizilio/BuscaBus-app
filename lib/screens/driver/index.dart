@@ -361,7 +361,6 @@ import 'package:buscabus/controllers/login/login_controller.dart';
 import 'package:buscabus/models/location_close.dart';
 import 'package:buscabus/models/location_open.dart';
 import 'package:buscabus/widgets/default_appBar.dart';
-import 'package:buscabus/widgets/default_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -433,6 +432,27 @@ class _DriverScreenState extends State<DriverScreen> {
         children: [
           Column(
             children: [
+              Container(
+                width: double.infinity,
+                color: Color.fromRGBO(242, 242, 242, 1),
+                child: Column(
+                  children: [
+                    _driverController.sharedLocation
+                      ? Image.asset('lib/assets/images/bus_start.gif', height: 200)
+                      : Image.asset('lib/assets/images/bus_end.png', height: 200),
+                    Text(
+                      _driverController.sharedLocation
+                        ? 'COMPARTILHAMENTO EM ANDAMENTO'
+                        : 'COMPARTILHAMENTO PARADO',
+                      style: TextStyle(
+                        color: Color.fromRGBO(64, 147, 146, 1),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 15)
+                  ],
+                ),
+              ),              
               SizedBox(
                 height: 30,
               ),
@@ -596,6 +616,8 @@ class _DriverScreenState extends State<DriverScreen> {
                               lastUpdate: DateTime.now(),
                             ),
                           );
+
+                          setState(() {});
                         }
                       : () {
                           _driverController.setSharedLocation(false);
@@ -612,6 +634,8 @@ class _DriverScreenState extends State<DriverScreen> {
                           );
 
                           _driverController.cancelTimer();
+
+                          setState(() {});
                         }
                     : null,
                 );
